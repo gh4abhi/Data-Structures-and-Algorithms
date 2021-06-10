@@ -190,6 +190,13 @@ public:
     {
         this->data = data;
     }
+    ~TreeNode()
+    {
+        for(ll i=0;i<children.size();i++)
+        {
+            delete children[i];
+        }
+    }
 };
 
 //************ Print Tree **************
@@ -343,7 +350,7 @@ void printAtLevelK(TreeNode<ll>* root, ll k) {
     }
 }
 
-//*********** Print all nodes at level K ***********
+//*********** Print the number of leaf node in a Tree ***********
 
 ll countNoLeaf(TreeNode<ll>* root)
 {
@@ -366,6 +373,50 @@ ll countNoLeaf(TreeNode<ll>* root)
     return num;
 }
 
+//*********** Preorder Traversal in Tree ***********
+
+void preorder(TreeNode<ll>* root)
+{
+    if(nullTree(root))
+    {
+        cout<<"Tree is empty.";
+        return;
+    }
+    cout<<root->data<<" ";
+    for(ll i=0;i<root->children.size();i++)
+    {
+        preorder(root->children[i]);
+    }
+}
+
+//*********** Postorder Traversal in Tree ***********
+
+void postorder(TreeNode<ll>* root)
+{
+    if(nullTree(root))
+    {
+        cout<<"Tree is empty.";
+        return;
+    }
+    for(ll i=0;i<root->children.size();i++)
+    {
+        postorder(root->children[i]);
+    }
+    cout<<root->data<<" ";
+}
+
+//*********** Delete a Tree ***********
+
+void  deleteTree(TreeNode<ll> *root)
+{
+    for(ll i=0;i<root->children.size();i++)
+    {
+        deleteTree(root->children[i]);
+    }
+
+    delete root;
+    // We can also do this by "delete root" by defining a destructor in TreeNode class.
+}
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
@@ -376,11 +427,12 @@ int main()
     inOt();
 #endif
     TreeNode<ll>* root = takeInputLevelWise();
-    cout<<countNoLeaf(root)<<"\n";
- printTree(root);
+    postorder(root);
+    delete root;
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 
