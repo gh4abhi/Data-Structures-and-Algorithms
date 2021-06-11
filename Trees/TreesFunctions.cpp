@@ -418,6 +418,104 @@ void  deleteTree(TreeNode<ll> *root)
     // We can also do this by "delete root" by defining a destructor in TreeNode class.
 }
 
+//*********** Print Nodes greater than value x ***********
+
+ll nodesGreThx(TreeNode<ll>* root, ll x)
+{
+    ll count = 0;
+    if(root->data>x)
+    {
+        count++;
+    }
+    for(ll i=0;i<root->children.size();i++)
+    {
+        count+= nodesGreThx(root->children[i],x);
+    }
+    return count;
+}
+
+//*********** Check if the given element is present in Tree ***********
+
+bool isxPresent(TreeNode<ll>* root, ll x)
+{
+    if(nullTree(root))
+    {
+        return false;
+    }
+    if(root->data==x)
+    {
+        return true;
+    }
+    for(ll i=0;i<root->children.size();i++)
+    {
+        if(isxPresent(root->children[i],x))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+//*********** Node with maximum child sum ***********
+
+// Problem Description - Given a tree, find and return the node for which sum of data of all children and the
+// node itself is maximum. In the sum, data of node itself and data of immediate children is to be taken.
+
+pair<ll,ll> maxNodeAndChildSum(TreeNode<ll>* root)
+{
+    if(nullTree(root))
+    {
+        return make_pair(-1,-1);
+    }
+    pair<ll,ll> ans;
+    ans.first = root->data;
+    ll sum = 0;
+    for(ll i=0;i<root->children.size();i++)
+    {
+        sum+=root->children[i]->data;
+    }
+    ans.second = sum;
+    for(ll i=0;i<root->children.size();i++)
+    {
+        pair<ll,ll> temp;
+        temp = maxNodeAndChildSum(root->children[i]);
+        if(temp.second>ans.second)
+        {
+            ans.first = temp.first;
+            ans.second = temp.second;
+        }
+    }
+
+    return ans;
+}
+
+//*********** To check if two trees are identical or not ***********
+
+bool checkTreeIdentity(TreeNode<ll>*root1,TreeNode<ll>*root2 )
+{
+    if(nullTree(root1) or nullTree(root2))
+    {
+        return false;
+    }
+    if(root1->data == root2->data and root1->children.size()==root2->children.size())
+    {
+        for(ll i=0;i<root1->children.size();i++)
+        {
+          if(!checkTreeIdentity(root1->children[i],root2->children[i]))
+          {
+              return false;
+          }
+        }
+        }
+    else
+    {
+        return false;
+    }
+
+    return true;
+}
+
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -426,9 +524,14 @@ int main()
 #ifndef ONLINE_JUDGE
     inOt();
 #endif
-    TreeNode<ll>* root = takeInputLevelWise();
-    postorder(root);
-    delete root;
+    TreeNode<ll>* root1 = takeInputLevelWise();
+    TreeNode<ll>* root2 = takeInputLevelWise();
+    cout<<checkTreeIdentity(root1,root2);
+    cout<<"\n";
+    printTree(root1);
+    printTree(root2);
+    delete root1;
+    delete root2;
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
