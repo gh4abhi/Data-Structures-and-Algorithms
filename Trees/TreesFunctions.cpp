@@ -501,12 +501,12 @@ bool checkTreeIdentity(TreeNode<ll>*root1,TreeNode<ll>*root2 )
     {
         for(ll i=0;i<root1->children.size();i++)
         {
-          if(!checkTreeIdentity(root1->children[i],root2->children[i]))
-          {
-              return false;
-          }
+            if(!checkTreeIdentity(root1->children[i],root2->children[i]))
+            {
+                return false;
+            }
         }
-        }
+    }
     else
     {
         return false;
@@ -515,6 +515,61 @@ bool checkTreeIdentity(TreeNode<ll>*root1,TreeNode<ll>*root2 )
     return true;
 }
 
+//*********** Next Larger ***********
+
+// Problem Description - Given a generic tree and an integer n. Find and return the node
+// with next larger element in the Tree i.e. find a node with value just greater than n.
+
+ll nextLarger(TreeNode<ll>* root,ll x)
+{
+    ll ans = INT_MAX;
+    if(root->data>x)
+    {
+        ans = root->data;
+    }
+    for(ll i=0;i<root->children.size();i++)
+    {
+        ans = min(ans, nextLarger(root->children[i],x));
+    }
+    return ans;
+}
+
+//*********** Second Largest ***********
+
+// Problem Description - Given a generic tree, find and return the node with second largest value in given tree.
+// Return NULL if no node with required value is present.
+
+pair<TreeNode<ll>*,TreeNode<ll>*> secondLargest(TreeNode<ll>* root)
+{
+
+    TreeNode<ll>* maxi = new TreeNode<ll>(root->data);
+    TreeNode<ll>* mini = new TreeNode<ll>(INT_MIN);
+    if(root== nullptr)
+    {
+        return make_pair(maxi,mini);
+    }
+    for(ll i=0;i<root->children.size();i++)
+    {
+        pair<TreeNode<ll>*,TreeNode<ll>*> x;
+        x = secondLargest(root->children[i]);
+        if(x.first->data>maxi->data)
+        {
+
+            mini->data = max(mini->data,x.second->data);
+            mini->data = max(mini->data,maxi->data);
+            maxi->data = x.first->data;
+        }
+        else if((x.first->data<maxi->data)and(mini->data<x.first->data)) {
+
+            mini->data = x.first->data;
+        }
+        else if((x.second->data>mini->data))
+        {
+            mini->data = x.second->data;
+        }
+    }
+    return make_pair(maxi,mini);
+}
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
@@ -524,18 +579,14 @@ int main()
 #ifndef ONLINE_JUDGE
     inOt();
 #endif
-    TreeNode<ll>* root1 = takeInputLevelWise();
-    TreeNode<ll>* root2 = takeInputLevelWise();
-    cout<<checkTreeIdentity(root1,root2);
-    cout<<"\n";
-    printTree(root1);
-    printTree(root2);
-    delete root1;
-    delete root2;
+    TreeNode<ll>* root = takeInputLevelWise();
+    cout<<secondLargest(root).second->data<<"\n";
+    printTree(root);
+
+    delete root;
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 
 
