@@ -501,12 +501,12 @@ bool checkTreeIdentity(TreeNode<ll>*root1,TreeNode<ll>*root2 )
     {
         for(ll i=0;i<root1->children.size();i++)
         {
-            if(!checkTreeIdentity(root1->children[i],root2->children[i]))
-            {
-                return false;
-            }
+          if(!checkTreeIdentity(root1->children[i],root2->children[i]))
+          {
+              return false;
+          }
         }
-    }
+        }
     else
     {
         return false;
@@ -561,7 +561,7 @@ pair<TreeNode<ll>*,TreeNode<ll>*> secondLargest(TreeNode<ll>* root)
         }
         else if((x.first->data<maxi->data)and(mini->data<x.first->data)) {
 
-            mini->data = x.first->data;
+                mini->data = x.first->data;
         }
         else if((x.second->data>mini->data))
         {
@@ -571,22 +571,46 @@ pair<TreeNode<ll>*,TreeNode<ll>*> secondLargest(TreeNode<ll>* root)
     return make_pair(maxi,mini);
 }
 
+//*********** Replace With Depth ***********
+
+// In a given Generic Tree, replace each node with its depth value.
+// You need to just update the data of each node, no need to return or print anything.
+
+void replaceWithDepth(TreeNode<ll>* root,ll n)
+{
+    if(nullTree(root))
+        return;
+    root->data = n;
+    for(ll i=0;i<root->children.size();i++)
+    {
+        replaceWithDepth(root->children[i],n+1);
+    }
+}
+
+void toGiveDepthValue(TreeNode<ll>* root) // Helper Function - Call this to run replaceWithDepth.
+{
+    replaceWithDepth(root,0);
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
 
     BOOST;
+// I/O Text Files    
 #ifndef ONLINE_JUDGE
     inOt();
 #endif
+    
     TreeNode<ll>* root = takeInputLevelWise();
-    cout<<secondLargest(root).second->data<<"\n";
+    toGiveDepthValue(root);
     printTree(root);
 
     delete root;
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 
