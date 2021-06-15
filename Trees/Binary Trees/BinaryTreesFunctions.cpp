@@ -236,14 +236,61 @@ void printBinaryTree(BinaryTreeNode<ll>* root)
 
 //--------------------------Take Input For Binary Tree Recursive------------------------------------
 
-BinaryTreeNode<ll> TakeInputBinaryTreeRecursive()
+BinaryTreeNode<ll>* takeInputBinaryTreeRecursive()
 {
-    cout<<"Enter Root Data\n";
+    cout<<"Enter Data\n";
     ll rootData;
     cin>>rootData;
-    if()
+    if(rootData==-1)
+    {
+        return nullptr;
+    }
     BinaryTreeNode<ll>* root = new BinaryTreeNode<ll>(rootData);
+    BinaryTreeNode<ll>* leftChild = takeInputBinaryTreeRecursive();
+    BinaryTreeNode<ll>* rightChild = takeInputBinaryTreeRecursive();
+    root->left = leftChild;
+    root->right = rightChild;
+    return root;
+}
 
+//--------------------------Take Input For Binary Tree Level Wise------------------------------------
+
+BinaryTreeNode<ll>* takeInputBinaryTreeLevelWise()
+{
+   ll rootData;
+   cout<<"Enter Root Data\n";
+   cin>>rootData;
+   if(rootData==-1)
+   {
+       return nullptr;
+   }
+    BinaryTreeNode<ll>* root = new BinaryTreeNode<ll>(rootData);
+    queue<BinaryTreeNode<ll>*> pendingNodes;
+    pendingNodes.push(root);
+    while(pendingNodes.size()!=0)
+    {
+        BinaryTreeNode<ll>* current = pendingNodes.front();
+        pendingNodes.pop();
+        cout<<"Enter left child of "<<current->data<<"\n";
+        ll node1;
+        cin>>node1;
+        if(node1!=-1)
+        {
+            BinaryTreeNode<ll>* leftChild = new BinaryTreeNode<ll>(node1);
+            pendingNodes.push(leftChild);
+            current->left = leftChild;
+        }
+        cout<<"Enter right child of "<<current->data<<"\n";
+        ll node2;
+        cin>>node2;
+        if(node2!=-1)
+        {
+            BinaryTreeNode<ll>* rightChild = new BinaryTreeNode<ll>(node2);
+            pendingNodes.push(rightChild);
+            current->right = rightChild;
+        }
+    }
+    return root;
 }
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
@@ -256,16 +303,13 @@ int main()
     inOt();
 #endif
 
-    BinaryTreeNode<ll>* root = new BinaryTreeNode<ll>(1);
-    BinaryTreeNode<ll>* node1 = new BinaryTreeNode<ll>(2);
-    BinaryTreeNode<ll>* node2 = new BinaryTreeNode<ll>(3);
-    root->left = node1;
-    root->right = node2;
+    BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
     printBinaryTree(root);
     delete root;
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 
