@@ -325,7 +325,17 @@ void printBinaryTreeLevelWise(BinaryTreeNode<ll>* root)
         }
     }
 }
+//--------------------------Number of Nodes in Binary Tree------------------------------------
 
+ll binaryNumNode(BinaryTreeNode<ll>* root)
+{
+    ll ans=0;
+    if(root!= nullptr)
+    {
+        return 1 + binaryNumNode(root->left) + binaryNumNode(root->right);
+    }
+    return ans;
+}
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -337,7 +347,7 @@ int main()
 #endif
 
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
-    printBinaryTreeLevelWise(root);
+    cout<<binaryNumNode(root);
     delete root;
     return 0;
 }
