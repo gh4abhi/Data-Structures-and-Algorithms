@@ -293,6 +293,13 @@ BinaryTreeNode<ll>* takeInputBinaryTreeLevelWise()
     return root;
 }
 
+//--------------------------Check if Binary Tree is empty------------------------------------
+
+bool binaryNullTree(BinaryTreeNode<ll>* root)
+{
+    return root== nullptr;
+}
+
 //--------------------------Print Tree Level Wise------------------------------------
 
 void printBinaryTreeLevelWise(BinaryTreeNode<ll>* root)
@@ -325,6 +332,7 @@ void printBinaryTreeLevelWise(BinaryTreeNode<ll>* root)
         }
     }
 }
+
 //--------------------------Number of Nodes in Binary Tree------------------------------------
 
 ll binaryNumNode(BinaryTreeNode<ll>* root)
@@ -335,6 +343,18 @@ ll binaryNumNode(BinaryTreeNode<ll>* root)
         return 1 + binaryNumNode(root->left) + binaryNumNode(root->right);
     }
     return ans;
+}
+
+//--------------------------Find a Node in Binary Tree------------------------------------
+
+bool binaryFindNode(BinaryTreeNode<ll>* root, ll x)
+{
+  if(binaryNullTree(root))
+  {
+      return false;
+  }
+
+  return root->data==x or binaryFindNode(root->left,x) or binaryFindNode(root->right,x);
 }
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
@@ -347,7 +367,9 @@ int main()
 #endif
 
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
-    cout<<binaryNumNode(root);
+    ll x;
+    cin>>x;
+    cout<<binaryFindNode(root,x);
     delete root;
     return 0;
 }
