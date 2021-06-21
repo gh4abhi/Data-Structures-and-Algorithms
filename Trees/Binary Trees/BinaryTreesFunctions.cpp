@@ -392,6 +392,45 @@ BinaryTreeNode<ll>* mirrorBinaryTree(BinaryTreeNode<ll>* root)
     return mirroredRoot;
 }
 
+//--------------------------Inorder Traversal of Binary Tree------------------------------------
+
+void inorderBinaryTree(BinaryTreeNode<ll>* root)
+{
+    if(binaryNullTree(root))
+    {
+        return;
+    }
+    inorderBinaryTree(root->left);
+    cout<<root->data<<" ";
+    inorderBinaryTree(root->right);
+}
+
+//--------------------------Preorder Traversal of Binary Tree------------------------------------
+
+void preorderBinaryTree(BinaryTreeNode<ll>* root)
+{
+    if(binaryNullTree(root))
+    {
+        return;
+    }
+    cout<<root->data<<" ";
+    preorderBinaryTree(root->left);
+    preorderBinaryTree(root->right);
+}
+
+//--------------------------Postorder Traversal of Binary Tree------------------------------------
+
+void postorderBinaryTree(BinaryTreeNode<ll>* root)
+{
+    if(binaryNullTree(root))
+    {
+        return;
+    }
+    postorderBinaryTree(root->left);
+    postorderBinaryTree(root->right);
+    cout<<root->data<<" ";
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -403,8 +442,7 @@ int main()
 #endif
 
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
-    BinaryTreeNode<ll>* mroot = mirrorBinaryTree(root);
-    printBinaryTreeLevelWise(mroot);
+    postorderBinaryTree(root);
     delete root;
     return 0;
 }
