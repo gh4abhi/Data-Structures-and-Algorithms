@@ -376,6 +376,22 @@ ll heightOfBinaryTree(BinaryTreeNode<ll>* root)
     return ans;
 }
 
+//--------------------------Mirror the given Binary Tree------------------------------------
+
+// Problem Statement - Mirror the given binary tree. That is, right child of every nodes should become left and left should become right.
+
+BinaryTreeNode<ll>* mirrorBinaryTree(BinaryTreeNode<ll>* root)
+{
+    if(binaryNullTree(root))
+        return nullptr;
+
+    BinaryTreeNode<ll>* mirroredRoot = new BinaryTreeNode<ll>(root->data);
+    mirroredRoot->left = mirrorBinaryTree(root->right);
+    mirroredRoot->right = mirrorBinaryTree(root->left);
+
+    return mirroredRoot;
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -387,7 +403,8 @@ int main()
 #endif
 
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
-    cout<<heightOfBinaryTree(root);
+    BinaryTreeNode<ll>* mroot = mirrorBinaryTree(root);
+    printBinaryTreeLevelWise(mroot);
     delete root;
     return 0;
 }
