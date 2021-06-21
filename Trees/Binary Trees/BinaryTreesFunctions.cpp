@@ -431,18 +431,64 @@ void postorderBinaryTree(BinaryTreeNode<ll>* root)
     cout<<root->data<<" ";
 }
 
+//--------------------------Construct Tree from Preorder and Inorder------------------------------------
+
+// Problem Statement - Given Preorder and Inorder traversal of a binary tree, create the binary tree associated
+// with the traversals.You just need to construct the tree and return the root.
+
+BinaryTreeNode<ll>* makeBinaryTreeFromPreandInorder(vector<ll>preorder,vector<ll>inorder)
+{
+    ll rootData = *preorder.begin(),Instart,Inend,Prestart,Preend;
+    Instart = 0;
+    Inend = find(full(inorder),rootData) - inorder.begin() - 1;
+    Prestart = 1;
+    Preend = Prestart + Inend - Instart;
+    BinaryTreeNode<ll>* root = new BinaryTreeNode<ll>(rootData);
+    vector<ll> preC,inC;
+    preC.insert(preC.end(),preorder.begin()+Prestart,preorder.begin()+Preend);
+    inC.insert(inC.end(),inorder.begin()+Instart,inorder.begin()+Inend);
+    BinaryTreeNode<ll>* leftChild = makeBinaryTreeFromPreandInorder(preC,inC);
+
+    root->left = leftChild;
+
+    Instart = find(full(inorder),rootData) - inorder.begin() + 1;
+    Inend = inorder.size()-1;
+    Prestart = Instart;
+    Preend = preorder.size()-1;
+    vector<ll> preC1,inC1;
+    preC.insert(preC1.end(),preorder.begin()+Prestart,preorder.begin()+Preend);
+    inC.insert(inC1.end(),inorder.begin()+Instart,inorder.begin()+Inend);
+    BinaryTreeNode<ll>* rightChild = makeBinaryTreeFromPreandInorder(preC1,inC1);
+
+    root->right = rightChild;
+
+    return  root;
+
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
-
     BOOST;
 // I/O Text Files
 #ifndef ONLINE_JUDGE
     inOt();
 #endif
 
-    BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
-    postorderBinaryTree(root);
+//    BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
+    ll n;
+    cin>>n;
+    vector<ll> preorder(n), inorder(n);
+    for(ll i=0;i<n;i++)
+    {
+        cin>>preorder[i];
+    }
+    for(ll i=0;i<n;i++)
+    {
+        cin>>inorder[i];
+    }
+    BinaryTreeNode<ll>* root = makeBinaryTreeFromPreandInorder(preorder,inorder);
+    printBinaryTreeLevelWise(root);
     delete root;
     return 0;
 }
