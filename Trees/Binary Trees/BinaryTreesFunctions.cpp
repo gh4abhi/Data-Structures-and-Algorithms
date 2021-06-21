@@ -356,6 +356,26 @@ bool binaryFindNode(BinaryTreeNode<ll>* root, ll x)
 
   return root->data==x or binaryFindNode(root->left,x) or binaryFindNode(root->right,x);
 }
+
+//--------------------------Find a Height of a Binary Tree------------------------------------
+
+// Problem Statement - Given a binary tree, find and return the height of given tree.
+
+ll heightOfBinaryTree(BinaryTreeNode<ll>* root)
+{
+    ll ans = 0,x=0,y=0;
+    if(binaryNullTree(root))
+    {
+        return 0;
+    }
+    ans = 1;
+    x+=(heightOfBinaryTree(root->left)) + ans;
+    y+=(heightOfBinaryTree(root->right)) + ans;
+    ans = max(ans,x);
+    ans = max(ans,y);
+    return ans;
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -367,9 +387,7 @@ int main()
 #endif
 
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
-    ll x;
-    cin>>x;
-    cout<<binaryFindNode(root,x);
+    cout<<heightOfBinaryTree(root);
     delete root;
     return 0;
 }
