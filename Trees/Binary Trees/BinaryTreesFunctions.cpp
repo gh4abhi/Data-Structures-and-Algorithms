@@ -257,13 +257,13 @@ BinaryTreeNode<ll>* takeInputBinaryTreeRecursive()
 
 BinaryTreeNode<ll>* takeInputBinaryTreeLevelWise()
 {
-   ll rootData;
-   cout<<"Enter Root Data\n";
-   cin>>rootData;
-   if(rootData==-1)
-   {
-       return nullptr;
-   }
+    ll rootData;
+    cout<<"Enter Root Data\n";
+    cin>>rootData;
+    if(rootData==-1)
+    {
+        return nullptr;
+    }
     BinaryTreeNode<ll>* root = new BinaryTreeNode<ll>(rootData);
     queue<BinaryTreeNode<ll>*> pendingNodes;
     pendingNodes.push(root);
@@ -349,12 +349,12 @@ ll binaryNumNode(BinaryTreeNode<ll>* root)
 
 bool binaryFindNode(BinaryTreeNode<ll>* root, ll x)
 {
-  if(binaryNullTree(root))
-  {
-      return false;
-  }
+    if(binaryNullTree(root))
+    {
+        return false;
+    }
 
-  return root->data==x or binaryFindNode(root->left,x) or binaryFindNode(root->right,x);
+    return root->data==x or binaryFindNode(root->left,x) or binaryFindNode(root->right,x);
 }
 
 //--------------------------Find a Height of a Binary Tree------------------------------------
@@ -514,6 +514,23 @@ BinaryTreeNode<ll>* makeBinaryTreeFromPostandInorder(vector<ll> postorder, vecto
     return buildTreePostAndIn(postorder, inorder, 0, postorder.size()-1, 0, inorder.size()-1);
 }
 
+//--------------------------Diameter of a Binary Tree------------------------------------
+
+pair<ll,ll> binaryTreeDiameter(BinaryTreeNode<ll>* root)
+{
+    if(root== nullptr)
+    {
+        return make_pair(0,0);
+    }
+    ll lheight = binaryTreeDiameter(root->left).first;
+    ll rheight = binaryTreeDiameter(root->right).first;
+    ll ldia = binaryTreeDiameter(root->left).second;
+    ll rdia = binaryTreeDiameter(root->right).second;
+    ll finalHeight = 1 +  max(lheight,rheight);
+    ll finaldia = max(lheight+rheight,max(ldia,rdia));
+    return make_pair(finalHeight,finaldia);
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -524,24 +541,13 @@ int main()
 #endif
 
 //    BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
-    ll n;
-    cin>>n;
-    vector<ll> preorder(n), inorder(n);
-    for(ll i=0;i<n;i++)
-    {
-        cin>>preorder[i];
-    }
-    for(ll i=0;i<n;i++)
-    {
-        cin>>inorder[i];
-    }
-    BinaryTreeNode<ll>* root = makeBinaryTreeFromPostandInorder(preorder,inorder);
+    BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
+    cout<<binaryTreeDiameter(root).second<<endl;
     printBinaryTreeLevelWise(root);
     delete root;
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 
 
