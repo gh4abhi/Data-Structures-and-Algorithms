@@ -553,6 +553,24 @@ pair<ll,ll> maxAndMin(BinaryTreeNode<ll>* root)
     return make_pair(finalmaxi,finalmini);
 }
 
+//--------------------------Sum of all nodes of a Binary Tree------------------------------------
+
+// Problem Statement - Given a binary tree, find and return the sum of all nodes.
+
+ll binaryTreeNodeSum(BinaryTreeNode<ll>* root)
+{
+    if(!root)
+    {
+        return 0;
+    }
+
+    ll rootData = root->data;
+    ll leftData = binaryTreeNodeSum(root->left);
+    ll rightData = binaryTreeNodeSum(root->right);
+    ll nodeSum = rootData + leftData + rightData;
+    return nodeSum;
+
+}
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
@@ -565,7 +583,7 @@ int main()
 
 //    BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
-    cout<<maxAndMin(root).first<<" "<<maxAndMin(root).second<<endl;
+    cout<<binaryTreeNodeSum(root)<<endl;
     printBinaryTreeLevelWise(root);
     delete root;
     return 0;
