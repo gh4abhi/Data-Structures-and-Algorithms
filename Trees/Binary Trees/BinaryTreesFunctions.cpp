@@ -531,6 +531,29 @@ pair<ll,ll> binaryTreeDiameter(BinaryTreeNode<ll>* root)
     return make_pair(finalHeight,finaldia);
 }
 
+//--------------------------Min and Max of Binary Tree------------------------------------
+
+// Problem Statement - Given a binary tree, find and return the min and max data value of given binary tree.
+//Return the output as an object of PairAns class, which is already created.
+
+pair<ll,ll> maxAndMin(BinaryTreeNode<ll>* root)
+{
+    if(root== nullptr)
+    {
+        return make_pair(INT_MIN,INT_MAX);
+    }
+    ll maxi = root->data, mini = root->data;
+
+    ll lmaxi = maxAndMin(root->left).first;
+    ll lmini = maxAndMin(root->left).second;
+    ll rmaxi = maxAndMin(root->right).first;
+    ll rmini = maxAndMin(root->right).second;
+    ll finalmaxi = max(maxi,max(lmaxi,rmaxi));
+    ll finalmini = min(mini,min(rmini,lmini));
+    return make_pair(finalmaxi,finalmini);
+}
+
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -542,7 +565,7 @@ int main()
 
 //    BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
-    cout<<binaryTreeDiameter(root).second<<endl;
+    cout<<maxAndMin(root).first<<" "<<maxAndMin(root).second<<endl;
     printBinaryTreeLevelWise(root);
     delete root;
     return 0;
