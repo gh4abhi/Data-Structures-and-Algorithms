@@ -473,6 +473,47 @@ BinaryTreeNode<ll>* makeBinaryTreeFromPreandInorder(vector<ll>preorder,vector<ll
     return buildTreeHelper(preorder, inorder, 0, inorder.size()-1, 0, preorder.size()-1);
 }
 
+//--------------------------Construct Tree from Postorder and Inorder------------------------------------
+
+//Problem Statement - Given Postorder and Inorder traversal of a binary tree, create the binary tree associated with the traversals.
+// You just need to construct the tree and return the root.
+
+BinaryTreeNode<ll>* buildTreePostAndIn(vector<ll> postorder, vector<ll> inorder, ll poS, ll poE,ll inS,ll inE)
+{
+    if(poS>poE)
+    {
+        return nullptr;
+    }
+    ll rootData = postorder[poE];
+    ll rootIndex = -1;
+    for(ll i=inS;i<=inE;i++)
+    {
+        if(inorder[i]==rootData)
+        {
+            rootIndex =i;
+        }
+    }
+
+    ll lpoS = poS;
+    ll rpoE = poE-1;
+    ll linS = inS;
+    ll linE = rootIndex-1;
+    ll rinS = rootIndex + 1;
+    ll rinE = inE;
+    ll lpoE = linE - linS + lpoS;
+    ll rpoS = lpoE + 1;
+
+    BinaryTreeNode<ll>* root = new BinaryTreeNode<ll>(rootData);
+    root->left = buildTreePostAndIn(postorder,inorder,lpoS,lpoE,linS,linE);
+    root->right = buildTreePostAndIn(postorder,inorder,rpoS,rpoE,rinS,rinE);
+    return root;
+}
+
+BinaryTreeNode<ll>* makeBinaryTreeFromPostandInorder(vector<ll> postorder, vector<ll> inorder)
+{
+    return buildTreePostAndIn(postorder, inorder, 0, postorder.size()-1, 0, inorder.size()-1);
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -494,7 +535,7 @@ int main()
     {
         cin>>inorder[i];
     }
-    BinaryTreeNode<ll>* root = makeBinaryTreeFromPreandInorder(preorder,inorder);
+    BinaryTreeNode<ll>* root = makeBinaryTreeFromPostandInorder(preorder,inorder);
     printBinaryTreeLevelWise(root);
     delete root;
     return 0;
