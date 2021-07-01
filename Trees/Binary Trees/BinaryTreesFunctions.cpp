@@ -436,34 +436,41 @@ void postorderBinaryTree(BinaryTreeNode<ll>* root)
 // Problem Statement - Given Preorder and Inorder traversal of a binary tree, create the binary tree associated
 // with the traversals.You just need to construct the tree and return the root.
 
+BinaryTreeNode<ll>* buildTreeHelper(vector<ll>preorder,vector<ll>inorder, ll inS, ll inE, ll prS, ll prE)
+{
+    if(inS>inE)
+    {
+        return nullptr;
+
+    }
+    ll rootIndex = -1;
+    ll rootData = preorder[prS];
+    for(int i=inS;i<=inE;i++)
+    {
+        if(inorder[i] == rootData)
+        {
+            rootIndex = i;
+            break;
+        }
+    }
+    ll lpreS = prS + 1;
+    ll linS = inS;
+    ll linE = rootIndex-1;
+    ll rpreE = prE;
+    ll rinS = rootIndex + 1;
+    ll rinE = inE;
+    ll lpreE = linE - linS + lpreS;
+    ll rpreS = lpreE + 1;
+
+    BinaryTreeNode<ll>* root = new BinaryTreeNode<ll>(rootData);
+    root->left = buildTreeHelper(preorder,inorder,linS,linE,lpreS,lpreE);
+    root->right = buildTreeHelper(preorder,inorder,rinS,rinE,rpreS,rpreE);
+    return root;
+}
+
 BinaryTreeNode<ll>* makeBinaryTreeFromPreandInorder(vector<ll>preorder,vector<ll>inorder)
 {
-    ll rootData = *preorder.begin(),Instart,Inend,Prestart,Preend;
-    Instart = 0;
-    Inend = find(full(inorder),rootData) - inorder.begin() - 1;
-    Prestart = 1;
-    Preend = Prestart + Inend - Instart;
-    BinaryTreeNode<ll>* root = new BinaryTreeNode<ll>(rootData);
-    vector<ll> preC,inC;
-    preC.insert(preC.end(),preorder.begin()+Prestart,preorder.begin()+Preend);
-    inC.insert(inC.end(),inorder.begin()+Instart,inorder.begin()+Inend);
-    BinaryTreeNode<ll>* leftChild = makeBinaryTreeFromPreandInorder(preC,inC);
-
-    root->left = leftChild;
-
-    Instart = find(full(inorder),rootData) - inorder.begin() + 1;
-    Inend = inorder.size()-1;
-    Prestart = Instart;
-    Preend = preorder.size()-1;
-    vector<ll> preC1,inC1;
-    preC.insert(preC1.end(),preorder.begin()+Prestart,preorder.begin()+Preend);
-    inC.insert(inC1.end(),inorder.begin()+Instart,inorder.begin()+Inend);
-    BinaryTreeNode<ll>* rightChild = makeBinaryTreeFromPreandInorder(preC1,inC1);
-
-    root->right = rightChild;
-
-    return  root;
-
+    return buildTreeHelper(preorder, inorder, 0, inorder.size()-1, 0, preorder.size()-1);
 }
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
