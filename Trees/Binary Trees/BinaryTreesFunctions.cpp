@@ -598,6 +598,38 @@ pair<ll,bool> isBinaryTreeBalanced(BinaryTreeNode<ll>* root)
     // cout<<"NodeData - "<<root->data<<"  Current Height - "<<finalHeight<<"  LeftH - "<<lheight<<"  RightH - "<<rheight<<"  bcheck - "<<bcheck<<"  finalCheck - "<<finalCheck<<endl;
     return make_pair(finalHeight,finalCheck);
 }
+
+//--------------------------Level Order Traversal of a Binary Tree------------------------------------
+
+void levelOrder(BinaryTreeNode<ll>*root)
+{
+    if(root)
+    {
+        queue<BinaryTreeNode<ll>*>pendingNodes;
+        pendingNodes.push(root);
+        while(pendingNodes.size()!=0)
+        {
+            ll si = pendingNodes.size();
+            for(int i=0;i<si;i++)
+            {
+                BinaryTreeNode<ll>* current = pendingNodes.front();
+                pendingNodes.pop();
+                cout<<current->data<<" ";
+                if(current->left)
+                {
+                    pendingNodes.push(current->left);
+                }
+                if(current->right)
+                {
+                    pendingNodes.push(current->right);
+                }
+            }
+            cout<<"\n";
+        }
+    }
+    return;
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -609,7 +641,7 @@ int main()
 
 //    BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
-    cout<<isBinaryTreeBalanced(root).second<<endl;
+    levelOrder(root);
     printBinaryTreeLevelWise(root);
     delete root;
     return 0;
