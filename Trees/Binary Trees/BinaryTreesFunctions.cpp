@@ -601,7 +601,10 @@ pair<ll,bool> isBinaryTreeBalanced(BinaryTreeNode<ll>* root)
 
 //--------------------------Level Order Traversal of a Binary Tree------------------------------------
 
-void levelOrder(BinaryTreeNode<ll>*root)
+// Problem Statement - Given a binary tree, print the level order traversal. Make sure each level start in new line.
+
+// O(n^2) Approach
+/*void levelOrder(BinaryTreeNode<ll>*root)
 {
     if(root)
     {
@@ -628,6 +631,47 @@ void levelOrder(BinaryTreeNode<ll>*root)
         }
     }
     return;
+}*/
+
+// O(n) Approach
+void levelOrder(BinaryTreeNode<ll>*root)
+{
+    ll checknewLine = 1;
+    if(root)
+    {
+        queue<BinaryTreeNode<ll>*>pendingNodes;
+        pendingNodes.push(root);
+        while(pendingNodes.size()!=0)
+        {
+                BinaryTreeNode<ll>* current = pendingNodes.front();
+                pendingNodes.pop();
+                if(current!= nullptr)
+                {
+                    cout<<current->data<<" ";
+
+                if (current->left) {
+                    if(checknewLine==1) {
+                        checknewLine = 0;
+                        pendingNodes.push(nullptr);
+                    }
+                    pendingNodes.push(current->left);
+                }
+                if (current->right) {
+                    if (current->left == nullptr and checknewLine==1) {
+                        checknewLine=0;
+                        pendingNodes.push(nullptr);
+                    }
+                    pendingNodes.push(current->right);
+                }
+            }
+            else
+            {
+                checknewLine = 1;
+                cout << "\n";
+            }
+        }
+        cout<<"\n";
+    }
 }
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
