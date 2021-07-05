@@ -257,13 +257,13 @@ BinaryTreeNode<ll>* takeInputBinaryTreeRecursive()
 
 BinaryTreeNode<ll>* takeInputBinaryTreeLevelWise()
 {
-    ll rootData;
-    cout<<"Enter Root Data\n";
-    cin>>rootData;
-    if(rootData==-1)
-    {
-        return nullptr;
-    }
+   ll rootData;
+   cout<<"Enter Root Data\n";
+   cin>>rootData;
+   if(rootData==-1)
+   {
+       return nullptr;
+   }
     BinaryTreeNode<ll>* root = new BinaryTreeNode<ll>(rootData);
     queue<BinaryTreeNode<ll>*> pendingNodes;
     pendingNodes.push(root);
@@ -349,12 +349,12 @@ ll binaryNumNode(BinaryTreeNode<ll>* root)
 
 bool binaryFindNode(BinaryTreeNode<ll>* root, ll x)
 {
-    if(binaryNullTree(root))
-    {
-        return false;
-    }
+  if(binaryNullTree(root))
+  {
+      return false;
+  }
 
-    return root->data==x or binaryFindNode(root->left,x) or binaryFindNode(root->right,x);
+  return root->data==x or binaryFindNode(root->left,x) or binaryFindNode(root->right,x);
 }
 
 //--------------------------Find a Height of a Binary Tree------------------------------------
@@ -572,6 +572,32 @@ ll binaryTreeNodeSum(BinaryTreeNode<ll>* root)
 
 }
 
+//--------------------------Is Binary Tree Balanced------------------------------------
+
+// Problem Statement - Given a binary tree, check if its balanced i.e. depth of left and right subtrees of every node differ by at max 1.
+// Return true if given binary tree is balanced, false otherwise.
+
+pair<ll,bool> isBinaryTreeBalanced(BinaryTreeNode<ll>* root)
+{
+    if(root == nullptr)
+    {
+        // cout<<"Current Height - "<<0<<"  LeftH - "<<-1<<"  RightH - "<<-1<<"  bcheck - "<<1<<"  finalCheck - "<<1<<endl;
+        return make_pair(0,1);
+    }
+    bool bcheck = 0;
+    pair<ll,bool> leftPair =  isBinaryTreeBalanced(root->left);
+    pair<ll,bool> rightPair =  isBinaryTreeBalanced(root->right);
+    ll lheight = leftPair.first;
+    ll rheight = rightPair.first;
+    if(abs(lheight-rheight)<=1)
+    {
+        bcheck = 1;
+    }
+    bool finalCheck = bcheck and leftPair.second and rightPair.second;
+    ll finalHeight = 1 + max(lheight,rheight);
+    // cout<<"NodeData - "<<root->data<<"  Current Height - "<<finalHeight<<"  LeftH - "<<lheight<<"  RightH - "<<rheight<<"  bcheck - "<<bcheck<<"  finalCheck - "<<finalCheck<<endl;
+    return make_pair(finalHeight,finalCheck);
+}
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -583,12 +609,13 @@ int main()
 
 //    BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
-    cout<<binaryTreeNodeSum(root)<<endl;
+    cout<<isBinaryTreeBalanced(root).second<<endl;
     printBinaryTreeLevelWise(root);
     delete root;
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 
