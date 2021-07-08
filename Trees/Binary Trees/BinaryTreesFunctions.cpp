@@ -304,6 +304,11 @@ bool binaryNullTree(BinaryTreeNode<ll>* root)
 
 void printBinaryTreeLevelWise(BinaryTreeNode<ll>* root)
 {
+    if(binaryNullTree(root))
+    {
+        cout<<"Tree is empty."<<endl;
+        return;
+    }
     queue<BinaryTreeNode<ll>*> pendingNodes;
     pendingNodes.push(root);
     while(pendingNodes.size()!=0)
@@ -674,6 +679,44 @@ void levelOrder(BinaryTreeNode<ll>*root)
     }
 }
 
+//--------------------------Remove Leaf Nodes of a Binary Tree------------------------------------
+
+// Problem Statement - Remove all leaf nodes from a given Binary Tree. Leaf nodes are those nodes,
+// which don't have any children.
+
+pair<BinaryTreeNode<ll>*,bool> removeLeafNodes(BinaryTreeNode<ll>* root)
+{
+    bool check = 0;
+    if(root)
+    {
+        if(root->left== nullptr and root->right== nullptr)
+        {
+            check = 1;
+        }
+        if(check==1)
+        {
+            root=nullptr;
+            return make_pair(root,1);
+        }
+        bool checkleft=0,checkright=0;
+        if(root->left) {
+            checkleft = removeLeafNodes(root->left).second;
+        }
+        if(checkleft)
+        {
+            root->left = nullptr;
+        }
+        if(root->right) {
+            checkright = removeLeafNodes(root->right).second;
+        }
+        if(checkright)
+        {
+            root->right = nullptr;
+        }
+    }
+    return make_pair(root,check);
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -685,8 +728,8 @@ int main()
 
 //    BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
+    root = removeLeafNodes(root).first;
     levelOrder(root);
-    printBinaryTreeLevelWise(root);
     delete root;
     return 0;
 }
