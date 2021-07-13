@@ -210,6 +210,35 @@ void printLinkedList(Node* head)
     }
 }
 
+//--------------------------Take Input of a Linked List------------------------------------
+
+Node* takeInput()
+{
+    ll data;
+    cin>>data;
+    Node *head = nullptr;
+    while(data != -1)
+    {
+        Node* node = new Node(data);
+        if(head==nullptr)
+        {
+            head = node;
+        }
+        else
+        {
+            Node* temp = head;
+            while(temp->next!= nullptr)
+            {
+                temp = temp->next;
+            }
+            temp->next= node;
+        }
+        cin>>data;
+    }
+    return head;
+}
+
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -218,14 +247,13 @@ int main()
 #ifndef ONLINE_JUDGE
     inOt();
 #endif
-    Node * n1 = new Node(5);
-    Node * n2 = new Node(10);
-    n1->next = n2;
-    printLinkedList(n1);
+    Node* head = takeInput();
+    printLinkedList(head);
 
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 
