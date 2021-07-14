@@ -212,6 +212,8 @@ void printLinkedList(Node* head)
 
 //--------------------------Take Input of a Linked List------------------------------------
 
+// Complexity of this method is O(n^2).
+
 Node* takeInput()
 {
     ll data;
@@ -238,6 +240,33 @@ Node* takeInput()
     return head;
 }
 
+//--------------------------Take Input of a Linked List Better Approach------------------------------------
+
+// Time Complexity is O(n).
+
+Node* takeInputBetter()
+{
+    Node* head = nullptr;
+    Node* tail = nullptr;
+    ll data;
+    cin>>data;
+    while(data!=-1)
+    {
+        Node* newNode = new Node(data);
+        if(head== nullptr)
+        {
+            head = newNode;
+            tail = newNode;
+        }
+        else
+        {
+            tail->next = newNode;
+            tail = tail->next; // We can also write tail = newNode here.
+        }
+        cin>>data;
+    }
+    return head;
+}
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
@@ -247,7 +276,7 @@ int main()
 #ifndef ONLINE_JUDGE
     inOt();
 #endif
-    Node* head = takeInput();
+    Node* head = takeInputBetter();
     printLinkedList(head);
 
     return 0;
