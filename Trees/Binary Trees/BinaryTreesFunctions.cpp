@@ -717,6 +717,97 @@ pair<BinaryTreeNode<ll>*,bool> removeLeafNodes(BinaryTreeNode<ll>* root)
     return make_pair(root,check);
 }
 
+//--------------------------Level wise linkedlist------------------------------------
+
+// Problem Statement - Given a binary tree, write code to create a separate linked list for each level.
+// You need to return the array which contains head of each level linked list.
+
+class Node
+{
+public :
+    ll data;
+    Node* next;
+    Node(ll data)
+    {
+        this->data = data;
+        next = nullptr;
+    }
+};
+
+
+vector<Node*> levelWiseLinkedList(BinaryTreeNode<ll>* root)
+{
+    queue<BinaryTreeNode<ll>*> pendingNodes;
+    vector<Node*> vect;
+    if(root)
+    {
+        Node* head = nullptr;
+        Node* tail = nullptr;
+        ll flag=1;
+        pendingNodes.push(root);
+        while(pendingNodes.size()!=0)
+        {
+            BinaryTreeNode<ll>* current = pendingNodes.front();
+            pendingNodes.pop();
+            if(current==nullptr)
+            {
+                vect.push_back(head);
+                head=nullptr;
+                tail=nullptr;
+                flag=1;
+            }
+            else
+            {
+                Node* newNode = new Node(current->data);
+                if(head==nullptr)
+                {
+                    head = newNode;
+                    tail = newNode;
+                }
+                else
+                {
+                    tail->next = newNode;
+                    tail = newNode;
+                }
+            if(current->left)
+            {
+                if(flag==1) {
+                    pendingNodes.push(nullptr);
+                    flag=0;
+                }
+                pendingNodes.push(current->left);
+            }
+            if(current->right)
+            {
+                if(current->left==nullptr and flag==1)
+                {
+                    pendingNodes.push(nullptr);
+                    flag=0;
+                }
+                pendingNodes.push(current->right);
+            }
+            }
+        }
+        vect.push_back(head);
+    }
+    return vect;
+}
+
+void printLinkedList(Node* head)
+{
+    if(head==nullptr)
+    {
+        return;
+    }
+    Node* temp = head;
+    while(temp!= nullptr)
+    {
+        cout<<temp->data<<" ";
+        temp = temp->next;
+    }
+    cout<<endl;
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -728,8 +819,12 @@ int main()
 
 //    BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
-    root = removeLeafNodes(root).first;
-    levelOrder(root);
+    vector<Node*> headofheads;
+    headofheads = levelWiseLinkedList(root);
+    for(auto i: headofheads)
+    {
+        printLinkedList(i);
+    }
     delete root;
     return 0;
 }
