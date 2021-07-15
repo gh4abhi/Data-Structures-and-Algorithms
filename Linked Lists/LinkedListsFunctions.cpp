@@ -284,6 +284,29 @@ ll lengthOfLinkedList(Node* head)
     return count;
 }
 
+//--------------------------Print ith node------------------------------------
+
+// Problem Statement - Given a linked list and a position i, print the node at ith position.
+// If position i is greater than length of LL, then don't print anything.
+
+void printIthNode(Node* head, ll pos)
+{
+    Node* temp = head;
+    while(pos)
+    {
+        temp=temp->next;
+        pos--;
+        if(temp==nullptr)
+        {
+            return;
+        }
+    }
+
+    if(temp!=nullptr) {
+        cout << temp->data;
+    }
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -293,7 +316,8 @@ int main()
     inOt();
 #endif
     Node* head = takeInputBetter();
-    cout<<lengthOfLinkedList(head)<<endl;
+    printIthNode(head,7);
+    cout<<endl;
     printLinkedList(head);
 
     return 0;
