@@ -268,6 +268,22 @@ Node* takeInputBetter()
     return head;
 }
 
+//--------------------------Length of Linked List------------------------------------
+
+// Problem Statement - Given a linked list, find and return the length of input LL. Do it iteratively.
+
+ll lengthOfLinkedList(Node* head)
+{
+    ll count =0;
+    Node* temp = head;
+    while(temp!=nullptr)
+    {
+        temp=temp->next;
+        count++;
+    }
+    return count;
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -277,6 +293,7 @@ int main()
     inOt();
 #endif
     Node* head = takeInputBetter();
+    cout<<lengthOfLinkedList(head)<<endl;
     printLinkedList(head);
 
     return 0;
