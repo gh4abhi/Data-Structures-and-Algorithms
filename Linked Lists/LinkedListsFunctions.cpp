@@ -307,6 +307,42 @@ void printIthNode(Node* head, ll pos)
     }
 }
 
+//--------------------------Insert a  node at ith position in a linked list------------------------------------
+
+Node* insertAtI(Node* head, ll pos, ll val)
+{
+   ll index = pos-1;
+   Node* newNode = new Node(val);
+    if(index==0)
+   {
+       newNode->next = head;
+       head = newNode;
+       return head;
+   }
+   Node* temp = head;
+   for(ll i=0;i<pos-2;i++)
+   {
+       if(temp== nullptr)
+       {
+           return head;
+       }
+       index--;
+       temp=temp->next;
+   }
+   if(temp==nullptr or(temp->next==nullptr and index>1))
+   {
+       return head;
+   }
+   if(temp->next==nullptr and index==1)
+   {
+       temp->next = newNode;
+       return head;
+   }
+    newNode->next = temp->next;
+   temp->next = newNode;
+   return head;
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -316,8 +352,7 @@ int main()
     inOt();
 #endif
     Node* head = takeInputBetter();
-    printIthNode(head,7);
-    cout<<endl;
+    head = insertAtI(head,7,11);
     printLinkedList(head);
 
     return 0;
