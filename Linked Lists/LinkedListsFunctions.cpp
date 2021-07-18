@@ -309,7 +309,7 @@ void printIthNode(Node* head, ll pos)
 
 //--------------------------Insert a  node at ith position in a linked list------------------------------------
 
-Node* insertAtI(Node* head, ll pos, ll val)
+Node* insertAtI(Node* head, ll pos, ll val) // Takes input of position in the basis of 1 based indexing.
 {
    ll index = pos-1;
    Node* newNode = new Node(val);
