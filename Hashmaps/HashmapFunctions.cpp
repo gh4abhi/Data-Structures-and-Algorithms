@@ -283,6 +283,29 @@ vector<ll> arrayIntersection(ll* a, ll n, ll* b , ll m)
     return vect;
 }
 
+//--------------------------Pair sum to 0------------------------------------
+
+// Problem Statement - Given a random integer array A of size N. Find and print the count of pair of elements
+// in the array which sum up to 0. Note: Array A can contain duplicate elements as well.
+
+ll pairtToSum0(ll* a, ll si)
+{
+    map<ll,ll> m,ans;
+    for(ll i=0;i<si;i++) {
+        m[a[i]]++;
+        if(m.count(-a[i])>0)
+        {
+            ans[abs(a[i])] = m[a[i]]*m[-a[i]];
+        }
+    }
+    ll sum=0;
+    for(auto i:ans)
+    {
+        sum+=i.second;
+    }
+    return sum;
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -292,25 +315,14 @@ int main()
     inOt();
 #endif
     cout<<fixed;
-    ll t;
-    cin>>t;
-    while(t--) {
-        ll size2;
-        cin >> size2;
-        ll a[100];
-        for (ll i = 0; i < size2; i++) {
-            cin >> a[i];
-        }
-        ll size1;
-        cin >> size1;
-        ll a1[100];
-        for (ll i = 0; i < size1; i++) {
-            cin >> a1[i];
-        }
-        vector<ll> vect = arrayIntersection(a, size2, a1, size1);
-        printvec(vect);
-        cout<<endl;
-    }
+ll n;
+cin>>n;
+ll a[100];
+for(ll i=0;i<n;i++)
+{
+    cin>>a[i];
+}
+cout<<pairtToSum0(a,n);
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
