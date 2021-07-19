@@ -307,7 +307,7 @@ void printIthNode(Node* head, ll pos)
     }
 }
 
-//--------------------------Insert a  node at ith position in a linked list------------------------------------
+//--------------------------Insert a node at ith position in a linked list------------------------------------
 
 Node* insertAtI(Node* head, ll pos, ll val) // Takes input of position in the basis of 1 based indexing.
 {
@@ -343,6 +343,45 @@ Node* insertAtI(Node* head, ll pos, ll val) // Takes input of position in the ba
    return head;
 }
 
+//--------------------------Delete a node at ith position in a linked list------------------------------------
+
+Node* deleteAtI(Node* head, ll pos)
+{
+    ll index = pos-1;
+    if(index==0)
+    {
+        head = head->next;
+        return head;
+    }
+    else
+    {
+        Node* temp = head;
+        for(ll i=0;i<pos-2;i++)
+        {
+            index--;
+            if(temp== nullptr)
+            {
+                return head;
+            }
+            temp=temp->next;
+        }
+        if(temp!=nullptr and temp->next!=nullptr)
+        {
+          if(temp->next->next==nullptr)
+          {
+              temp->next = nullptr;
+          }
+          else
+          {
+              Node* a = temp->next;
+              temp->next = a->next;
+              delete(a);
+          }
+        }
+        return head;
+    }
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -352,7 +391,7 @@ int main()
     inOt();
 #endif
     Node* head = takeInputBetter();
-    head = insertAtI(head,7,11);
+    head = deleteAtI(head,10);
     printLinkedList(head);
 
     return 0;
