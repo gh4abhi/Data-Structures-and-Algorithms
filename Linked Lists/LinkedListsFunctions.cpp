@@ -345,6 +345,9 @@ Node* insertAtI(Node* head, ll pos, ll val) // Takes input of position in the ba
 
 //--------------------------Delete a node at ith position in a linked list------------------------------------
 
+// Problem Statement - Given a linked list and a position i, delete the node of ith position from Linked List iteratively.
+// If position i is greater than length of LL, then you should return the same LL without any change.
+
 Node* deleteAtI(Node* head, ll pos)
 {
     ll index = pos-1;
