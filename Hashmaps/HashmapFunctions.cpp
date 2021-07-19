@@ -240,6 +240,49 @@ ll maximumFreNum(ll* a, ll si)
    return maxEle;
 }
 
+//--------------------------Array Intersection------------------------------------
+
+// Problem Statement - You have been given two integer arrays/list(ARR1 and ARR2) of size N and M, respectively. You need to print their intersection; An intersection for this problem can be defined when both the arrays/lists contain a particular value or to put it in other words, when there is a common value that exists in both the arrays/lists.
+// Note : Input arrays/lists can contain duplicate elements.
+
+vector<ll> arrayIntersection(ll* a, ll n, ll* b , ll m)
+{
+    map<ll,ll> m1;
+    vector<ll> vect;
+    if(n<m)
+    {
+        for(ll i=0;i<n;i++)
+        {
+            m1[a[i]]++;
+        }
+        for(ll i=0;i<m;i++)
+        {
+            if(m1[b[i]]>0)
+            {
+                vect.push_back(b[i]);
+                m1[b[i]]--;
+            }
+        }
+    }
+    else
+    {
+        for(ll i=0;i<m;i++)
+        {
+            m1[b[i]]++;
+        }
+        for(ll i=0;i<n;i++)
+        {
+            if(m1[a[i]]>0)
+            {
+                vect.push_back(a[i]);
+                m1[a[i]]--;
+            }
+        }
+    }
+    sort(full(vect));
+    return vect;
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -249,15 +292,25 @@ int main()
     inOt();
 #endif
     cout<<fixed;
-    ll size;
-    cin>>size;
-    ll a[100];
-    for(ll i=0;i<size;i++)
-    {
-        cin>>a[i];
+    ll t;
+    cin>>t;
+    while(t--) {
+        ll size2;
+        cin >> size2;
+        ll a[100];
+        for (ll i = 0; i < size2; i++) {
+            cin >> a[i];
+        }
+        ll size1;
+        cin >> size1;
+        ll a1[100];
+        for (ll i = 0; i < size1; i++) {
+            cin >> a1[i];
+        }
+        vector<ll> vect = arrayIntersection(a, size2, a1, size1);
+        printvec(vect);
+        cout<<endl;
     }
-    ll ans = maximumFreNum(a,size);
-    cout<<ans;
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
