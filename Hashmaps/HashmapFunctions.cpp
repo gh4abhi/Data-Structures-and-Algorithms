@@ -215,6 +215,31 @@ vector<ll> removeDuplicate(ll* a,ll si)
    return vect;
 }
 
+//--------------------------Maximum Frequency Number------------------------------------
+
+// Problem Statement - You are given an array of integers that contain numbers in random order.
+// Write a program to find and return the number which occurs the maximum times in the given input.
+// If two or more elements contend for the maximum frequency, return the element which occurs in the array first.
+
+ll maximumFreNum(ll* a, ll si)
+{
+   map<ll,ll> m;
+   for(ll i=0;i<si;i++)
+   {
+       m[a[i]]++;
+   }
+   ll maxFre=INT_MIN, maxEle=INT_MAX;
+   for(auto i:m)
+   {
+       if(i.second>maxFre)
+       {
+           maxFre = i.second;
+           maxEle = i.first;
+       }
+   }
+   return maxEle;
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -231,11 +256,12 @@ int main()
     {
         cin>>a[i];
     }
-    vector<ll> vect = removeDuplicate(a,size);
-    printvec(vect);
+    ll ans = maximumFreNum(a,size);
+    cout<<ans;
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 
