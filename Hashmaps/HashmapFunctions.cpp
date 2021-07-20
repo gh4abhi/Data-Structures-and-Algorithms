@@ -306,6 +306,51 @@ ll pairtToSum0(ll* a, ll si)
     return sum;
 }
 
+//--------------------------User Defined Hashmaps------------------------------------
+
+template< typename  v> 
+class MapNode{
+public:
+    string key;
+    v value;
+    MapNode* next;
+    MapNode(string key, v value)
+    {
+        this->key = key;
+        this->value = value;
+        next = nullptr;
+    }
+    ~MapNode()
+    {
+        delete next;
+    }
+};
+
+template <typename v> 
+class ourMap{
+    MapNode<v>** buckets;
+    ll count_size;
+    ll numBuckets;
+public:
+    ourMap()
+    {
+       count_size=0;
+       numBuckets=5;
+       buckets = new MapNode<v>* [numBuckets];
+       for(ll i=0;i<numBuckets;i++)
+       {
+           buckets[i] = nullptr;
+       }
+    }
+    ~ourMap(){
+        for(ll i=0;i<numBuckets;i++)
+        {
+            delete buckets[i];
+        }
+        delete [] buckets;
+    }
+};
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
