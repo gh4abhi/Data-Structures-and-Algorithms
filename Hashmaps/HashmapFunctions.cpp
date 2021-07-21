@@ -365,6 +365,38 @@ private:
         }
         return hashCode%numBuckets;
     }
+
+    void rehash()
+    {
+        MapNode<v>** temp = buckets;
+        buckets = new MapNode<v>*[numBuckets*2];
+        for(ll i=0;i<2*numBuckets;i++)
+        {
+            buckets[i] = nullptr;
+        }
+        ll oldNumBuckets = numBuckets;
+        numBuckets*=2;
+        count_size = 0;
+        for(ll i=0;i<oldNumBuckets;i++)
+        {
+            MapNode<v>* tempNode = temp[i];
+            while(tempNode!=nullptr)
+            {
+                string key = tempNode->key;
+                v val = tempNode->value;
+                insert(key,val);
+                tempNode = tempNode->next;
+            }
+        }
+
+        for(ll i=0;i<oldNumBuckets;i++)
+        {
+            delete temp[i];
+        }
+
+        delete [] temp;
+    }
+
 public:
     ll size()
     {
@@ -388,6 +420,11 @@ public:
         newNode->next = head;
         buckets[bucketIndex] = newNode;
         count_size++;
+        double loadFactor = (1.0*count_size)/numBuckets;
+        if(loadFactor>0.7)
+        {
+            rehash();
+        }
     }
 
     v getValue(string key)
