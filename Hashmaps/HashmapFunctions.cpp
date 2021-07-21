@@ -392,7 +392,48 @@ public:
 
     v getValue(string key)
     {
+       ll bucketIndex = getBucketIndex(key);
+       MapNode<v>* head = buckets[bucketIndex];
+        MapNode<v>* temp = head;
+        while(temp!=nullptr)
+        {
+            if(temp->key == key)
+            {
+                return temp->value;
+            }
+            temp = temp->next;
+        }
+        return -1;
+    }
 
+    v remove(string key)
+    {
+        ll bucketIndex = getBucketIndex(key);
+        MapNode<v>* head = buckets[bucketIndex];
+        MapNode<v>* temp = head;
+        MapNode<v>* prev = nullptr;
+        v val = 0;
+        while(temp!=nullptr)
+        {
+            if(temp->key == key)
+            {
+                if(prev == nullptr)
+                {
+                    buckets[bucketIndex] = head->next;
+                }
+                else {
+                    prev->next = temp->next;
+                }
+              val = temp->value;
+                temp->next = nullptr;
+                delete temp;
+                count_size--;
+                return val;
+            }
+            prev = temp;
+            temp = temp->next;
+        }
+        return val;
     }
 };
 
