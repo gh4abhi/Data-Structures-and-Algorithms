@@ -308,7 +308,7 @@ ll pairtToSum0(ll* a, ll si)
 
 //--------------------------User Defined Hashmaps------------------------------------
 
-template< typename  v> 
+template< typename  v>
 class MapNode{
 public:
     string key;
@@ -326,7 +326,7 @@ public:
     }
 };
 
-template <typename v> 
+template <typename v>
 class ourMap{
     MapNode<v>** buckets;
     ll count_size;
@@ -348,6 +348,51 @@ public:
             delete buckets[i];
         }
         delete [] buckets;
+    }
+
+private:
+
+    ll getBucketIndex(string key)
+    {
+        ll hashCode = 0;
+        ll curCoefficient = 1;
+        for(ll i=key.length()-1;i>=0;i--)
+        {
+            hashCode+= key[i]*curCoefficient;
+            hashCode = hashCode%numBuckets;
+            curCoefficient*=37;
+            curCoefficient = curCoefficient%numBuckets;
+        }
+        return hashCode%numBuckets;
+    }
+public:
+    ll size()
+    {
+        return count_size;
+    }
+
+    void insert(string key, v val)
+    {
+         ll bucketIndex = getBucketIndex(key);
+         MapNode<v>* head = buckets[bucketIndex];
+        MapNode<v>* temp = head;
+        while(temp!=nullptr)
+        {
+            if(temp->key==key)
+            {
+                temp->value = val;
+                return;
+            }
+        }
+        MapNode<v>* newNode = new MapNode<v>(key,val);
+        newNode->next = head;
+        buckets[bucketIndex] = newNode;
+        count_size++;
+    }
+
+    v getValue(string key)
+    {
+
     }
 };
 
