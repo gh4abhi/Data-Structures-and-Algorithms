@@ -403,7 +403,7 @@ public:
             }
             temp = temp->next;
         }
-        return -1;
+        return 0;  // We can do v val = 0 and then return it but this is also correct it will automatically be converted into that type.
     }
 
     v remove(string key)
