@@ -472,7 +472,50 @@ public:
         }
         return val;
     }
+
+    double getLoadFactor()
+    {
+        return (1.0*count_size)/numBuckets;
+    }
+
 };
+
+//--------------------------Test User Defined Hashmaps------------------------------------
+
+void testMap()
+{
+    ourMap<ll> map;
+   for(ll i=0;i<10;i++)
+   {
+       string key = "abc";
+       char c = '0' + i;
+       key = key + c;
+       ll value = 1 + i;
+       map.insert(key,value);
+       cout<<map.getLoadFactor()<<endl;
+   }
+    for(ll i=0;i<10;i++)
+    {
+        string key = "abc";
+        char c = '0' + i;
+        key = key + c;
+        ll value = 1 + i;
+        cout<<key<<" : "<<map.getValue(key)<<endl;
+    }
+cout<<map.size()<<endl;
+cout<<"Now deleting values\n";
+map.remove("abc3");
+map.remove("abc9");
+for(ll i=0;i<10;i++)
+    {
+        string key = "abc";
+        char c = '0' + i;
+        key = key + c;
+        ll value = 1 + i;
+        cout<<key<<" : "<<map.getValue(key)<<endl;
+    }
+    cout<<map.size()<<endl;
+}
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
@@ -483,14 +526,7 @@ int main()
     inOt();
 #endif
     cout<<fixed;
-ll n;
-cin>>n;
-ll a[100];
-for(ll i=0;i<n;i++)
-{
-    cin>>a[i];
-}
-cout<<pairtToSum0(a,n);
+testMap();
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
