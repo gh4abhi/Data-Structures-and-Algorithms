@@ -198,21 +198,21 @@ bool compare(const pair<ll, ll>&i, const pair<ll, ll>&j)
 
 vector<ll> removeDuplicate(ll* a,ll si)
 {
-   unordered_map<ll,bool> m;
-   vector<ll> vect;
-   for(ll i=0;i<si;i++)
-   {
-       if(m.count(a[i])>0)
-       {
-           continue;
-       }
-       else
-       {
-           m[a[i]] = true;
-           vect.push_back(a[i]);
-       }
-   }
-   return vect;
+    unordered_map<ll,bool> m;
+    vector<ll> vect;
+    for(ll i=0;i<si;i++)
+    {
+        if(m.count(a[i])>0)
+        {
+            continue;
+        }
+        else
+        {
+            m[a[i]] = true;
+            vect.push_back(a[i]);
+        }
+    }
+    return vect;
 }
 
 //--------------------------Maximum Frequency Number------------------------------------
@@ -223,21 +223,21 @@ vector<ll> removeDuplicate(ll* a,ll si)
 
 ll maximumFreNum(ll* a, ll si)
 {
-   map<ll,ll> m;
-   for(ll i=0;i<si;i++)
-   {
-       m[a[i]]++;
-   }
-   ll maxFre=INT_MIN, maxEle=INT_MAX;
-   for(auto i:m)
-   {
-       if(i.second>maxFre)
-       {
-           maxFre = i.second;
-           maxEle = i.first;
-       }
-   }
-   return maxEle;
+    map<ll,ll> m;
+    for(ll i=0;i<si;i++)
+    {
+        m[a[i]]++;
+    }
+    ll maxFre=INT_MIN, maxEle=INT_MAX;
+    for(auto i:m)
+    {
+        if(i.second>maxFre)
+        {
+            maxFre = i.second;
+            maxEle = i.first;
+        }
+    }
+    return maxEle;
 }
 
 //--------------------------Array Intersection------------------------------------
@@ -334,13 +334,13 @@ class ourMap{
 public:
     ourMap()
     {
-       count_size=0;
-       numBuckets=5;
-       buckets = new MapNode<v>* [numBuckets];
-       for(ll i=0;i<numBuckets;i++)
-       {
-           buckets[i] = nullptr;
-       }
+        count_size=0;
+        numBuckets=5;
+        buckets = new MapNode<v>* [numBuckets];
+        for(ll i=0;i<numBuckets;i++)
+        {
+            buckets[i] = nullptr;
+        }
     }
     ~ourMap(){
         for(ll i=0;i<numBuckets;i++)
@@ -405,8 +405,8 @@ public:
 
     void insert(string key, v val)
     {
-         ll bucketIndex = getBucketIndex(key);
-         MapNode<v>* head = buckets[bucketIndex];
+        ll bucketIndex = getBucketIndex(key);
+        MapNode<v>* head = buckets[bucketIndex];
         MapNode<v>* temp = head;
         while(temp!=nullptr)
         {
@@ -429,8 +429,8 @@ public:
 
     v getValue(string key)
     {
-       ll bucketIndex = getBucketIndex(key);
-       MapNode<v>* head = buckets[bucketIndex];
+        ll bucketIndex = getBucketIndex(key);
+        MapNode<v>* head = buckets[bucketIndex];
         MapNode<v>* temp = head;
         while(temp!=nullptr)
         {
@@ -461,7 +461,7 @@ public:
                 else {
                     prev->next = temp->next;
                 }
-              val = temp->value;
+                val = temp->value;
                 temp->next = nullptr;
                 delete temp;
                 count_size--;
@@ -485,15 +485,15 @@ public:
 void testMap()
 {
     ourMap<ll> map;
-   for(ll i=0;i<10;i++)
-   {
-       string key = "abc";
-       char c = '0' + i;
-       key = key + c;
-       ll value = 1 + i;
-       map.insert(key,value);
-       cout<<map.getLoadFactor()<<endl;
-   }
+    for(ll i=0;i<10;i++)
+    {
+        string key = "abc";
+        char c = '0' + i;
+        key = key + c;
+        ll value = 1 + i;
+        map.insert(key,value);
+        cout<<map.getLoadFactor()<<endl;
+    }
     for(ll i=0;i<10;i++)
     {
         string key = "abc";
@@ -502,11 +502,11 @@ void testMap()
         ll value = 1 + i;
         cout<<key<<" : "<<map.getValue(key)<<endl;
     }
-cout<<map.size()<<endl;
-cout<<"Now deleting values\n";
-map.remove("abc3");
-map.remove("abc9");
-for(ll i=0;i<10;i++)
+    cout<<map.size()<<endl;
+    cout<<"Now deleting values\n";
+    map.remove("abc3");
+    map.remove("abc9");
+    for(ll i=0;i<10;i++)
     {
         string key = "abc";
         char c = '0' + i;
@@ -515,6 +515,25 @@ for(ll i=0;i<10;i++)
         cout<<key<<" : "<<map.getValue(key)<<endl;
     }
     cout<<map.size()<<endl;
+}
+
+//--------------------------Extract Unique characters------------------------------------
+
+// Problem Statement - Given a string S, you need to remove all the duplicates. That means, the output string should contain each
+// character only once. The respective order of characters should remain same, as in the input string.
+
+string extractUniqueChar(string str)
+{
+    string ans_str = "";
+    map<char,bool> m;
+    for(auto i:str)
+    {
+        if(m.count(i)==0) {
+            m[i] = true;
+            ans_str += i;
+        }
+    }
+    return ans_str;
 }
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
@@ -526,7 +545,9 @@ int main()
     inOt();
 #endif
     cout<<fixed;
-testMap(); // Test Hashmaps.
+    string str;
+    cin>>str;
+    cout<<extractUniqueChar(str);
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
