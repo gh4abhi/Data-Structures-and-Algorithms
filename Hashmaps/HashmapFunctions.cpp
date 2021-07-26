@@ -536,6 +536,64 @@ string extractUniqueChar(string str)
     return ans_str;
 }
 
+//--------------------------Longest Consecutive Sequence------------------------------------
+
+//Problem Statement - You are given an array of unique integers that contain numbers in random order.
+// You have to find the longest possible sequence of consecutive numbers using the numbers from given array.
+// You need to return the output array which contains starting and ending element.
+// If the length of the longest possible sequence is one, then the output array must contain only single element.
+// Note:
+// 1. Best solution takes O(n) time.
+// 2. If two sequences are of equal length, then return the sequence starting with the number whose occurrence is earlier in the array.
+
+vector<ll> longConsecutiveSequence(vector<ll> vect)
+{
+    map<ll,pair<bool,ll>> m;
+    vector<ll> ans;
+    ll k=0;
+    for(auto i:vect)
+    {
+        m[i].first = true;
+        m[i].second = k;
+        k++;
+    }
+    ll start = INT_MAX, end = INT_MIN,lStreak=0;
+    for(auto i:vect)
+    {
+        ll curEnd = i, curStart = i,curStreak=1;
+        m[i].first = false;
+        while(m.count(curStart-1)>0 and m[curStart-1].first)
+        {
+            curStart -=1;
+            curStreak+=1;
+            m[curStart].first = false;
+        }
+        while(m.count(curEnd+1)>0 and m[curEnd+1].first)
+        {
+           curEnd = curEnd+1;
+           m[curEnd].first = false;
+           curStreak+=1;
+        }
+        if(curStreak>lStreak or(curStreak==lStreak and m[curStart].second<m[start].second))
+        {
+            lStreak = curStreak;
+            start = curStart;
+            end = curEnd;
+        }
+    }
+       if(start==end)
+       {
+           ans.push_back(start);
+       }
+       else
+       {
+           ans.push_back(start);
+           ans.push_back(end);
+
+       }
+       return ans;
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -545,9 +603,18 @@ int main()
     inOt();
 #endif
     cout<<fixed;
-    string str;
-    cin>>str;
-    cout<<extractUniqueChar(str);
+   ll n;
+   cin>>n;
+   vector<ll> vect(n);
+   for(ll i=0;i<n;i++)
+   {
+       cin>>vect[i];
+   }
+   vector<ll> ans = longConsecutiveSequence(vect);
+   for(auto i:ans)
+   {
+       cout<<i<<" ";
+   }
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
