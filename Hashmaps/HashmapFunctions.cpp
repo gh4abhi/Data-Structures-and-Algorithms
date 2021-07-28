@@ -598,28 +598,30 @@ vector<ll> longConsecutiveSequence(vector<ll> vect)
 
 ll pairWithDifferenceK(vector<ll> vect, ll k)
 {
-    map<ll,ll> m,m1;
-    ll sum=0;
-    for(ll i=0;i<vect.size();i++)
-    {
-        if(m1.count(abs(vect[i]-k))>0)
-        {
-            m[vect[i]]++;
-        }
-        if(vect[i]<0)
-        {
-            vect[i] = abs(vect[i]);
-        }
-
-           m1[vect[i]]++;
-
-
+    map<ll,ll> m;
+    for(auto i:vect) {
+        m[i]++;
     }
-    for(auto i:m)
-    {
-     sum+=(i.second)*(i.second+1)/2;
+    ll sum = 0;
+    if(k!=0) {
+        for (auto &i:m) {
+            if (m.count(i.first - k) > 0) {
+                sum += i.second * (m[i.first - k]);
+            }
+            if (m.count(i.first + k) > 0) {
+                sum += i.second * (m[i.first + k]);
+            }
+            i.second = 0;
+        }
     }
-    return sum;
+    else
+    {
+        for(auto i:m)
+        {
+            sum+= (i.second)*(i.second-1)/2;
+        }
+    }
+    return  sum;
 }
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
@@ -645,6 +647,7 @@ int main()
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 
