@@ -594,6 +594,34 @@ vector<ll> longConsecutiveSequence(vector<ll> vect)
        return ans;
 }
 
+//--------------------------Pairs with difference K------------------------------------
+
+ll pairWithDifferenceK(vector<ll> vect, ll k)
+{
+    map<ll,ll> m,m1;
+    ll sum=0;
+    for(ll i=0;i<vect.size();i++)
+    {
+        if(m1.count(abs(vect[i]-k))>0)
+        {
+            m[vect[i]]++;
+        }
+        if(vect[i]<0)
+        {
+            vect[i] = abs(vect[i]);
+        }
+
+           m1[vect[i]]++;
+
+
+    }
+    for(auto i:m)
+    {
+     sum+=(i.second)*(i.second+1)/2;
+    }
+    return sum;
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -610,15 +638,13 @@ int main()
    {
        cin>>vect[i];
    }
-   vector<ll> ans = longConsecutiveSequence(vect);
-   for(auto i:ans)
-   {
-       cout<<i<<" ";
-   }
+   ll k;
+   cin>>k;
+   cout<<pairWithDifferenceK(vect,k);
+
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 
 
