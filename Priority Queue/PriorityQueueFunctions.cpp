@@ -180,18 +180,35 @@ int LCSubStr(char* X, char* Y, int m, int n)
 
 //------------------------------------------------------------------------------ Data Structres ---------------------------------------------------------------------------------
 
-//--------------------------Linked Lists------------------------------------
+//--------------------------Priority Queue------------------------------------
 
-class Node
+class PriorityQueue
 {
+    vector<ll> pq;
 public:
-    ll data;
-    Node*next;
-    Node(ll data)
+    PriorityQueue()
     {
-        this->data = data;
-        next = nullptr;
+
     }
+    bool isEmpty()
+    {
+        return pq.size()==0;
+    }
+
+    ll getSize()
+    {
+        return pq.size();
+    }
+
+    ll getMin()
+    {
+        if(isEmpty())
+        {
+            return 0;
+        }
+        return pq[0];
+    }
+
 };
 
 //--------------------------Print the elements of a linked list------------------------------------
@@ -210,180 +227,6 @@ void printLinkedList(Node* head)
     }
 }
 
-//--------------------------Take Input of a Linked List------------------------------------
-
-// Complexity of this method is O(n^2).
-
-Node* takeInput()
-{
-    ll data;
-    cin>>data;
-    Node *head = nullptr;
-    while(data != -1)
-    {
-        Node* node = new Node(data);
-        if(head==nullptr)
-        {
-            head = node;
-        }
-        else
-        {
-            Node* temp = head;
-            while(temp->next!= nullptr)
-            {
-                temp = temp->next;
-            }
-            temp->next= node;
-        }
-        cin>>data;
-    }
-    return head;
-}
-
-//--------------------------Take Input of a Linked List Better Approach------------------------------------
-
-// Time Complexity is O(n).
-
-Node* takeInputBetter()
-{
-    Node* head = nullptr;
-    Node* tail = nullptr;
-    ll data;
-    cin>>data;
-    while(data!=-1)
-    {
-        Node* newNode = new Node(data);
-        if(head== nullptr)
-        {
-            head = newNode;
-            tail = newNode;
-        }
-        else
-        {
-            tail->next = newNode;
-            tail = tail->next; // We can also write tail = newNode here.
-        }
-        cin>>data;
-    }
-    return head;
-}
-
-//--------------------------Length of Linked List------------------------------------
-
-// Problem Statement - Given a linked list, find and return the length of input LL. Do it iteratively.
-
-ll lengthOfLinkedList(Node* head)
-{
-    ll count =0;
-    Node* temp = head;
-    while(temp!=nullptr)
-    {
-        temp=temp->next;
-        count++;
-    }
-    return count;
-}
-
-//--------------------------Print ith node------------------------------------
-
-// Problem Statement - Given a linked list and a position i, print the node at ith position.
-// If position i is greater than length of LL, then don't print anything.
-
-void printIthNode(Node* head, ll pos)
-{
-    Node* temp = head;
-    while(pos)
-    {
-        temp=temp->next;
-        pos--;
-        if(temp==nullptr)
-        {
-            return;
-        }
-    }
-
-    if(temp!=nullptr) {
-        cout << temp->data;
-    }
-}
-
-//--------------------------Insert a node at ith position in a linked list------------------------------------
-
-Node* insertAtI(Node* head, ll pos, ll val) // Takes input of position in the basis of 1 based indexing.
-{
-   ll index = pos-1;
-   Node* newNode = new Node(val);
-    if(index==0)
-   {
-       newNode->next = head;
-       head = newNode;
-       return head;
-   }
-   Node* temp = head;
-   for(ll i=0;i<pos-2;i++)
-   {
-       if(temp== nullptr)
-       {
-           return head;
-       }
-       index--;
-       temp=temp->next;
-   }
-   if(temp==nullptr or(temp->next==nullptr and index>1))
-   {
-       return head;
-   }
-   if(temp->next==nullptr and index==1)
-   {
-       temp->next = newNode;
-       return head;
-   }
-    newNode->next = temp->next;
-   temp->next = newNode;
-   return head;
-}
-
-//--------------------------Delete a node at ith position in a linked list------------------------------------
-
-// Problem Statement - Given a linked list and a position i, delete the node of ith position from Linked List iteratively.
-// If position i is greater than length of LL, then you should return the same LL without any change.
-
-Node* deleteAtI(Node* head, ll pos)
-{
-    ll index = pos-1;
-    if(index==0)
-    {
-        head = head->next;
-        return head;
-    }
-    else
-    {
-        Node* temp = head;
-        for(ll i=0;i<pos-2;i++)
-        {
-            index--;
-            if(temp== nullptr)
-            {
-                return head;
-            }
-            temp=temp->next;
-        }
-        if(temp!=nullptr and temp->next!=nullptr)
-        {
-          if(temp->next->next==nullptr)
-          {
-              temp->next = nullptr;
-          }
-          else
-          {
-              Node* a = temp->next;
-              temp->next = a->next;
-              delete(a);
-          }
-        }
-        return head;
-    }
-}
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
@@ -400,6 +243,7 @@ int main()
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 
