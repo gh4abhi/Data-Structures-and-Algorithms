@@ -596,6 +596,10 @@ vector<ll> longConsecutiveSequence(vector<ll> vect)
 
 //--------------------------Pairs with difference K------------------------------------
 
+// Problem Statement - You are given with an array of integers and an integer K.
+// You have to find and print the count of all such pairs which have difference K.
+//Note: Take absolute difference between the elements of the array.
+
 ll pairWithDifferenceK(vector<ll> vect, ll k)
 {
     map<ll,ll> m;
@@ -624,6 +628,38 @@ ll pairWithDifferenceK(vector<ll> vect, ll k)
     return  sum;
 }
 
+//--------------------------Longest subset zero sum------------------------------------
+
+// Problem Statement - Given an array consisting of positive and negative integers,
+// find the length of the longest subarray whose sum is zero.
+
+ll longestSubsetZeroSum(vector<ll> vect)
+{
+    map<ll,ll> m;
+    ll sum = 0;
+    ll maxLen = INT_MIN;
+    for(ll i=0;i<vect.size();i++)
+    {
+        ll curLen = 0;
+        sum+=vect[i];
+        if(sum==0)
+        {
+            curLen = i+1;
+        }
+        if(m.count(sum)>0)
+        {
+            curLen = max(i-m[sum],curLen);
+        }
+        else
+        {
+            m[sum] = i;
+        }
+
+      maxLen = max(maxLen,curLen);
+    }
+    return maxLen;
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -640,9 +676,7 @@ int main()
    {
        cin>>vect[i];
    }
-   ll k;
-   cin>>k;
-   cout<<pairWithDifferenceK(vect,k);
+   cout<<longestSubsetZeroSum(vect);
 
     return 0;
 }
