@@ -254,6 +254,26 @@ ll minStepsTo1DP(ll n)
     return arr[n];
 }
 
+//--------------------------Staircase------------------------------------
+
+// Problem Statement - A child runs up a staircase with 'n' steps and can hop either 1 step, 2 steps or 3 steps at a time.
+// Implement a method to count and return all possible ways in which the child can run-up to the stairs.
+
+ll staircaseDP(ll n)
+{
+    ll* arr = new ll[max(n+1ll,4ll)];
+    arr[0] =0;
+    arr[1] = 1;
+    arr[2] = 2;
+    arr[3] = 4;
+    for(ll i=4;i<n+1;i++)
+    {
+        arr[i] = arr[i-1] + arr[i-2] + arr[i-3];
+    }
+    return arr[n];
+}
+
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -264,7 +284,7 @@ int main()
 #endif
 ll n;
 cin>>n;
-cout<<minStepsTo1DP(n);
+cout<<staircaseDP(n);
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
