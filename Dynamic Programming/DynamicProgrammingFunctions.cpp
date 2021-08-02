@@ -182,7 +182,7 @@ int LCSubStr(char* X, char* Y, int m, int n)
 
 //--------------------------Nth Fibonacci Number------------------------------------
 
-// Memorization - Top to Bottom
+// Memorization - Top-Down
 
 ll fibonacciHelper(ll* ans, ll n)
 {
@@ -211,6 +211,19 @@ ll nthFibonacciNum(ll n)
     return fibonacciHelper(ans, n);
 }
 
+ll nthFibonacciNumDP(ll n)
+{
+    ll* ans = new ll[n+1];
+    ans[0] = 0;
+    ans[1] = 1;
+    for(ll i=2;i<n+1;i++)
+    {
+       ans[i] = ans[i-1] + ans [i-2];
+    }
+    return ans[n];
+}
+
+
 
 
 
@@ -224,10 +237,11 @@ int main()
 #endif
 ll n;
 cin>>n;
-cout<<nthFibonacciNum(n);
+cout<<nthFibonacciNumDP(n);
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 
