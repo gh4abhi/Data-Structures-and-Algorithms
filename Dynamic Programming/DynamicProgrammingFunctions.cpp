@@ -273,6 +273,64 @@ ll staircaseDP(ll n)
     return arr[n];
 }
 
+//--------------------------Minimum Count------------------------------------
+
+ll minimumCountRecursive(ll n)
+{
+    ll count = INT_MAX;
+
+    if(n==1)
+    {
+        return 1;
+    }
+    if(n==2)
+    {
+        return 2;
+    }
+    if(n==3)
+    {
+        return 3;
+    }
+
+    for(ll i=1;i<sqrt(n);i++)
+    {
+        ll curCount=0;
+        if(sqrt(n)*sqrt(n) == n)
+        {
+            curCount = 1;
+        }
+        else {
+            curCount = 1 + minimumCountRecursive(n - i * i);
+        }
+        count = min(curCount,count);
+    }
+    return count;
+}
+
+/*ll minimumCountDP(ll n)
+{
+    ll* arr = new ll[max(4ll,n+1ll)];
+    arr[0] = 0;
+    arr[1] = 1;
+    arr[2] = 2;
+    arr[3] = 3;
+    for(ll i=4;i<n+1;i++)
+    {
+        if(sqrt(i)*sqrt(i)==i)
+        {
+            arr[i] = 1;
+        }
+        else if(i%2==0)
+        {
+            arr[i] = arr[i/2];
+        }
+        else
+        {
+            arr[i] = arr[i-1] + 1;
+        }
+    }
+    return arr[n];
+}*/
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
@@ -284,7 +342,7 @@ int main()
 #endif
 ll n;
 cin>>n;
-cout<<staircaseDP(n);
+cout<<minimumCountRecursive(n);
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
