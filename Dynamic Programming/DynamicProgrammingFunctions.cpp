@@ -238,7 +238,7 @@ ll minStepsTo1DP(ll n)
     arr[1] = 0;
     arr[2] = 1;
     arr[3] = 1;
-    for(ll i=3; i<n+1;i++)
+    for(ll i=4; i<n+1;i++)
     {
         ll a = INT_MAX, b = INT_MAX;
         if(i%2==0)
@@ -275,6 +275,11 @@ ll staircaseDP(ll n)
 
 //--------------------------Minimum Count------------------------------------
 
+// Problem Statement - Given an integer N, find and return the count of minimum numbers required to represent N as a
+// sum of squares.
+// That is, if N is 4, then we can represent it as : {1^2 + 1^2 + 1^2 + 1^2} and {2^2}. The output will be 1, as 1 is
+// the minimum count of numbers required to represent N as sum of squares.
+
 ll minimumCountRecursive(ll n)
 {
     ll count = INT_MAX;
@@ -306,31 +311,91 @@ ll minimumCountRecursive(ll n)
     }
     return count;
 }
+//*****************************************************************************************//
 
-/*ll minimumCountDP(ll n)
+ll minimumCountMemorizationHelper(ll arr[], ll n)
 {
-    ll* arr = new ll[max(4ll,n+1ll)];
-    arr[0] = 0;
-    arr[1] = 1;
-    arr[2] = 2;
-    arr[3] = 3;
-    for(ll i=4;i<n+1;i++)
+    if(n<=3)
     {
-        if(sqrt(i)*sqrt(i)==i)
+        return n;
+    }
+    if(arr[n]!=-1)
+    {
+        return arr[n];
+    }
+    for(ll i=1;i<=n;i++)
+    {
+        arr[i] = i;
+        for(ll j=0;j*j<=i;j++)
         {
-            arr[i] = 1;
-        }
-        else if(i%2==0)
-        {
-            arr[i] = arr[i/2];
-        }
-        else
-        {
-            arr[i] = arr[i-1] + 1;
+            arr[i] = min(arr[i],1+ minimumCountMemorizationHelper(arr,i-j*j));
         }
     }
+
     return arr[n];
-}*/
+
+}
+
+ll minimumCountMemorization(ll n)
+{
+    ll arr[n+1];
+    for( ll i=0;i<n+1;i++)
+    {
+        arr[i] = -1;
+    }
+    return minimumCountMemorizationHelper(arr,n);
+}
+
+//*****************************************************************************************//
+
+ll minimumCountDP(ll n)
+{
+    ll dp[n+1];
+    dp[0] = 0;
+    for(ll i=1;i<=n;i++)
+    {
+        dp[i] = i;
+        for(ll j=1;j*j<=i;j++)
+        {
+            dp[i] = min(dp[i],1+dp[i-j*j]);
+        }
+    }
+    return dp[n];
+}
+
+//*****************************************************************************************//
+
+ll minimumCountLegendresTheorem(ll n)
+{
+    ll k = sqrt(n);
+    if(k*k==n)
+    {
+        return 1;
+    }
+    if(n%4==0)
+    {
+        while(n%4==0)
+        {
+            n/=4;
+        }
+    }
+
+    if(n%8==7)
+    {
+        return 4;
+    }
+
+    for(ll i=1;i*i<=n;i++)
+    {
+        ll m = n-i*i;
+        ll r = sqrt(m);
+        if(r*r == m)
+        {
+            return 2;
+        }
+    }
+    return 3;
+}
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
