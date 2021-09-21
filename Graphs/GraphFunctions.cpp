@@ -182,32 +182,27 @@ int LCSubStr(char* X, char* Y, int m, int n)
 
 //--------------------------Graphs------------------------------------
 
-//
-
-void printGraphDFSForConnected(ll**edges, ll startingVertex, bool*visited, ll n)
+void printDFS(ll**edges, ll startingVertex, bool*visited, ll n)
 {
     visited[startingVertex] = true;
-    cout<<startingVertex<<" : ";
+    cout<<startingVertex<<" ";
     for(ll i=0;i<n;i++)
     {
         if(i==startingVertex)
         {
             continue;
+        }
+        if(edges[startingVertex][i]==1)
+        {
+            if(visited[i]) {
+                continue;
             }
-            if(edges[startingVertex][i]==1)
-            {
-                if(visited[i]) {
-                    continue;
-                }
-                printGraphDFSForConnected(edges,i,visited,n);
-            }
+            printDFS(edges,i,visited,n);
+        }
     }
 }
 
-
-//
-
-void BFSForConnected(ll**edges, ll startingVertex, bool*visited, ll n)
+void printBFS(ll**edges, ll startingVertex, bool*visited, ll n)
 {
     queue<ll> pendingNodes;
     pendingNodes.push(startingVertex);
@@ -227,8 +222,7 @@ void BFSForConnected(ll**edges, ll startingVertex, bool*visited, ll n)
             cout<<endl;
             continue;
         }
-    
-              cout<<current<<" ";
+        cout<<current<<" ";
         for(ll i=0;i<n;i++)
         {
             if(i==current)
@@ -247,42 +241,73 @@ void BFSForConnected(ll**edges, ll startingVertex, bool*visited, ll n)
     }
 }
 
+void BFS(ll** edges, ll nodesNum)
+{
+    bool* visited = new bool[nodesNum];
+    for(ll i=0;i<nodesNum;i++)
+    {
+        visited[i]= false;
+    }
+    for(ll i=0;i<nodesNum;i++) {
+        if(visited[i]==false) {
+            printBFS(edges, 0, visited, i);
+        }
+    }
+    delete [] visited;
+}
+
+
+void DFS(ll** edges, ll nodesNum)
+{
+    bool* visited = new bool[nodesNum];
+    for(ll i=0;i<nodesNum;i++)
+    {
+        visited[i]= false;
+    }
+    for(ll i=0;i<nodesNum;i++) {
+        if(visited[i]==false) {
+            printDFS(edges, i, visited, nodesNum);
+        }
+    }
+    delete [] visited;
+}
+
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
     BOOST;
-    ll n,e;
-    cin>>n>>e;
-    ll ** edges = new ll*[n];
-    for(ll i=0;i<n;i++)
+// I/O Text Files
+#ifndef ONLINE_JUDGE
+    inOt();
+#endif
+
+    ll nodesNum,edgesNum;
+    cin>>nodesNum>>edgesNum;
+    ll ** edges = new ll*[nodesNum];
+    for(ll i=0;i<nodesNum;i++)
     {
-        edges[i] = new ll[n];
-        for(ll j=0;j<n;j++)
+        edges[i] = new ll[nodesNum];
+        for(ll j=0;j<nodesNum;j++)
         {
             edges[i][j] = 0;
         }
     }
-    for(ll i=0;i<e;i++)
+    for(ll i=0;i<edgesNum;i++)
     {
-        ll f,s;
-        cin>>f>>s;
-        edges[f][s] = 1;
-        edges[s][f] = 1;
+        ll pre,post;
+        cin>>pre>>post;
+        edges[pre][post] = 1;
+        edges[post][pre] = 1;
     }
-    bool* visited = new bool[n];
-    for(ll i=0;i<n;i++)
-    {
-        visited[i]= false;
-    }
-    ll startingVertex=3;
-    BFSForConnected(edges,4,visited,n);
-    delete [] visited;
-    for(ll i=0  ;i<n;i++)
+    DFS(edges,nodesNum);
+    BFS(edges,nodesNum);
+    for(ll i=0  ;i<nodesNum;i++)
     {
         delete [] edges[i];
     }
     delete [] edges;
+    return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
