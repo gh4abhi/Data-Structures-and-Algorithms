@@ -182,6 +182,8 @@ int LCSubStr(char* X, char* Y, int m, int n)
 
 //--------------------------Graphs------------------------------------
 
+//--------------------------Depth First Search Traversal in Graphs------------------------------------
+
 void printDFS(ll**edges, ll startingVertex, bool*visited, ll n)
 {
     visited[startingVertex] = true;
@@ -201,6 +203,25 @@ void printDFS(ll**edges, ll startingVertex, bool*visited, ll n)
         }
     }
 }
+
+
+void DFS(ll** edges, ll nodesNum)
+{
+    bool* visited = new bool[nodesNum];
+    for(ll i=0;i<nodesNum;i++)
+    {
+        visited[i]= false;
+    }
+    for(ll i=0;i<nodesNum;i++) {
+        if(visited[i]==false) {
+            printDFS(edges, i, visited, nodesNum);
+        }
+    }
+    cout<<endl;
+    delete [] visited;
+}
+
+//--------------------------Breadth First Search Traversal in Graphs------------------------------------
 
 void printBFS(ll**edges, ll startingVertex, bool*visited, ll n)
 {
@@ -253,25 +274,54 @@ void BFS(ll** edges, ll nodesNum)
             printBFS(edges, i, visited, nodesNum);
         }
     }
+    cout<<endl;
     delete [] visited;
 }
 
+//--------------------------Has Path------------------------------------
 
-void DFS(ll** edges, ll nodesNum)
+// Problem Statement - There is a bi-directional graph with n vertices, where each vertex is labeled from 0 to n - 1 (inclusive).
+// The edges in the graph are represented as a 2D integer array edges, where each edges[i] = [ui, vi] denotes a bi-directional
+// edge between vertex ui and vertex vi. Every vertex pair is connected by at most one edge, and no vertex has an edge to itself.
+// You want to determine if there is a valid path that exists from vertex start to vertex end.
+// Given edges and the integers n, start, and end, return true if there is a valid path from start to end, or false otherwise.
+
+bool hasPathHelper(ll** edges, ll nodesNum, ll startVertex, ll endVertex, bool* visited)
+{
+   visited[startVertex] = true;
+   if(visited[endVertex]==true)
+   {
+       return true;
+   }
+   bool curStatus = false;
+   for(ll i=0;i<nodesNum;i++)
+   {
+       if(i==startVertex)
+       {
+           continue;
+       }
+       if(edges[startVertex][i]==1)
+       {
+           if(visited[i]==false)
+           {
+               curStatus = curStatus or (hasPathHelper(edges,nodesNum,i,endVertex,visited));
+           }
+       }
+   }
+   return curStatus;
+}
+
+bool hasPath(ll** edges, ll nodesNum, ll startVertex, ll endVertex)
 {
     bool* visited = new bool[nodesNum];
     for(ll i=0;i<nodesNum;i++)
     {
-        visited[i]= false;
+        visited[i] = false;
     }
-    for(ll i=0;i<nodesNum;i++) {
-        if(visited[i]==false) {
-            printDFS(edges, i, visited, nodesNum);
-        }
-    }
+    bool ans = hasPathHelper(edges, nodesNum, startVertex, endVertex, visited);
     delete [] visited;
+    return ans;
 }
-
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
@@ -300,10 +350,15 @@ int main()
         edges[pre][post] = 1;
         edges[post][pre] = 1;
     }
-    DFS(edges,nodesNum);
-    cout<<endl;
-    BFS(edges,nodesNum);
-    for(ll i=0  ;i<nodesNum;i++)
+/*    BFS(edges,nodesNum);
+    DFS(edges,nodesNum);*/
+
+    ll startVertex, endVertex;
+    cin>>startVertex>>endVertex;
+
+    cout<<hasPath(edges,nodesNum,startVertex,endVertex);
+
+    for(ll i=0;i<nodesNum;i++)
     {
         delete [] edges[i];
     }
