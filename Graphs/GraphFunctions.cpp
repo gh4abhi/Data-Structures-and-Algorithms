@@ -250,7 +250,7 @@ void BFS(ll** edges, ll nodesNum)
     }
     for(ll i=0;i<nodesNum;i++) {
         if(visited[i]==false) {
-            printBFS(edges, 0, visited, i);
+            printBFS(edges, i, visited, nodesNum);
         }
     }
     delete [] visited;
@@ -301,6 +301,7 @@ int main()
         edges[post][pre] = 1;
     }
     DFS(edges,nodesNum);
+    cout<<endl;
     BFS(edges,nodesNum);
     for(ll i=0  ;i<nodesNum;i++)
     {
@@ -310,6 +311,7 @@ int main()
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 
