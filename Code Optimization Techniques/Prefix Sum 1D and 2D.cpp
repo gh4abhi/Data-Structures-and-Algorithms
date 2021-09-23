@@ -248,8 +248,57 @@ void oneDArrayInputAndPrefixCall()
     }
 }
 
+//--------------------------Prefix Sum 2D Array------------------------------------
 
+void prefixSum2D(vector<vector<ll>> vect)
+{
+   ll arr[vect.size()][vect[0].size()];
+   for(ll i=0;i<vect.size();i++)
+   {
+       for(ll j=0;j<vect[0].size();j++)
+       {
+           if(i==0 or j==0)
+           {
+               arr[i][j] = 0;
+               continue;
+           }
+           arr[i][j] = vect[i][j] + arr[i-1][j] + arr[i][j-1] - arr[i-1][j-1];
+       }
+   }
+   for(ll i=0;i<vect.size();i++)
+   {
+       for(ll j=0;j<vect[0].size();j++)
+       {
+           cout<<arr[i][j]<<" ";
+       }
+       cout<<endl;
+   }
+}
 
+void twoDArrayInputAndPrefixCall()
+{
+    ll n,m;
+    cin>>n>>m;
+    vector<vector<ll>> vect(n+1);
+    for(ll i=0;i<n+1;i++)
+    {
+        for(ll j=0;j<m+1;j++)
+        {
+            vect[i].pb(0);
+        }
+    }
+    for(ll i=1;i<n+1;i++)
+    {
+        for(ll j=1;j<m+1;j++)
+        {
+            ll a;
+            cin>>a;
+            vect[i][j]=a;
+        }
+    }
+
+    prefixSum2D(vect);
+}
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
@@ -260,8 +309,7 @@ int main()
     inOt();
 #endif
     cout<<fixed;
-
-     oneDArrayInputAndPrefixCall();
+    twoDArrayInputAndPrefixCall();
     /*its_Function();*/return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
