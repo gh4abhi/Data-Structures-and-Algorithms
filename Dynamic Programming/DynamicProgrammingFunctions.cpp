@@ -447,6 +447,19 @@ ll numberOfBalancedBinaryTreeMemoization(ll h)
     return ans;
 }
 
+//*****************************************************************************************//
+
+ll numberOfBalancedBinaryTreeDP(ll h)
+{
+    ll dp[h+1];
+    dp[0] = 1;
+    dp[1] = 1;
+    for(ll i=2;i<h+1;i++)
+    {
+        dp[i] = (((dp[i-1])*(dp[i-1]))%MOD + 2*(((dp[i-1])*dp[i-2])%MOD))%MOD;
+    }
+    return dp[h];
+}
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
@@ -458,7 +471,7 @@ int main()
 #endif
 ll n;
 cin>>n;
-cout<<numberOfBalancedBinaryTreeMemoization(n);
+cout<<numberOfBalancedBinaryTreeDP(n);
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
