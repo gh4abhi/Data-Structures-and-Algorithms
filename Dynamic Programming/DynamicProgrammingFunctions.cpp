@@ -218,7 +218,7 @@ ll nthFibonacciNumDP(ll n)
     ans[1] = 1;
     for(ll i=2;i<n+1;i++)
     {
-       ans[i] = ans[i-1] + ans [i-2];
+        ans[i] = ans[i-1] + ans [i-2];
     }
     return ans[n];
 }
@@ -406,14 +406,14 @@ ll minimumCountLegendresTheorem(ll n)
 
 ll numberOfBalancedBinaryTreeRecursive(ll h)
 {
-   if(h<=1)
-   {
-       return 1;
-   }
-   ll x = numberOfBalancedBinaryTreeRecursive(h-1);
-   ll y = numberOfBalancedBinaryTreeRecursive(h-2);
-   ll ans = (((x%MOD)*(x%MOD))%MOD + (2*(y%MOD)*x%MOD)%MOD)%MOD;
-   return ans;
+    if(h<=1)
+    {
+        return 1;
+    }
+    ll x = numberOfBalancedBinaryTreeRecursive(h-1);
+    ll y = numberOfBalancedBinaryTreeRecursive(h-2);
+    ll ans = (((x%MOD)*(x%MOD))%MOD + (2*(y%MOD)*x%MOD)%MOD)%MOD;
+    return ans;
 }
 
 //*****************************************************************************************//
@@ -421,18 +421,18 @@ ll numberOfBalancedBinaryTreeRecursive(ll h)
 
 ll numberOfBalancedBinaryTreeMemoizationHelper(ll h, ll arr[])
 {
-   if(h<=1)
-   {
-       return 1;
-   }
-   if(arr[h]!=-1)
-   {
-       return arr[h];
-   }
-   ll x = numberOfBalancedBinaryTreeMemoizationHelper(h-1,arr);
-   ll y = numberOfBalancedBinaryTreeMemoizationHelper(h-2,arr);
-   arr[h] = (((x%MOD)*(x%MOD))%MOD + (2*(y%MOD)*x%MOD)%MOD)%MOD;
-   return arr[h];
+    if(h<=1)
+    {
+        return 1;
+    }
+    if(arr[h]!=-1)
+    {
+        return arr[h];
+    }
+    ll x = numberOfBalancedBinaryTreeMemoizationHelper(h-1,arr);
+    ll y = numberOfBalancedBinaryTreeMemoizationHelper(h-2,arr);
+    arr[h] = (((x%MOD)*(x%MOD))%MOD + (2*(y%MOD)*x%MOD)%MOD)%MOD;
+    return arr[h];
 }
 
 
@@ -461,6 +461,91 @@ ll numberOfBalancedBinaryTreeDP(ll h)
     return dp[h];
 }
 
+
+//--------------------------Min cost Path------------------------------------
+
+// Problem Statement - An integer matrix of size (M x N) has been given. Find out the minimum cost to
+// reach from the cell (0, 0) to (M - 1, N - 1).
+// From a cell (i,  j), you can move in three directions:
+// 1. ((i + 1),  j) which is, "down"
+// 2. (i, (j + 1)) which is, "to the right"
+// 3. ((i+1), (j+1)) which is, "to the diagonal"
+// The cost of a path is defined as the sum of each cell's values through which the route passes.
+
+ll minCostPathRecursiveHelper(vector<vector<ll>>& vect, ll i, ll j, ll sum)
+{
+
+    ll diSum = INT_MAX, rSum = INT_MAX, doSum = INT_MAX;
+    if(i==vect.size()-1 and j==vect[0].size()-1)
+    {
+        return sum + vect[i][j];
+    }
+
+    if(i<vect.size()-1 and j<vect[0].size()-1)
+    {
+        diSum = minCostPathRecursiveHelper(vect, i+1, j+1, sum + vect[i][j]);
+    }
+    if(i<vect.size()-1)
+    {
+        doSum = minCostPathRecursiveHelper(vect, i+1, j, sum + vect[i][j]);
+    }
+
+    if(j<vect[0].size()-1)
+    {
+        rSum = minCostPathRecursiveHelper(vect, i, j+1, sum + vect[i][j]);
+    }
+    return min(diSum, min(rSum,doSum));
+
+}
+
+ll minCostPathRecursive(vector<vector<ll>>& vect)
+{
+    return minCostPathRecursiveHelper(vect, 0, 0, 0);
+}
+
+//*****************************************************************************************//
+
+ll minCostPathMemoizationHelper(vector<vector<ll>>& vect, ll i, ll j, ll sum, vector<vector<ll>> arr)
+{
+    ll diSum = INT_MAX, rSum = INT_MAX, doSum = INT_MAX;
+    if(i==vect.size()-1 and j==vect[0].size()-1)
+    {
+        return sum + vect[i][j];
+    }
+    if(arr[i][j]!=-1)
+    {
+        return arr[i][j];
+    }
+    if(i<vect.size()-1 and j<vect[0].size()-1)
+    {
+        diSum = minCostPathMemoizationHelper(vect, i+1, j+1, sum + vect[i][j],arr);
+    }
+    if(i<vect.size()-1)
+    {
+        doSum = minCostPathMemoizationHelper(vect, i+1, j, sum + vect[i][j],arr);
+    }
+
+    if(j<vect[0].size()-1)
+    {
+        rSum = minCostPathMemoizationHelper(vect, i, j+1, sum + vect[i][j],arr);
+    }
+    arr[i][j] =  min(diSum, min(rSum,doSum));
+    return arr[i][j];
+}
+
+ll minCostPathMemoization(vector<vector<ll>>& vect)
+{
+    vector<vector<ll>> arr(vect.size());
+    for(ll i=0;i<vect.size();i++)
+    {
+        for(ll j=0;j<vect[0].size();j++)
+        {
+            arr[i].pb(-1);
+        }
+    }
+    return minCostPathMemoizationHelper(vect, 0, 0, 0, arr);
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -469,9 +554,28 @@ int main()
 #ifndef ONLINE_JUDGE
     inOt();
 #endif
-ll n;
-cin>>n;
-cout<<numberOfBalancedBinaryTreeDP(n);
+    ll m,n;
+    cin>>m>>n;
+    vector<vector<ll>> vect(m);
+    for(ll i=0;i<m;i++)
+    {
+        for(ll j=0;j<n;j++)
+        {
+            ll a;
+            cin>>a;
+            vect[i].pb(a);
+        }
+    }
+    for(ll i=0;i<m;i++)
+    {
+        for(ll j=0;j<n;j++)
+        {
+            cout<<vect[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+
+cout<<minCostPathMemoization(vect);
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
