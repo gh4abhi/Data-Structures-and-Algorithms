@@ -419,11 +419,33 @@ ll numberOfBalancedBinaryTreeRecursive(ll h)
 //*****************************************************************************************//
 
 
-ll numberOfBalancedBinaryTreeMemoization(ll h)
+ll numberOfBalancedBinaryTreeMemoizationHelper(ll h, ll arr[])
 {
-
+   if(h<=1)
+   {
+       return 1;
+   }
+   if(arr[h]!=-1)
+   {
+       return arr[h];
+   }
+   ll x = numberOfBalancedBinaryTreeMemoizationHelper(h-1,arr);
+   ll y = numberOfBalancedBinaryTreeMemoizationHelper(h-2,arr);
+   arr[h] = (((x%MOD)*(x%MOD))%MOD + (2*(y%MOD)*x%MOD)%MOD)%MOD;
+   return arr[h];
 }
 
+
+ll numberOfBalancedBinaryTreeMemoization(ll h)
+{
+    ll arr[h+1];
+    for(ll i=0;i<h+1;i++)
+    {
+        arr[i] = -1;
+    }
+    ll ans = numberOfBalancedBinaryTreeMemoizationHelper(h, arr);
+    return ans;
+}
 
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
@@ -436,7 +458,7 @@ int main()
 #endif
 ll n;
 cin>>n;
-cout<<numberOfBalancedBinaryTreeRecursive(n);
+cout<<numberOfBalancedBinaryTreeMemoization(n);
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
