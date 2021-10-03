@@ -182,7 +182,7 @@ int LCSubStr(char* X, char* Y, int m, int n)
 
 //--------------------------Nth Fibonacci Number------------------------------------
 
-// Memorization - Top-Down
+// Memoization - Top-Down
 
 ll fibonacciHelper(ll* ans, ll n)
 {
@@ -311,9 +311,10 @@ ll minimumCountRecursive(ll n)
     }
     return count;
 }
+
 //*****************************************************************************************//
 
-ll minimumCountMemorizationHelper(ll arr[], ll n)
+ll minimumCountMemoizationHelper(ll arr[], ll n)
 {
     if(n<=3)
     {
@@ -328,7 +329,7 @@ ll minimumCountMemorizationHelper(ll arr[], ll n)
         arr[i] = i;
         for(ll j=0;j*j<=i;j++)
         {
-            arr[i] = min(arr[i],1+ minimumCountMemorizationHelper(arr,i-j*j));
+            arr[i] = min(arr[i],1+ minimumCountMemoizationHelper(arr,i-j*j));
         }
     }
 
@@ -343,7 +344,7 @@ ll minimumCountMemorization(ll n)
     {
         arr[i] = -1;
     }
-    return minimumCountMemorizationHelper(arr,n);
+    return minimumCountMemoizationHelper(arr,n);
 }
 
 //*****************************************************************************************//
@@ -397,6 +398,34 @@ ll minimumCountLegendresTheorem(ll n)
     return 3;
 }
 
+//--------------------------Number of balanced Binary Trees------------------------------------
+
+// Problem Statement - Given an integer h, find the possible number of balanced binary trees of height h.
+// You just need to return the count of possible binary trees which are balanced.
+// This number can be huge, so return output modulus 10^9 + 7.
+
+ll numberOfBalancedBinaryTreeRecursive(ll h)
+{
+   if(h<=1)
+   {
+       return 1;
+   }
+   ll x = numberOfBalancedBinaryTreeRecursive(h-1);
+   ll y = numberOfBalancedBinaryTreeRecursive(h-2);
+   ll ans = (((x%MOD)*(x%MOD))%MOD + (2*(y%MOD)*x%MOD)%MOD)%MOD;
+   return ans;
+}
+
+//*****************************************************************************************//
+
+
+ll numberOfBalancedBinaryTreeMemoization(ll h)
+{
+
+}
+
+
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -407,7 +436,7 @@ int main()
 #endif
 ll n;
 cin>>n;
-cout<<minimumCountRecursive(n);
+cout<<numberOfBalancedBinaryTreeRecursive(n);
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
