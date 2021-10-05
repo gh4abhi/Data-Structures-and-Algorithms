@@ -594,7 +594,8 @@ ll longestCommonSubsequenceRecursiveHelper(string s, string t, ll i, ll j, ll co
     {
         dI = longestCommonSubsequenceRecursiveHelper(s,t,i+1,j,count);
         dJ = longestCommonSubsequenceRecursiveHelper(s,t,i,j+1,count);
-        dB = longestCommonSubsequenceRecursiveHelper(s,t,i+1,j+1,count);
+        dB = longestCommonSubsequenceRecursiveHelper(s,t,i+1,j+1,count); // We can avoid this call as when we remove
+        // first character of s or t, it becomes exactly the same case.
     }
 
     return max(eqC,max(dI,max(dJ,dB)));
@@ -605,6 +606,8 @@ ll longestCommonSubsequenceRecursive(string s, string t)
 {
     return longestCommonSubsequenceRecursiveHelper(s, t, 0,0,0);
 }
+
+//*****************************************************************************************//
 
 
 
