@@ -666,6 +666,41 @@ ll longestCommonSubsequenceMemoization(string s, string t)
     return ans;
 }
 
+//*****************************************************************************************//
+
+ll longestCommonSubsequenceDP(string s, string t)
+{
+    ll m = s.length();
+    ll n = t.length();
+    ll dp[m+1][n+1];
+    for(ll i=0; i<=m; i++)
+    {
+        dp[i][0] = 0;
+    }
+    for(ll i=0; i<=n; i++)
+    {
+        dp[0][i] = 0;
+    }
+    for(ll i=1;i<=m;i++)
+    {
+        for(ll j=1;j<=n;j++)
+        {
+            if(s[m-i]==t[n-j])
+            {
+                dp[i][j] = 1 + dp[i-1][j-1];
+            }
+            else
+            {
+                ll a = dp[i-1][j];
+                ll b = dp[i][j-1];
+                ll c = dp[i-1][j-1];
+                dp[i][j] = max(a,max(b,c));
+            }
+        }
+    }
+    return dp[m][n];
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -676,7 +711,7 @@ int main()
 #endif
   string s,t;
   cin>>s>>t;
-    cout<<longestCommonSubsequenceMemoization(s,t);
+    cout<<longestCommonSubsequenceDP(s,t);
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
