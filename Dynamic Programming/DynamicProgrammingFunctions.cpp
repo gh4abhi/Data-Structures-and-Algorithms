@@ -609,7 +609,62 @@ ll longestCommonSubsequenceRecursive(string s, string t)
 
 //*****************************************************************************************//
 
+ll longestCommonSubsequenceMemoizationHelper(string s, string t, ll** arr)
+{
+ ll m = s.length();
+ ll n = t.length();
 
+ if(m==0 or n==0)
+ {
+     return 0;
+ }
+
+
+ ll eqC = INT_MIN, dI = INT_MIN, dJ = INT_MIN, dB = INT_MIN;
+
+ if(arr[m][n]!=-1)
+ {
+     return arr[m][n];
+ }
+
+ if(s[0]==t[0])
+ {
+     eqC = 1 + longestCommonSubsequenceMemoizationHelper(s.substr(1), t.substr(1), arr);
+     arr[m][n] = eqC;
+     return arr[m][n];
+ }
+ else
+ {
+     dI = longestCommonSubsequenceMemoizationHelper(s.substr(1), t, arr);
+     dJ = longestCommonSubsequenceMemoizationHelper(s, t.substr(1), arr);
+     dB = longestCommonSubsequenceMemoizationHelper(s.substr(1), t.substr(1), arr);
+ }
+
+ arr[m][n] = max(dI,max(dJ,dB));
+ return arr[m][n];
+}
+
+ll longestCommonSubsequenceMemoization(string s, string t)
+{
+    ll m = s.length();
+    ll n = t.length();
+    ll** arr = new ll*[m+1];
+    for(ll i=0;i<=m;i++)
+    {
+        arr[i] = new ll[n+1];
+        for(ll j=0;j<=n;j++)
+        {
+            arr[i][j] = -1;
+        }
+    }
+    ll ans = longestCommonSubsequenceMemoizationHelper(s,t,arr);
+    for(ll i=0;i<=m;i++)
+    {
+        delete [] arr[i];
+    }
+    delete [] arr;
+    return ans;
+}
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
@@ -621,7 +676,7 @@ int main()
 #endif
   string s,t;
   cin>>s>>t;
-    cout<<longestCommonSubsequenceRecursive(s,t);
+    cout<<longestCommonSubsequenceMemoization(s,t);
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
