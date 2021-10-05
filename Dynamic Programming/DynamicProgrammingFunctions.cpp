@@ -577,6 +577,37 @@ return dp[0][0];
 
 }
 
+//--------------------------Longest Common Subsequence------------------------------------
+
+ll longestCommonSubsequenceRecursiveHelper(string s, string t, ll i, ll j, ll count)
+{
+    ll eqC = INT_MIN, dI = INT_MIN, dJ = INT_MIN, dB = INT_MIN;
+    if(i==s.length() or j==t.length())
+    {
+        return count;
+    }
+    if(s[i]==t[j])
+    {
+      eqC = longestCommonSubsequenceRecursiveHelper(s,t, i+1, j+1, count+1);
+    }
+    else
+    {
+        dI = longestCommonSubsequenceRecursiveHelper(s,t,i+1,j,count);
+        dJ = longestCommonSubsequenceRecursiveHelper(s,t,i,j+1,count);
+        dB = longestCommonSubsequenceRecursiveHelper(s,t,i+1,j+1,count);
+    }
+
+    return max(eqC,max(dI,max(dJ,dB)));
+}
+
+
+ll longestCommonSubsequenceRecursive(string s, string t)
+{
+    return longestCommonSubsequenceRecursiveHelper(s, t, 0,0,0);
+}
+
+
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -585,28 +616,9 @@ int main()
 #ifndef ONLINE_JUDGE
     inOt();
 #endif
-    ll m,n;
-    cin>>m>>n;
-    vector<vector<ll>> vect(m);
-    for(ll i=0;i<m;i++)
-    {
-        for(ll j=0;j<n;j++)
-        {
-            ll a;
-            cin>>a;
-            vect[i].pb(a);
-        }
-    }
-    for(ll i=0;i<m;i++)
-    {
-        for(ll j=0;j<n;j++)
-        {
-            cout<<vect[i][j]<<" ";
-        }
-        cout<<endl;
-    }
-
-cout<<minCostPathMemoization(vect);
+  string s,t;
+  cin>>s>>t;
+    cout<<longestCommonSubsequenceRecursive(s,t);
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
