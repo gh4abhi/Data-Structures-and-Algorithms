@@ -701,6 +701,46 @@ ll longestCommonSubsequenceDP(string s, string t)
     return dp[m][n];
 }
 
+//--------------------------Edit Distance------------------------------------
+
+// Given two strings s and t of lengths m and n respectively, find the Edit Distance between the strings.
+// Edit Distance of two strings is minimum number of steps required to make one string equal to other.
+// In order to do so you can perform following three operations only :
+// 1. Delete a character
+// 2. Replace a character with another one
+// 3. Insert a character
+// Note - Strings don't contain spaces
+
+ll editDistanceRecursive(string s, string t)
+{
+    ll m = s.length(), n = t.length();
+    if(m==0 and n==0)
+    {
+        return 0;
+    }
+    if(m==0)
+    {
+        return n;
+    }
+    if(n==0)
+    {
+        return m;
+    }
+    ll a = INT_MAX, b = INT_MAX, c = INT_MAX, ans;
+    if(s[0]==t[0])
+    {
+        return editDistanceRecursive(s.substr(1),t.substr(1));
+    }
+    else
+    {
+      a = 1 + editDistanceRecursive(s.substr(1), t);
+      b = 1 + editDistanceRecursive(s,t.substr(1));
+      c = 1 + editDistanceRecursive(s.substr(1),t.substr(1));
+    }
+    return min(a,min(b,c));
+}
+
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -711,7 +751,7 @@ int main()
 #endif
   string s,t;
   cin>>s>>t;
-    cout<<longestCommonSubsequenceDP(s,t);
+    cout<<editDistanceRecursive(s,t);
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
