@@ -808,6 +808,96 @@ void printLinkedList(Node* head)
     cout<<endl;
 }
 
+//--------------------------Create & Insert Duplicate Node------------------------------------
+
+BinaryTreeNode<ll>* createAndInsertDuplicateNode(BinaryTreeNode<ll>* root)
+{
+    if(root->left == nullptr)
+    {
+        BinaryTreeNode<ll>* dNode = new BinaryTreeNode<ll>(root->data);
+        root->left = dNode;
+        return root;
+    }
+    BinaryTreeNode<ll>* dNode = new BinaryTreeNode<ll>(root->data);
+    dNode->left = root->left;
+    root->left = dNode;
+    dNode->right = createAndInsertDuplicateNode(root->right);
+    dNode->left = createAndInsertDuplicateNode(root->left);
+    return root;
+
+}
+
+
+//--------------------------Morris Inorder Traversal------------------------------------
+
+// Time - O(n)
+// Space - O(1)
+
+void morrisInorderTraversal(BinaryTreeNode<ll>* root)
+{
+    BinaryTreeNode<ll>* current = root;
+   while(current!=nullptr)
+   {
+       if(current->left==nullptr)
+       {
+           cout<<current<<" ";
+           current = current->right;
+       }
+       else
+       {
+           BinaryTreeNode<ll>* predecessor = current->left;
+           while(predecessor->right!=current and predecessor->right!= nullptr)
+           {
+               predecessor = predecessor->right;
+           }
+           if(predecessor->right == nullptr)
+           {
+
+           }
+       }
+   }
+}
+
+//--------------------------ZigZag Tree Traversal------------------------------------
+
+// Problem Statement - Given a binary tree, print the zig zag order i.e print level 1 from left to right, level 2
+// from right to left and so on. This means odd levels should get printed from left to right and even level right to left.
+
+void zidzagTreeTraversal(BinaryTreeNode<ll>* root)
+{
+    if(root)
+    {
+        stack<BinaryTreeNode<ll>*> s1,s2;
+        s1.push(root);
+        while(s1.size()!=0 or s2.size()!=0) {
+            while (s1.size() != 0) {
+                BinaryTreeNode<ll> *current = s1.top();
+                s1.pop();
+                if (current->left) {
+                    s2.push(current->left);
+                }
+                if (current->right) {
+                    s2.push(current->right);
+                }
+                cout << current->data << " ";
+            }
+            cout<<endl;
+            while (s2.size() != 0) {
+                BinaryTreeNode<ll> *current = s2.top();
+                s2.pop();
+                if (current->right) {
+                    s1.push(current->right);
+                }
+                if (current->left) {
+                    s1.push(current->left);
+                }
+                cout << current->data << " ";
+            }
+            cout<<endl;
+        }
+    }
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -819,12 +909,7 @@ int main()
 
 //    BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
-    vector<Node*> headofheads;
-    headofheads = levelWiseLinkedList(root);
-    for(auto i: headofheads)
-    {
-        printLinkedList(i);
-    }
+    zidzagTreeTraversal(root);
     delete root;
     return 0;
 }
