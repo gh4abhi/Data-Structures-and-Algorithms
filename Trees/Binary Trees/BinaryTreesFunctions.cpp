@@ -898,6 +898,33 @@ void zidzagTreeTraversal(BinaryTreeNode<ll>* root)
     }
 }
 
+//--------------------------Nodes without sibling------------------------------------
+
+// Problem Statement - Given a binary tree, print all nodes that don’t have a sibling.
+// Print the elements in different lines. And order of elements doesn't matter.
+
+void nodesWithoutSibling(BinaryTreeNode<ll>* root)
+{
+    if(root)
+    {
+        if(root->left and !(root->right))
+        {
+            cout<<root->left->data<<endl;
+            nodesWithoutSibling(root->left);
+        }
+        else if(!(root->left) and root->right)
+        {
+            cout<<root->right->data<<endl;
+            nodesWithoutSibling(root->right);
+        }
+        else
+        {
+            nodesWithoutSibling(root->left);
+            nodesWithoutSibling(root->right);
+        }
+    }
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -909,7 +936,8 @@ int main()
 
 //    BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
-    zidzagTreeTraversal(root);
+    printBinaryTreeLevelWise(root);
+    nodesWithoutSibling(root);
     delete root;
     return 0;
 }
