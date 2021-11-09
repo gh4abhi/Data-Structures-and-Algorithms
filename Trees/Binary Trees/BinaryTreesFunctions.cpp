@@ -925,6 +925,43 @@ void nodesWithoutSibling(BinaryTreeNode<ll>* root)
     }
 }
 
+//--------------------------Pair Sum Binary Tree------------------------------------
+
+// Problem Statement - Given a binary tree and an integer S, print all the pair of nodes whose sum equals S.
+// Assume binary tree contains all unique elements. In a pair, print the smaller element first.
+// Order of different pair doesn't matter.
+
+pair<vector<pair<ll,ll>>,map<ll,ll>> pairSumBinaryTreeHelper(BinaryTreeNode<ll>* root, map<ll,ll> m, ll sum, vector<pair<ll,ll>> vect)
+{
+    if(m.count(sum-(root->data))>0)
+    {
+        vect.push_back(make_pair(min(root->data,sum - root->data), max(root->data,sum - root->data)));
+    }
+    m[root->data]++;
+    pair<vector<pair<ll,ll>>, map<ll,ll>> lPair, rPair;
+    if(root->left)
+    {
+        lPair = (pairSumBinaryTreeHelper(root->left, m, sum, vect));
+        m = lPair.second;
+        vect = lPair.first;
+    }
+    if(root->right)
+    {
+        rPair = pairSumBinaryTreeHelper(root->right, m, sum, vect);
+        m = rPair.second;
+        vect = rPair.first;
+    }
+    return make_pair(vect,m);
+}
+
+vector<pair<ll,ll>> pairSumBinaryTree(BinaryTreeNode<ll>* root, ll sum)
+{
+    map<ll,ll> m;
+    vector<pair<ll,ll>> vect;
+    return pairSumBinaryTreeHelper(root, m , sum, vect).first;
+}
+
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -936,8 +973,13 @@ int main()
 
 //    BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
-    printBinaryTreeLevelWise(root);
-    nodesWithoutSibling(root);
+    ll sum;
+    cin>>sum;
+    vector<pair<ll,ll>> vect = pairSumBinaryTree(root,sum);
+    for(auto i:vect)
+    {
+        cout<<i.first<<" "<<i.second<<endl;
+    }
     delete root;
     return 0;
 }
