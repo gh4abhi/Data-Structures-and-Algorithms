@@ -931,6 +931,7 @@ void nodesWithoutSibling(BinaryTreeNode<ll>* root)
 // Assume binary tree contains all unique elements. In a pair, print the smaller element first.
 // Order of different pair doesn't matter.
 
+// First Method - Space complexity is large in the following approach.
 pair<vector<pair<ll,ll>>,map<ll,ll>> pairSumBinaryTreeHelper(BinaryTreeNode<ll>* root, map<ll,ll> m, ll sum, vector<pair<ll,ll>> vect)
 {
     if(m.count(sum-(root->data))>0)
@@ -961,6 +962,60 @@ vector<pair<ll,ll>> pairSumBinaryTree(BinaryTreeNode<ll>* root, ll sum)
     return pairSumBinaryTreeHelper(root, m , sum, vect).first;
 }
 
+// Second approach - Time Complexity - ( o(n) + o(nlogn) => o(nlogn)
+
+vector<ll> convertBinaryTreeToArray(BinaryTreeNode<ll>* root)
+{
+    vector<ll> vect, vectLeft, vectRight;
+    if(root)
+    {
+        vect.pb(root->data);
+        if(root->left)
+        {
+            vectLeft = convertBinaryTreeToArray(root->left);
+        }
+        if(root->right)
+        {
+            vectRight = convertBinaryTreeToArray(root->right);
+        }
+
+        if(vectLeft.size())
+        {
+            vect.insert(vect.end(), full(vectLeft));
+        }
+        if(vectRight.size())
+        {
+            vect.insert(vect.end(), full(vectRight));
+        }
+    }
+    return vect;
+}
+
+vector<pair<ll,ll>> PairSumOptimizedApproach(BinaryTreeNode<ll>* root, ll sum)
+{
+    vector<ll> vect = convertBinaryTreeToArray(root);
+    vector<pair<ll,ll>> ans;
+    sort(full(vect));
+    ll i = 0, j = vect.size()-1;
+    while(i<j)
+    {
+        if(vect[i]+vect[j] == sum)
+        {
+            ans.pb(make_pair(min(vect[i],vect[j]),max(vect[i],vect[j])));
+            i++;
+            j--;
+        }
+        else if(vect[i]+vect[j] > sum)
+        {
+            j--;
+        }
+        else
+        {
+            i++;
+        }
+    }
+    return ans;
+}
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
@@ -975,8 +1030,9 @@ int main()
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
     ll sum;
     cin>>sum;
-    vector<pair<ll,ll>> vect = pairSumBinaryTree(root,sum);
-    for(auto i:vect)
+    vector<pair<ll,ll>> ans;
+    ans = PairSumOptimizedApproach(root, sum);
+    for(auto i:ans)
     {
         cout<<i.first<<" "<<i.second<<endl;
     }
