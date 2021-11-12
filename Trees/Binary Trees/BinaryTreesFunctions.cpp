@@ -1017,6 +1017,85 @@ vector<pair<ll,ll>> PairSumOptimizedApproach(BinaryTreeNode<ll>* root, ll sum)
     return ans;
 }
 
+//--------------------------LCA of Binary Tree------------------------------------
+
+// Problem Statement - Given a binary tree and two nodes, find LCA (Lowest Common Ancestor) of the
+// given two nodes in Binary Tree. If out of 2 nodes only one node is present, return that node.
+// If both are not present, return -1.
+
+pair<ll,pair<bool,bool>> lcaOfBinaryTreeHelper(BinaryTreeNode<ll>* root, ll node1, ll node2)
+{
+    ll val = INT_MAX;
+    ll lVal = INT_MAX, rVal = INT_MAX;
+    bool node1L = false, node1R = false, node2L = false, node2R = false;
+
+    pair<ll,pair<bool,bool>> l,r;
+    bool rootNodeCheck1 = false, rootNodeCheck2 = false;
+
+    if(root->data == node1)
+    {
+        rootNodeCheck1 = true;
+    }
+    if(root->data == node2)
+    {
+        rootNodeCheck2 = true;
+    }
+
+    if(root->left)
+    {
+        l = lcaOfBinaryTreeHelper(root->left,node1,node2);
+        lVal = l.first;
+        node1L = l.second.first;
+        node2L = l.second.second;
+    }
+    if(root->right)
+    {
+        r = lcaOfBinaryTreeHelper(root->right,node1,node2);
+        rVal = r.first;
+        node1R = r.second.first;
+        node2R = r.second.second;
+    }
+
+    rootNodeCheck1 = rootNodeCheck1 or node1L or node1R;
+    rootNodeCheck2 = rootNodeCheck2 or node2L or node2R;
+
+    if(rootNodeCheck2 and rootNodeCheck1 and lVal== INT_MAX and rVal==INT_MAX)
+    {
+        val = root->data;
+    }
+
+    val = min(val,min(lVal,rVal));
+
+    return make_pair(val, make_pair(rootNodeCheck1,rootNodeCheck2));
+}
+
+ll lcaOfBinaryTree(BinaryTreeNode<ll>* root, ll node1, ll node2)
+{
+    ll val;
+    bool rootNodeCheck1, rootNodeCheck2;
+    pair<ll,pair<bool,bool>> ans;
+    ans = lcaOfBinaryTreeHelper(root, node1, node2);
+    val = ans.first;
+    rootNodeCheck1 = ans.second.first;
+    rootNodeCheck2 = ans.second.second;
+    if(rootNodeCheck1 and !rootNodeCheck2)
+    {
+        return node1;
+    }
+    else if(rootNodeCheck2 and !rootNodeCheck1)
+    {
+        return node2;
+    }
+    else if(!rootNodeCheck1 and !rootNodeCheck2)
+    {
+        return -1;
+    }
+    else
+    {
+        return val;
+    }
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -1028,14 +1107,9 @@ int main()
 
 //    BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
-    ll sum;
-    cin>>sum;
-    vector<pair<ll,ll>> ans;
-    ans = PairSumOptimizedApproach(root, sum);
-    for(auto i:ans)
-    {
-        cout<<i.first<<" "<<i.second<<endl;
-    }
+    ll n1,n2;
+    cin>>n1>>n2;
+    cout<<lcaOfBinaryTree(root,n1,n2);
     delete root;
     return 0;
 }
