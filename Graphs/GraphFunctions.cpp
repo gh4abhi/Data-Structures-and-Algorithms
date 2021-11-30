@@ -323,6 +323,56 @@ bool hasPath(ll** edges, ll nodesNum, ll startVertex, ll endVertex)
     return ans;
 }
 
+//--------------------------Get Path - DFS------------------------------------
+
+// Problem Statement - Given an undirected graph G(V, E) and two vertices v1 and v2(as integers), find and print the path
+// from v1 to v2 (if exists). Print nothing if there is no path between v1 and v2.
+//Find the path using DFS and print the first path that you encountered.
+//V is the number of vertices present in graph G and vertices are numbered from 0 to V-1.
+//E is the number of edges present in graph G.
+//Print the path in reverse order. That is, print v2 first, then intermediate vertices and v1 at last.
+//Note : Save the input graph in Adjacency Matrix.
+
+void getPathDFSHelper(ll** edges, ll nodesNum, ll startVertex, ll endVertex, bool* visited, vector<ll> vect)
+{
+    visited[startVertex] = true;
+    vect.pb(startVertex);
+    if(startVertex==endVertex)
+    {
+        reverse(full(vect));
+        for(auto i:vect)
+        {
+            cout<<i<<" ";
+        }
+        cout<<endl;
+        return;
+    }
+
+    for(ll i=0;i<nodesNum;i++)
+    {
+        if(edges[startVertex][i]==1)
+        {
+            if(visited[i]==false)
+            {
+                getPathDFSHelper(edges,nodesNum,i,endVertex,visited,vect);
+            }
+        }
+    }
+
+}
+
+void getPathDFS(ll** edges, ll nodesNum, ll startVertex, ll endVertex)
+{
+    bool* visited = new bool[nodesNum];
+    for(ll i=0;i<nodesNum;i++)
+    {
+        visited[i] = false;
+    }
+    vector<ll> vect;
+    getPathDFSHelper(edges, nodesNum, startVertex, endVertex, visited, vect);
+    delete [] visited;
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -356,7 +406,7 @@ int main()
     ll startVertex, endVertex;
     cin>>startVertex>>endVertex;
 
-    cout<<hasPath(edges,nodesNum,startVertex,endVertex);
+    getPathDFS(edges, nodesNum, startVertex, endVertex);
 
     for(ll i=0;i<nodesNum;i++)
     {
