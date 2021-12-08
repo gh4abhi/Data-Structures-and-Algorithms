@@ -373,6 +373,109 @@ void getPathDFS(ll** edges, ll nodesNum, ll startVertex, ll endVertex)
     delete [] visited;
 }
 
+//--------------------------Get Path - BFS------------------------------------
+
+// Problem Statement - Given an undirected graph G(V, E) and two vertices v1 and v2(as integers), find and print the
+// path from v1 to v2 (if exists). Print nothing if there is no path between v1 and v2.
+//Find the path using BFS and print the shortest path available.
+//V is the number of vertices present in graph G and vertices are numbered from 0 to V-1.
+//E is the number of edges present in graph G.
+//Print the path in reverse order. That is, print v2 first, then intermediate vertices and v1 at last.
+//Note : Save the input graph in Adjacency Matrix.
+//Input Format :
+//Line 1: Two Integers V and E (separated by space)
+//Next E lines : Two integers a and b, denoting that there exists an edge between vertex a and vertex b (separated by space)
+//Line (E+2) : Two integers v1 and v2 (separated by space)
+
+vector<ll> getPathBFSHelper(ll** edges, bool* visited, ll nodesNum, ll startVertex, ll endVertex, vector<pair<ll,vector<ll>>> m)
+{
+    queue<ll> pendingNodes;
+    pendingNodes.push(startVertex);
+    visited[startVertex] = true;
+    ll flag = 0;
+    while(pendingNodes.size()!=0)
+    {
+        ll current = pendingNodes.front();
+        pendingNodes.pop();
+        if(current==endVertex)
+        {
+            flag = 1;
+            break;
+        }
+        for(ll i=0;i<nodesNum;i++)
+        {
+            if(edges[current][i]==1)
+            {
+                if(visited[i]==false)
+                {
+                    pendingNodes.push(i);
+                    visited[i] = true;
+//                    m.insert(make_pair(current,));
+                }
+            }
+        }
+    }
+    vector<ll> ans;
+    if(flag) {
+        for (auto i:m) {
+            ans.pb(i.first);
+        }
+        ans.pb(endVertex);
+        reverse(full(ans));
+    }
+    return ans;
+}
+
+void getPathBFS(ll** edges, ll nodesNum, ll startVertex, ll endVertex)
+{
+    bool* visited = new bool[nodesNum];
+    for(ll i=0;i<nodesNum;i++)
+    {
+        visited[i] = false;
+    }
+    vector<pair<ll,vector<ll>>> m;
+    vector<ll> ans = getPathBFSHelper(edges, visited, nodesNum, startVertex, endVertex, m);
+    for(auto i:ans)
+    {
+        cout<<i<<" ";
+    }
+}
+//--------------------------Is Connected ?------------------------------------
+
+//Given an undirected graph G(V,E), check if the graph G is connected graph or not.
+//V is the number of vertices present in graph G and vertices are numbered from 0 to V-1.
+//E is the number of edges present in graph G.
+
+void isGraphConnectedHelper(ll** edges, ll nodesNum, bool* visited, ll source)
+{
+    visited[source] = true;
+    for(ll i=0;i<nodesNum;i++)
+    {
+        if(edges[source][i] and !visited[i])
+        {
+            isGraphConnectedHelper(edges, nodesNum, visited, i);
+        }
+    }
+}
+
+bool isGraphConnected(ll** edges, ll nodesNum)
+{
+    bool* visited = new bool[nodesNum];
+    for(ll i=0;i<nodesNum;i++)
+    {
+        visited[i] = false;
+    }
+    isGraphConnectedHelper(edges, nodesNum, visited, 0);
+
+    bool ans = true;
+    for(ll i=0;i<nodesNum;i++)
+    {
+        ans = ans and visited[i];
+    }
+
+    return ans;
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -403,10 +506,7 @@ int main()
 /*    BFS(edges,nodesNum);
     DFS(edges,nodesNum);*/
 
-    ll startVertex, endVertex;
-    cin>>startVertex>>endVertex;
-
-    getPathDFS(edges, nodesNum, startVertex, endVertex);
+    cout<<isGraphConnected(edges, nodesNum);
 
     for(ll i=0;i<nodesNum;i++)
     {
