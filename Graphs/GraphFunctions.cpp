@@ -472,7 +472,7 @@ bool isGraphConnected(ll** edges, ll nodesNum)
     {
         ans = ans and visited[i];
     }
-
+    delete [] visited; 
     return ans;
 }
 
