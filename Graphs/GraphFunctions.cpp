@@ -530,6 +530,79 @@ vector<vector<ll>> allConnectedComponents(ll** edges, ll nodesNum)
     return graphComponents;
 }
 
+
+//--------------------------Kruskals Algorithm------------------------------------
+
+// Problem Statement - Given an undirected, connected and weighted graph G(V, E) with V number of vertices
+// (which are numbered from 0 to V-1) and E number of edges.
+// Find and print the Minimum Spanning Tree (MST) using Kruskal's algorithm.
+// For printing MST follow the steps -
+// 1. In one line, print an edge which is part of MST in the format - v1 v2 w
+// where, v1 and v2 are the vertices of the edge which is included in MST and whose weight is w. And v1<=v2 i.e. print
+// the smaller vertex first while printing an edge.
+// 2. Print V-1 edges in above format in different lines.
+// Note : Order of different edges doesn't matter.
+
+
+class Edge{
+public:
+    ll source;
+    ll dest;
+    ll weight;
+};
+
+bool cmp(Edge e1, Edge e2)
+{
+    return e1.weight<e2.weight;
+}
+
+ll findParent(ll v, ll* parent)
+{
+    if(parent[v]==v)
+        return v;
+    return findParent(parent[v],parent);
+}
+
+void kruskalsAlgo(Edge* input, ll nodesNum, ll edgesNum)
+{
+    // Now sort the edges on the basis of weight in ascending order.
+    sort(input, input+edgesNum, cmp);
+    Edge* output = new Edge[nodesNum-1];
+
+    ll* parent = new ll[nodesNum];
+    for(ll i=0;i<nodesNum;i++)
+    {
+        parent[i] = i;
+    }
+
+    ll count = 0, i=0;
+    while(count!=nodesNum-1)
+    {
+        Edge currentEdge = input[i];
+        ll sourceParent = findParent(currentEdge.source, parent);
+        ll destParent = findParent(currentEdge.dest, parent);
+        if(sourceParent!=destParent)
+        {
+            output[count] = currentEdge;
+            count++;
+            parent[destParent] = parent[sourceParent];
+        }
+        i++;
+    }
+
+    for(ll i=0;i<nodesNum-1;i++)
+    {
+        if(output[i].source<output[i].dest)
+        {
+            cout<<output[i].source<<" "<<input[i].dest<<" "<<output[i].weight<<endl;
+        }
+        else
+        {
+            cout<<output[i].dest<<" "<<input[i].source<<" "<<output[i].weight<<endl;
+        }
+    }
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -541,7 +614,8 @@ int main()
 
     ll nodesNum,edgesNum;
     cin>>nodesNum>>edgesNum;
-    ll ** edges = new ll*[nodesNum];
+
+   /* ll ** edges = new ll*[nodesNum];
     for(ll i=0;i<nodesNum;i++)
     {
         edges[i] = new ll[nodesNum];
@@ -556,25 +630,30 @@ int main()
         cin>>pre>>post;
         edges[pre][post] = 1;
         edges[post][pre] = 1;
-    }
+    }*/
 /*    BFS(edges,nodesNum);
     DFS(edges,nodesNum);*/
 
-    vector<vector<ll>> ans = allConnectedComponents(edges, nodesNum);
-    for(auto i:ans)
-    {
-        for(auto j: i)
-        {
-            cout<<j<<" ";
-        }
-        cout<<endl;
-    }
 
+Edge* input = new Edge[edgesNum];
+
+for(ll i=0;i<nodesNum;i++)
+{
+    ll s,d,w;
+    cin>>s>>d>>w;
+    input[i].source = s;
+    input[i].dest = d;
+    input[i].weight = w;
+}
+
+    kruskalsAlgo(input, nodesNum, edgesNum);
+
+/*
     for(ll i=0;i<nodesNum;i++)
     {
         delete [] edges[i];
     }
-    delete [] edges;
+    delete [] edges;*/
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
