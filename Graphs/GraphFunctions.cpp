@@ -472,8 +472,62 @@ bool isGraphConnected(ll** edges, ll nodesNum)
     {
         ans = ans and visited[i];
     }
-    delete [] visited; 
+    delete [] visited;
     return ans;
+}
+
+//--------------------------All connected components------------------------------------
+
+
+// Problem Statement - Given an undirected graph G(V,E), find and print all the connected components of the given graph G.
+// V is the number of vertices present in graph G and vertices are numbered from 0 to V-1.
+// E is the number of edges present in graph G.
+// You need to take input in main and create a function which should return all the connected components.
+// And then print them in the main, not inside function.
+// Print different components in new line. And each component should be printed in increasing order (separated by space).
+// Order of different components doesn't matter.
+
+vector<ll> allConnectedComponentsHelper(ll** edges, ll nodesNum, bool* visited, ll source)
+{
+    vector<ll> component;
+    queue<ll> pendingNodes;
+    pendingNodes.push(source);
+    component.pb(source);
+    visited[source] = true;
+    while(pendingNodes.size()!=0)
+    {
+        ll current = pendingNodes.front();
+        pendingNodes.pop();
+        for(ll i=0;i<nodesNum;i++)
+        {
+            if(edges[current][i]==1 and !visited[i])
+            {
+                pendingNodes.push(i);
+                visited[i] = true;
+                component.pb(i);
+            }
+        }
+    }
+    return component;
+}
+
+vector<vector<ll>> allConnectedComponents(ll** edges, ll nodesNum)
+{
+    bool* visited = new bool[nodesNum];
+    vector<vector<ll>> graphComponents;
+    for(ll i=0; i<nodesNum; i++)
+    {
+        visited[i] = false;
+    }
+    for(ll i=0;i<nodesNum;i++)
+    {
+        if(visited[i]==false)
+        {
+            graphComponents.pb(allConnectedComponentsHelper(edges, nodesNum, visited, i));
+        }
+    }
+    delete [] visited;
+    return graphComponents;
 }
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
@@ -506,7 +560,15 @@ int main()
 /*    BFS(edges,nodesNum);
     DFS(edges,nodesNum);*/
 
-    cout<<isGraphConnected(edges, nodesNum);
+    vector<vector<ll>> ans = allConnectedComponents(edges, nodesNum);
+    for(auto i:ans)
+    {
+        for(auto j: i)
+        {
+            cout<<j<<" ";
+        }
+        cout<<endl;
+    }
 
     for(ll i=0;i<nodesNum;i++)
     {
