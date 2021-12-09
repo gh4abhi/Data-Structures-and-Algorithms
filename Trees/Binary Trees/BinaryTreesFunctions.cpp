@@ -840,7 +840,7 @@ void morrisInorderTraversal(BinaryTreeNode<ll>* root)
    {
        if(current->left==nullptr)
        {
-           cout<<current<<" ";
+           cout<<current->data<<" ";
            current = current->right;
        }
        else
@@ -852,7 +852,14 @@ void morrisInorderTraversal(BinaryTreeNode<ll>* root)
            }
            if(predecessor->right == nullptr)
            {
-
+               predecessor->right = current;
+               current = current->left;
+           }
+           else
+           {
+               cout<<current->data<<" ";
+               predecessor->right = nullptr;
+               current = current->right;
            }
        }
    }
@@ -1096,6 +1103,7 @@ ll lcaOfBinaryTree(BinaryTreeNode<ll>* root, ll node1, ll node2)
     }
 }
 
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -1107,9 +1115,7 @@ int main()
 
 //    BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
-    ll n1,n2;
-    cin>>n1>>n2;
-    cout<<lcaOfBinaryTree(root,n1,n2);
+    morrisInorderTraversal(root);
     delete root;
     return 0;
 }
