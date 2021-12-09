@@ -530,8 +530,45 @@ vector<vector<ll>> allConnectedComponents(ll** edges, ll nodesNum)
     return graphComponents;
 }
 
+//--------------------------Detect Cycle In a Graph Using Union Find------------------------------------
 
-//--------------------------Kruskals Algorithm------------------------------------
+ll findPar(ll u, vector<ll>& par)
+{
+    if(par[u]==u)
+        return u;
+    return par[u] = findPar(par[u], par);
+}
+
+bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+    vector<ll> par(numCourses);
+    for(ll i=0;i<numCourses;i++)
+    {
+        par[i] = i;
+    }
+
+    ll count = 0, i=0;
+    ll n = prerequisites.size();
+    for(auto i:prerequisites)
+    {
+        ll v1 = i[0];
+        ll v2 = i[1];
+        ll p1 = findPar(v1, par);
+        ll p2 = findPar(v2,par);
+
+        if(p1!=p2)
+        {
+            par[p2] = par[p1];
+        }
+        else
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+//--------------------------Kruskals Algorithm using Union Find Algorithm------------------------------------
 
 // Problem Statement - Given an undirected, connected and weighted graph G(V, E) with V number of vertices
 // (which are numbered from 0 to V-1) and E number of edges.
@@ -563,7 +600,7 @@ ll findParent(ll v, ll* parent)
     return findParent(parent[v],parent);
 }
 
-void kruskalsAlgo(Edge* input, ll nodesNum, ll edgesNum)
+void kruskalsAlgoUsingUnionFind(Edge* input, ll nodesNum, ll edgesNum)
 {
     // Now sort the edges on the basis of weight in ascending order.
     sort(input, input+edgesNum, cmp);
@@ -602,6 +639,10 @@ void kruskalsAlgo(Edge* input, ll nodesNum, ll edgesNum)
         }
     }
 }
+
+//--------------------------Kruskals Algorithm using Union By Rank and Path Compression------------------------------------
+
+
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
@@ -646,7 +687,7 @@ for(ll i=0;i<nodesNum;i++)
     input[i].weight = w;
 }
 
-    kruskalsAlgo(input, nodesNum, edgesNum);
+    kruskalsAlgoUsingUnionFind(input, nodesNum, edgesNum);
 
 /*
     for(ll i=0;i<nodesNum;i++)
