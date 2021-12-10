@@ -454,9 +454,26 @@ Node* deleteNodeFromALinkedListRecursive(Node* head, ll pos)
     head->next = deleteNodeFromALinkedListRecursive(head->next, pos-1);
 }
 
-//--------------------------Delete node (recursive)------------------------------------
+//--------------------------Find a node in LL------------------------------------
 
+// Problem Statement - Given a linked list and an integer n you need to find and return index where n is present in the LL.
+// Do this iteratively.Return -1 if n is not present in the LL
 
+ll findNode(Node* head, ll val)
+{
+    ll pos = 0;
+    Node* temp = head;
+    while(temp!=nullptr)
+    {
+        if(temp->data==val)
+        {
+            return pos;
+        }
+        temp = temp->next;
+        pos++;
+    }
+    return -1;
+}
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
@@ -467,12 +484,9 @@ int main()
     inOt();
 #endif
     Node* head = takeInputBetter();
-    ll pos,val;
-    cin>>pos;
-
-    head = deleteNodeFromALinkedListRecursive(head, pos);
-
-    printLinkedList(head);
+    ll val;
+    cin>>val;
+    cout<<findNode(head, val);
 
     return 0;
 }
