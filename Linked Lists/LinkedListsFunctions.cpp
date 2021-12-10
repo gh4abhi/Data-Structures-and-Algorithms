@@ -385,6 +385,79 @@ Node* deleteAtI(Node* head, ll pos)
     }
 }
 
+//--------------------------Length of LL (recursive)------------------------------------
+
+ll lengthOfLinkedListRecursive(Node* head)
+{
+    if(head==nullptr)
+    {
+        return 0;
+    }
+    return 1 + lengthOfLinkedListRecursive(head->next);
+}
+
+//--------------------------Length of LL (recursive)------------------------------------
+
+Node* insertInALinkedListRecursive(Node* head, ll pos, ll val)
+{
+    if(head==nullptr)
+    {
+        return head;
+    }
+
+    if(pos==0)
+    {
+        Node* newNode = new Node(val);
+        newNode->next = head;
+        head = newNode;
+        return head;
+    }
+    else if(pos-1==0)
+    {
+      Node* newNode = new Node(val);
+      if(head->next==nullptr)
+      {
+          head->next = newNode;
+          return head;
+      }
+      else
+      {
+          newNode->next = head->next;
+          head->next = newNode;
+          return head;
+      }
+    }
+    head->next = insertInALinkedListRecursive(head->next, pos-1, val);
+}
+
+//--------------------------Delete node (recursive)------------------------------------
+
+Node* deleteNodeFromALinkedListRecursive(Node* head, ll pos)
+{
+    if(head==nullptr)
+    {
+        return head;
+    }
+    if(pos==0)
+    {
+        return head->next;
+    }
+    else if(pos-1==0)
+    {
+        if(head->next== nullptr)
+        {
+            return head;
+        }
+        head->next = head->next->next;
+        return head;
+    }
+    head->next = deleteNodeFromALinkedListRecursive(head->next, pos-1);
+}
+
+//--------------------------Delete node (recursive)------------------------------------
+
+
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -394,7 +467,11 @@ int main()
     inOt();
 #endif
     Node* head = takeInputBetter();
-    head = deleteAtI(head,10);
+    ll pos,val;
+    cin>>pos;
+
+    head = deleteNodeFromALinkedListRecursive(head, pos);
+
     printLinkedList(head);
 
     return 0;
