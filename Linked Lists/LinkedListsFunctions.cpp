@@ -475,6 +475,38 @@ ll findNode(Node* head, ll val)
     return -1;
 }
 
+//--------------------------Append Last N To First------------------------------------
+
+// Problem Statement - Given a linked list and an integer n, append the last n elements of the LL to front.
+// Indexing starts from 0. You don't need to print the elements, just update the elements and return the head of updated LL.
+// Assume given n will be smaller than length of LL.
+
+Node* appendLastNToFirst(Node* head, ll k)
+{
+    Node* first = head;
+    Node* second = head;
+    while(k--)
+    {
+        second = second->next;
+    }
+    while(second->next!= nullptr)
+    {
+        first = first->next;
+        second = second->next;
+    }
+    Node* temp = first->next;
+    first->next = nullptr;
+    Node*temp2 = temp;
+    while(temp2->next!= nullptr)
+    {
+        temp2 = temp2->next;
+    }
+
+    temp2->next = head;
+    head = temp;
+    return head;
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -486,7 +518,7 @@ int main()
     Node* head = takeInputBetter();
     ll val;
     cin>>val;
-    cout<<findNode(head, val);
+    printLinkedList(appendLastNToFirst(head, val));
 
     return 0;
 }
