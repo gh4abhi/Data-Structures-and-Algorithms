@@ -189,7 +189,7 @@ public:
     PriorityQueue()
     {
 
-    }
+     }
     bool isEmpty()
     {
         return pq.size()==0;
@@ -209,23 +209,33 @@ public:
         return pq[0];
     }
 
+    void insert(ll element)
+    {
+        pq.pb(element);
+
+        ll childIndex = pq.size()-1;
+
+        while(childIndex>0)
+        {
+            ll parentIndex = (childIndex - 1) / 2;
+            if(pq[childIndex]<pq[parentIndex])
+            {
+                swap(pq[childIndex],pq[parentIndex]);
+            }
+            else
+            {
+                break;
+            }
+            childIndex = parentIndex;
+        }
+    }
+
+
 };
 
 //--------------------------Print the elements of a linked list------------------------------------
 
-void printLinkedList(Node* head)
-{
-    if(head==nullptr)
-    {
-        return;
-    }
-    Node* temp = head;
-    while(temp!= nullptr)
-    {
-        cout<<temp->data<<" ";
-        temp = temp->next;
-    }
-}
+
 
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
@@ -236,9 +246,8 @@ int main()
 #ifndef ONLINE_JUDGE
     inOt();
 #endif
-    Node* head = takeInputBetter();
-    head = deleteAtI(head,10);
-    printLinkedList(head);
+
+
 
     return 0;
 }
