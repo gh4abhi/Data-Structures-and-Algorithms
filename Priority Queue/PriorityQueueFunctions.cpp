@@ -363,6 +363,25 @@ int main()
         cout<<pq.top()<<" ";
         pq.pop();
     }*/
+    // To implement min priority queue from inbuilt priority queue
+    /*priority_queue<ll, vector<ll>, greater<ll>> pq;
+    pq.push(10);
+    pq.push(9);
+    pq.push(8);
+    pq.push(7);
+    pq.push(6);
+    pq.push(5);
+    pq.push(4);
+    pq.push(3);
+    pq.push(2);
+    pq.push(1);
+    pq.push(0);
+    cout<<pq.size()<<endl;
+    while(!pq.empty())
+    {
+        cout<<pq.top()<<" ";
+        pq.pop();
+    }*/
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
