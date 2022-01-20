@@ -317,18 +317,37 @@ void inplaceHeapSort(ll arr[], ll n)
     }
 }
 
+//--------------------------------------------------------------K Sorted Array----------------------------------------------------------------------------------------------
+
+void kSortedArray(ll arr[], ll n, ll k) {
+    priority_queue<ll> pq;
+
+    for (ll i = 0; i < k; i++) {
+        pq.push(arr[i]);
+    }
+    ll ans[n], j = 0;
+    for (ll i = k; i < n; i++) {
+        ans[j] = pq.top();
+        pq.pop();
+        pq.push(arr[i]);
+        j++;
+    }
+    while(!pq.empty())
+    {
+        ans[j] = pq.top();
+        pq.pop();
+        j++;
+    }
+    for (ll i = 0; i < n; i++)
+    {
+        cout<<ans[i]<<" ";
+    }
+}
 
 
-//--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
-int main()
-{
-    BOOST;
-// I/O Text Files
-#ifndef ONLINE_JUDGE
-    inOt();
-#endif
+//--------------------------------------------------------------Notes----------------------------------------------------------------------------------------------
 
-    /*PriorityQueue p;
+/*PriorityQueue p;
     p.insert(10);
     p.insert(12);
     p.insert(19);
@@ -343,45 +362,59 @@ int main()
         cout<<p.removeMin()<<endl;
     }*/
 
-    // Inbuilt Priority Queue
-    // By default max priority queue
-    /*priority_queue<ll> pq;
-    pq.push(10);
-    pq.push(9);
-    pq.push(8);
-    pq.push(7);
-    pq.push(6);
-    pq.push(5);
-    pq.push(4);
-    pq.push(3);
-    pq.push(2);
-    pq.push(1);
-    pq.push(0);
-    cout<<pq.size()<<endl;
-    while(!pq.empty())
-    {
-        cout<<pq.top()<<" ";
-        pq.pop();
-    }*/
-    // To implement min priority queue from inbuilt priority queue
-    /*priority_queue<ll, vector<ll>, greater<ll>> pq;
-    pq.push(10);
-    pq.push(9);
-    pq.push(8);
-    pq.push(7);
-    pq.push(6);
-    pq.push(5);
-    pq.push(4);
-    pq.push(3);
-    pq.push(2);
-    pq.push(1);
-    pq.push(0);
-    cout<<pq.size()<<endl;
-    while(!pq.empty())
-    {
-        cout<<pq.top()<<" ";
-        pq.pop();
-    }*/
+// Inbuilt Priority Queue
+// By default max priority queue
+/*priority_queue<ll> pq;
+pq.push(10);
+pq.push(9);
+pq.push(8);
+pq.push(7);
+pq.push(6);
+pq.push(5);
+pq.push(4);
+pq.push(3);
+pq.push(2);
+pq.push(1);
+pq.push(0);
+cout<<pq.size()<<endl;
+while(!pq.empty())
+{
+    cout<<pq.top()<<" ";
+    pq.pop();
+}*/
+// To implement min priority queue from inbuilt priority queue
+/*priority_queue<ll, vector<ll>, greater<ll>> pq;
+pq.push(10);
+pq.push(9);
+pq.push(8);
+pq.push(7);
+pq.push(6);
+pq.push(5);
+pq.push(4);
+pq.push(3);
+pq.push(2);
+pq.push(1);
+pq.push(0);
+cout<<pq.size()<<endl;
+while(!pq.empty())
+{
+    cout<<pq.top()<<" ";
+    pq.pop();
+}*/
+
+
+//--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
+int main()
+{
+    BOOST;
+// I/O Text Files
+#ifndef ONLINE_JUDGE
+    inOt();
+#endif
+
+    ll arr[] = {10,12,6,7,9};
+    ll k = 3;
+    kSortedArray(arr,5,k);
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
