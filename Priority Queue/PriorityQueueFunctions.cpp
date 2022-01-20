@@ -189,7 +189,7 @@ public:
     PriorityQueue()
     {
 
-     }
+    }
     bool isEmpty()
     {
         return pq.size()==0;
@@ -230,11 +230,92 @@ public:
         }
     }
 
+    ll removeMin()
+    {
+        if(isEmpty())
+            return 0;
+        ll deletedElement = pq[0];
+        pq[0]=pq[pq.size()-1];
+        pq.pop_back();
+        ll parentIndex = 0;
+        // Down Heapify
+        ll lChildIndex = 2*parentIndex + 1;
+        ll rChildIndex = 2*parentIndex + 2;
+        ll minIndex = parentIndex;
 
+        while(lChildIndex<pq.size())
+        {
+            if(pq[minIndex]>pq[lChildIndex])
+             {
+                 minIndex = lChildIndex;
+             }
+             if(rChildIndex<pq.size()-1 and pq[rChildIndex]<pq[minIndex])
+             {
+                 minIndex = rChildIndex;
+             }
+             if(minIndex==parentIndex)
+                 break;
+            swap(pq[parentIndex],pq[minIndex]);
+            parentIndex = minIndex;
+            lChildIndex = 2*parentIndex + 1;
+            rChildIndex = 2*parentIndex + 2;
+        }
+        return deletedElement;
+    }
 };
 
-//--------------------------Print the elements of a linked list------------------------------------
+void inplaceHeapSort(ll arr[], ll n)
+{
+    for(ll i=0;i<n;i++)
+    {
+        ll childIndex = i;
+        ll parentIndex = (i-1)/2;
+        while(parentIndex>=0)
+        {
+            if(arr[parentIndex]>arr[childIndex])
+            {
+                swap(arr[parentIndex],arr[childIndex]);
+            }
+            else
+            {
+                break;
+            }
+            childIndex = parentIndex;
+            parentIndex = (childIndex-1)/2;
+        }
+    }
+    ll lastIndex = n-1;
+    for(ll i=0;i<n;i++)
+    {
+        swap(arr[lastIndex],arr[0]);
+        cout<<arr[lastIndex]<<" ";
+        ll parentIndex = 0;
+        ll lChild = 2*parentIndex + 1;
+        ll rChild = 2*parentIndex + 2;
+        lastIndex--;
+        while(lChild<lastIndex+1)
+        {
 
+            ll minIndex = parentIndex;
+            if(arr[minIndex]>arr[lChild])
+            {
+                minIndex = lChild;
+            }
+            if(rChild<lastIndex + 1 and arr[minIndex]>arr[rChild])
+            {
+                minIndex = rChild;
+            }
+            if(minIndex==parentIndex)
+            {
+                break;
+            }
+            swap(arr[parentIndex],arr[minIndex]);
+            parentIndex = minIndex;
+            lChild = 2*parentIndex + 1;
+            rChild = 2*parentIndex + 2;
+        }
+    }
+}
 
 
 
@@ -247,8 +328,22 @@ int main()
     inOt();
 #endif
 
+    /*PriorityQueue p;
+    p.insert(10);
+    p.insert(12);
+    p.insert(19);
+    p.insert(14);
+    p.insert(15);
+    p.insert(21);
+    p.insert(11);
 
-
+    cout<<p.getSize()<<" "<<p.getMin()<<endl;
+    while(!p.isEmpty())
+    {
+        cout<<p.removeMin()<<endl;
+    }*/
+    ll arr[] = {9,8,7,6,5,4,3,2,1,0};
+    inplaceHeapSort(arr,10);
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
