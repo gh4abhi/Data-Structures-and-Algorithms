@@ -342,8 +342,27 @@ int main()
     {
         cout<<p.removeMin()<<endl;
     }*/
-    ll arr[] = {9,8,7,6,5,4,3,2,1,0};
-    inplaceHeapSort(arr,10);
+
+    // Inbuilt Priority Queue
+    // By default max priority queue
+    /*priority_queue<ll> pq;
+    pq.push(10);
+    pq.push(9);
+    pq.push(8);
+    pq.push(7);
+    pq.push(6);
+    pq.push(5);
+    pq.push(4);
+    pq.push(3);
+    pq.push(2);
+    pq.push(1);
+    pq.push(0);
+    cout<<pq.size()<<endl;
+    while(!pq.empty())
+    {
+        cout<<pq.top()<<" ";
+        pq.pop();
+    }*/
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
