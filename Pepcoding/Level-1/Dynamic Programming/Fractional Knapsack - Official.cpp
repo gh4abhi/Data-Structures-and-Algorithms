@@ -1,5 +1,3 @@
-// Problem Link - https://www.pepcoding.com/resources/online-java-foundation/dynamic-programming-and-greedy/fractional-knapsack-official/ojquestion
-
 #include<bits/stdc++.h>
 #define ll int
 
@@ -67,6 +65,8 @@ int main()
     
     for(ll i=0;i<n;i++)
     {
+        if(remCap==0)
+            break;
         if(remCap>=fracKnap[i].we)
         {
             remCap-=fracKnap[i].we;
@@ -80,5 +80,5 @@ int main()
         }
     }
     
-    cout<<(maxVal*1.0);
+    cout<<maxVal;
 }
