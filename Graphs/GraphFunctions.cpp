@@ -1,5 +1,5 @@
 /*-----------------------------------------------------------------
-                    Always beleive you can.
+                    Gamers Never Quit.
 -------------------------------------------------------------------*/
 
 #include <bits/stdc++.h>
@@ -530,7 +530,45 @@ vector<vector<ll>> allConnectedComponents(ll** edges, ll nodesNum)
     return graphComponents;
 }
 
-//--------------------------Detect Cycle In a Graph Using Union Find------------------------------------
+//--------------------------Detect Cycle In An Undirected Graph Using DFS------------------------------------
+
+bool findCycleDFSHelper(ll nodesNum, ll currentVertex, ll previousVertex, ll** edges, bool* visited)
+{
+    visited[currentVertex] = true;
+    ll ans = false;
+    for(ll i=0;i<nodesNum;i++)
+    {
+        if(i==currentVertex)
+            continue;
+        if(edges[currentVertex][i]==1)
+        {
+            if(visited[i]== true and i!=previousVertex)
+                return true;
+            if(!visited[i])
+                if(findCycleDFSHelper(nodesNum, i, currentVertex, edges, visited))
+                    return true;
+        }
+    }
+    return ans;
+}
+
+bool findCycleDFS(ll** edges, ll nodesNum)
+{
+    bool* visited = new bool[nodesNum];
+    for(ll i=0;i<nodesNum;i++)
+        visited[i] = false;
+    bool ans = false;
+    for(ll i=0;i<nodesNum;i++)
+    {
+        if(visited[i]==false)
+            if(findCycleDFSHelper(nodesNum,i, -1, edges,visited))
+                return true;
+    }
+    return ans;
+}
+
+
+//--------------------------Detect Cycle In An Undirected Graph Using Union Find------------------------------------
 
 ll findPar(ll u, vector<ll>& par)
 {
@@ -539,7 +577,7 @@ ll findPar(ll u, vector<ll>& par)
     return par[u] = findPar(par[u], par);
 }
 
-bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+bool findCycle(ll numCourses, vector<vector<ll>>& edges) {
     vector<ll> par(numCourses);
     for(ll i=0;i<numCourses;i++)
     {
@@ -547,8 +585,8 @@ bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
     }
 
     ll count = 0, i=0;
-    ll n = prerequisites.size();
-    for(auto i:prerequisites)
+    ll n = edges.size();
+    for(auto i:edges)
     {
         ll v1 = i[0];
         ll v2 = i[1];
@@ -656,7 +694,7 @@ int main()
     ll nodesNum,edgesNum;
     cin>>nodesNum>>edgesNum;
 
-   /* ll ** edges = new ll*[nodesNum];
+    ll ** edges = new ll*[nodesNum];
     for(ll i=0;i<nodesNum;i++)
     {
         edges[i] = new ll[nodesNum];
@@ -671,11 +709,13 @@ int main()
         cin>>pre>>post;
         edges[pre][post] = 1;
         edges[post][pre] = 1;
-    }*/
+    }
 /*    BFS(edges,nodesNum);
     DFS(edges,nodesNum);*/
 
+cout<<findCycleDFS(edges, nodesNum);
 
+/*
 Edge* input = new Edge[edgesNum];
 
 for(ll i=0;i<nodesNum;i++)
@@ -687,7 +727,7 @@ for(ll i=0;i<nodesNum;i++)
     input[i].weight = w;
 }
 
-    kruskalsAlgoUsingUnionFind(input, nodesNum, edgesNum);
+    kruskalsAlgoUsingUnionFind(input, nodesNum, edgesNum);*/
 
 /*
     for(ll i=0;i<nodesNum;i++)
