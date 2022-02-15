@@ -1,3 +1,5 @@
+// Problem Link - https://nados.io/question/friends-pairing
+
 // Backtracking Solution 
 // In this all possible pairs are also diplayed.
 /*#include<bits/stdc++.h>
@@ -46,4 +48,22 @@ using namespace std ;
       cout<<ans;
    }*/
    
-   
+// DP Approach
+
+#include<bits/stdc++.h>
+#define ll int
+
+using namespace std ;
+
+    int main() {
+       int n ;
+       cin>>n ;
+      ll dp[n+1];
+      dp[1] = 1;
+      dp[2] = 2;
+      for(ll i=3;i<n+1;i++)
+      {
+        dp[i] = dp[i-1] + (i-1)*dp[i-2];
+      }
+      cout<<dp[n];
+   }
