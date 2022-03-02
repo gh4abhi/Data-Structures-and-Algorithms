@@ -567,6 +567,58 @@ bool findCycleDFS(ll** edges, ll nodesNum)
     return ans;
 }
 
+//--------------------------Detect Cycle In An Undirected Graph Using BFS------------------------------------
+
+
+bool findCycleBFSHelper(ll**edges, ll nodesNum, ll source, bool* visited)
+{
+    queue<pair<ll,ll>> pendingNodes;
+    pendingNodes.push({source,-1});
+    while(pendingNodes.size()!=0)
+    {
+        pair<ll,ll> current = pendingNodes.front();
+        pendingNodes.pop();
+        visited[current.first] = true;
+        for(ll i=0;i<nodesNum;i++)
+        {
+            if(i==current.first)
+            continue;
+            if(edges[current.first][i]==1)
+            {
+                if(visited[i]==false)
+                    pendingNodes.push({i,current.first});
+                else
+                {
+                    if(i!=current.second)
+                    return true;
+                }    
+            }        
+        }
+    }
+    return false;
+}
+
+bool findCycleBFS(ll** edges, ll nodesNum)
+{
+    bool* visited = new bool[nodesNum];
+
+    for(ll i=0;i<nodesNum;i++)
+    {
+        visited[i] = false;
+    }
+    for(ll i=0;i<nodesNum;i++)
+    {
+        if(visited[i]==false)
+            if(findCycleBFSHelper(edges, nodesNum, i, visited))
+                return true;
+    }
+        
+    delete [] visited;
+
+    return false;
+
+}
+
 
 //--------------------------Detect Cycle In An Undirected Graph Using Union Find------------------------------------
 
@@ -713,7 +765,7 @@ int main()
 /*    BFS(edges,nodesNum);
     DFS(edges,nodesNum);*/
 
-cout<<findCycleDFS(edges, nodesNum);
+cout<<findCycleBFS(edges, nodesNum);
 
 /*
 Edge* input = new Edge[edgesNum];
@@ -738,7 +790,6 @@ for(ll i=0;i<nodesNum;i++)
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 
 
 
