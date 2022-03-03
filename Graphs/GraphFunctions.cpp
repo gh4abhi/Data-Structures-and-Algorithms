@@ -657,9 +657,9 @@ bool findCycle(ll numCourses, vector<vector<ll>>& edges) {
     return true;
 }
 
-//--------------------------Is Graph Bipartite? (BFS)--------------------------------------------
+//--------------------------------Is Graph Bipartite? (BFS)----------------------------------------------------
 
-bool isGraphBipartiteHelper(ll** edges, ll nodesNum, ll source, ll* color)
+bool isGraphBipartiteBFSHelper(ll** edges, ll nodesNum, ll source, ll* color)
 {
     color[source] = 1;
     queue<ll> pendingNodes;
@@ -689,7 +689,7 @@ bool isGraphBipartiteHelper(ll** edges, ll nodesNum, ll source, ll* color)
 }
 
 
-bool isGraphBipartite(ll** edges, ll nodesNum)
+bool isGraphBipartiteBFS(ll** edges, ll nodesNum)
 {
     ll* color = new ll[nodesNum];
     
@@ -700,13 +700,53 @@ bool isGraphBipartite(ll** edges, ll nodesNum)
     {
         if(color[i]==-1)
         {
-            if(!isGraphBipartiteHelper(edges, nodesNum, i, color))
+            if(!isGraphBipartiteBFSHelper(edges, nodesNum, i, color))
                 return false;
         }
     }
     delete [] color;
     return true;
 
+    return true;
+}
+
+//--------------------------------Is Graph Bipartite? (BFS)----------------------------------------------------
+
+bool isGraphBipartiteDFSHelper(ll** edges, ll nodesNum, ll source, vector<ll>& color)
+{
+    for(ll i=0;i<nodesNum;i++)
+    {
+        if(edges[source][i]==1)
+        {
+            if(color[i]==-1)
+            {
+                color[i] = 1 - color[source];
+                if(!isGraphBipartiteDFSHelper(edges, nodesNum, i, color))
+                    return false;
+            }
+            else
+            {
+                if(color[i]==color[source])
+                    return false;   
+            }
+        }
+    }
+    return true;
+}
+
+
+bool isGraphBipartiteDFS(ll** edges, ll nodesNum)
+{
+    vector<ll> color(nodesNum,-1);
+    for(ll i=0;i<nodesNum;i++)
+    {
+        if(color[i]==-1)
+        {
+            color[i] = 1;
+            if(!isGraphBipartiteDFSHelper(edges, nodesNum, i, color))
+                return false;
+        }
+    }    
     return true;
 }
 
@@ -818,7 +858,7 @@ int main()
 /*    BFS(edges,nodesNum);
     DFS(edges,nodesNum);*/
 
-cout<<isGraphBipartite(edges, nodesNum);
+cout<<isGraphBipartiteDFS(edges, nodesNum);
 
 /*
 Edge* input = new Edge[edgesNum];
