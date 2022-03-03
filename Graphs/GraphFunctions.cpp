@@ -657,6 +657,59 @@ bool findCycle(ll numCourses, vector<vector<ll>>& edges) {
     return true;
 }
 
+//--------------------------Is Graph Bipartite? (BFS)--------------------------------------------
+
+bool isGraphBipartiteHelper(ll** edges, ll nodesNum, ll source, ll* color)
+{
+    color[source] = 1;
+    queue<ll> pendingNodes;
+    pendingNodes.push(source);
+    while(pendingNodes.size()!=0)
+    {
+        ll current = pendingNodes.front();
+        pendingNodes.pop();
+        for(ll i=0;i<nodesNum;i++)
+        {
+            if(edges[current][i]==1)
+            {
+                if(color[i]==-1)
+                   {
+                        color[i] = !color[current];
+                        pendingNodes.push(i);                   
+                   }
+                else
+                {
+                    if(color[i]==color[current])
+                        return false;   
+                }    
+            }
+        }
+    }
+    return true;
+}
+
+
+bool isGraphBipartite(ll** edges, ll nodesNum)
+{
+    ll* color = new ll[nodesNum];
+    
+    for(ll i=0;i<nodesNum;i++)
+    color[i] = -1;
+    
+    for(ll i=0;i<nodesNum;i++)
+    {
+        if(color[i]==-1)
+        {
+            if(!isGraphBipartiteHelper(edges, nodesNum, i, color))
+                return false;
+        }
+    }
+    delete [] color;
+    return true;
+
+    return true;
+}
+
 
 //--------------------------Kruskals Algorithm using Union Find Algorithm------------------------------------
 
@@ -765,7 +818,7 @@ int main()
 /*    BFS(edges,nodesNum);
     DFS(edges,nodesNum);*/
 
-cout<<findCycleBFS(edges, nodesNum);
+cout<<isGraphBipartite(edges, nodesNum);
 
 /*
 Edge* input = new Edge[edgesNum];
