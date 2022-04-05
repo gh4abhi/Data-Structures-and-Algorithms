@@ -347,6 +347,49 @@ void nQueen(ll n)
     nQueenHelper(n,board,0);
 }
 
+//--------------------------------------------------------------Aggressive Cows----------------------------------------------------------------------------------------------
+
+void aggressiveCows()
+{
+    ll n, c;
+    cin>>n>>c;
+    vector<ll> vect(n);
+
+    forl(n)
+    cin>>vect[i];
+
+    ll start = vect[0], end = vect[n-1] - vect[0];
+    ll ans = -1;
+    while(start<=end)
+    {
+        ll mid = start + (end - start)/2;
+
+        ll flag = 0;
+        ll count = 1;
+        ll last_position = 0;
+        for(ll i=1;i<n;i++)
+        {
+            if(vect[i] - vect[last_position]>=mid)
+            {
+                last_position = i;
+                count++;
+            }
+            if(count == c)
+            {
+                flag = 1;
+                break;
+            }
+        }
+        if(flag==1)
+        {
+            ans = max(ans,mid);
+            start = mid + 1;
+        }
+        else
+            end = mid - 1;
+    }
+    cout<<ans;
+}
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -356,9 +399,7 @@ int main()
     inOt();
 #endif*/
     cout<<fixed;
-    ll n;
-    cin>>n;
-    nQueen(n);
+    aggressiveCows();
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
