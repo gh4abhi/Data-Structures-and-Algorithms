@@ -358,6 +358,8 @@ void aggressiveCows()
     forl(n)
     cin>>vect[i];
 
+    sort(full(vect));
+
     ll start = vect[0], end = vect[n-1] - vect[0];
     ll ans = -1;
     while(start<=end)
