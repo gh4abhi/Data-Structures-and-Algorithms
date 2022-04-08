@@ -358,8 +358,6 @@ void aggressiveCows()
     forl(n)
     cin>>vect[i];
 
-    sort(full(vect));
-
     ll start = vect[0], end = vect[n-1] - vect[0];
     ll ans = -1;
     while(start<=end)
@@ -392,6 +390,66 @@ void aggressiveCows()
     }
     cout<<ans;
 }
+
+//--------------------------------------------------------------Inversion Count----------------------------------------------------------------------------------------------
+
+ll countMergeInversions(vector<ll>& arr, ll left, ll mid, ll right)
+{
+    ll i = left, j = mid;
+    ll count = 0;
+    ll k = 0;
+    vector<ll> temp(right - left + 1);
+    while(i<mid and j<right + 1)
+    {
+        if(arr[i]<=arr[j])
+        {
+            temp[k++] = arr[i++];
+        }
+        else
+        {
+            temp[k++] = arr[j++];
+            count += (mid - i);
+        }
+    }
+
+    while(i<mid)
+        temp[k++] = arr[i++];
+    
+    while(j<right + 1)
+        temp[k++] = arr[j++];
+
+    for(ll i=left, k = 0; i<right + 1; i++,k++)
+        arr[i] = temp[k];
+    return count;
+}
+
+ll mergeSort(vector<ll>& arr, ll left, ll right)
+{
+    ll mid = left + (right - left)/2;
+    ll count = 0;
+    if(left<right)
+    {
+        ll leftCount = mergeSort(arr, left, mid);
+        ll rightCount = mergeSort(arr, mid + 1, right);
+        ll mergeCount = countMergeInversions(arr, left, mid + 1, right);
+
+        return leftCount + rightCount + mergeCount;
+    }
+    return count;
+}
+
+void inversionCount()
+{
+    ll n;
+    cin>>n;
+    vector<ll> arr(n);
+
+    forl(n)
+        cin>>arr[i];
+
+    cout<<mergeSort(arr, 0, n-1);
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -401,7 +459,7 @@ int main()
     inOt();
 #endif*/
     cout<<fixed;
-    aggressiveCows();
+    inversionCount();
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
