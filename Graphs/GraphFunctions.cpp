@@ -358,7 +358,7 @@ void getPathDFSHelper(ll** edges, ll nodesNum, ll startVertex, ll endVertex, boo
             }
         }
     }
-
+    vect.pop_bacK();
 }
 
 void getPathDFS(ll** edges, ll nodesNum, ll startVertex, ll endVertex)
@@ -706,11 +706,9 @@ bool isGraphBipartiteBFS(ll** edges, ll nodesNum)
     }
     delete [] color;
     return true;
-
-    return true;
 }
 
-//--------------------------------Is Graph Bipartite? (BFS)----------------------------------------------------
+//--------------------------------Is Graph Bipartite? (DFS)----------------------------------------------------
 
 bool isGraphBipartiteDFSHelper(ll** edges, ll nodesNum, ll source, vector<ll>& color)
 {
