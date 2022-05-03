@@ -784,6 +784,30 @@ bool findCycleDirectedDFS(ll** edges, ll nodesNum)
     return false;      
 }
 
+//--------------------------Topological Sort DFS------------------------------------
+
+void topologicalSortDFSHelper(ll source, ll nodesNum, ll** edges, stack<ll>& st, vector<ll>& vis)
+{
+    vis[source] = 1;
+    for(ll i=0;i<nodesNum;i++)
+        if(edges[source][i]==1 and !vis[i])
+            topologicalSortDFSHelper(i,nodesNum,edges,st,vis);
+    st.push(source);
+}
+
+vector<ll> topologicalSortDFS(ll** edges, ll nodesNum)
+{
+    stack<ll> st;
+    vector<ll> vis(nodesNum,0);
+    for(ll i=0;i<nodesNum;i++)
+        if(!vis[i])
+            topologicalSortDFSHelper(i,nodesNum,edges,st,vis);
+    vector<ll> topoSort;
+    while(st.size())
+        topoSort.pb(st.top()), st.pop();
+    return topoSort;
+}
+
 //--------------------------Kruskals Algorithm using Union Find Algorithm------------------------------------
 
 // Problem Statement - Given an undirected, connected and weighted graph G(V, E) with V number of vertices
@@ -895,7 +919,8 @@ int main()
 /*    BFS(edges,nodesNum);
     DFS(edges,nodesNum);*/
 
-cout<<findCycleDirectedDFS(edges, nodesNum);
+for(auto i:topologicalSortDFS(edges,nodesNum))
+    cout<<i<<" ";
 
 /*
 Edge* input = new Edge[edgesNum];
