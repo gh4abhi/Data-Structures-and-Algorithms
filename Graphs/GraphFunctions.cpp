@@ -748,6 +748,38 @@ bool isGraphBipartiteDFS(ll** edges, ll nodesNum)
     return true;
 }
 
+//--------------------------Detect Cycle In A Directed Graph Using DFS------------------------------------
+
+bool findCycleDirectedDFSHelper(ll source, ll** edges, ll nodesNum, ll& vis[], ll& dfsVis[])
+{
+    vis[source]  = 1;
+    dfsVis[source] = 1;
+    for(ll i=0;i<nodesNum;i++)
+        if(edges[source][i]==1)
+        {
+            if(!vis[i])
+                if(findCycleDirectedDFSHelper(i,edges,nodesNum,vis,dfsVis))
+                    return true;
+            else
+                if(dfsVis[i])
+                    return true;
+        }
+        dfsVis[source] = 0;
+    return false;
+}
+
+bool findCycleDirectedDFS(ll** edges, ll nodesNum)
+{
+    ll vis[nodesNum];
+    ll dfsVis[nodesNum];
+    memset(vis,0,sizeof(vis));
+    memset(dfsVis,0,sizeof(dfsVis));
+    for(ll i=0;i<nodesNum;i++)
+        if(!vis[i])
+            if(findCycleDirectedDFSHelper(i,edges,nodesNum,vis,dfsVis))
+                return true;
+    return false;        
+}
 
 //--------------------------Kruskals Algorithm using Union Find Algorithm------------------------------------
 
