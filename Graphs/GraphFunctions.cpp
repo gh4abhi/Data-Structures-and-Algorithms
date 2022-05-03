@@ -786,7 +786,7 @@ bool findCycleDirectedDFS(ll** edges, ll nodesNum)
 
 //--------------------------Detect Cycle In A Directed Graph Using BFS------------------------------------
 
-bool topologicalSortBFS(ll** edges, ll nodesNum)
+bool findCycleDirectedBFS(ll** edges, ll nodesNum)
 {
     vector<ll> inDegree(nodesNum,0);
     for(ll i=0;i<nodesNum;i++)
@@ -870,6 +870,26 @@ vector<ll> topologicalSortBFS(ll** edges, ll nodesNum)
         }
     }
     return topoSort;
+}
+
+//--------------------------Shortest Path In Undirected Graph With Unit Weight(BFS)------------------------------------
+
+ll shortestPath(ll nodesNum, ll** edges, ll source, ll destination)
+{
+    vector<ll> dist(nodesNum,1e9);
+    queue<ll> pq;
+    pq.push(source);
+    dist[source] = 0;
+    while(pq.size())
+    {
+        ll cur = pq.front();
+        pq.pop();
+        for(ll i=0;i<nodesNum;i++)
+            if(edges[cur][i]==1)
+                if(dist[cur]+1<dist[i])
+                    dist[i] = dist[cur] + 1, pq.push(i);
+    }
+    return dist[destination];
 }
 
 //--------------------------Kruskals Algorithm using Union Find Algorithm------------------------------------
@@ -965,26 +985,25 @@ int main()
         }
     }
     // For Undirected Graph
-    /*for(ll i=0;i<edgesNum;i++)
+    for(ll i=0;i<edgesNum;i++)
     {
         ll pre,post;
         cin>>pre>>post;
         edges[pre][post] = 1;
         edges[post][pre] = 1;
-    }*/
+    }
     // For Directed Graph
-    for(ll i=0;i<edgesNum;i++)
+    /*for(ll i=0;i<edgesNum;i++)
     {
         ll pre,post;
         cin>>pre>>post;
         edges[post][pre] = 1;
-    }
+    }*/
 
 /*    BFS(edges,nodesNum);
     DFS(edges,nodesNum);*/
 
-for(auto i:topologicalSortBFS(edges,nodesNum))
-    cout<<i<<" ";
+cout<<shortestPath(nodesNum,edges,0,3);
 
 /*
 Edge* input = new Edge[edgesNum];
