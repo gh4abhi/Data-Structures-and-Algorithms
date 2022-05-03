@@ -784,6 +784,38 @@ bool findCycleDirectedDFS(ll** edges, ll nodesNum)
     return false;      
 }
 
+//--------------------------Detect Cycle In A Directed Graph Using BFS------------------------------------
+
+bool topologicalSortBFS(ll** edges, ll nodesNum)
+{
+    vector<ll> inDegree(nodesNum,0);
+    for(ll i=0;i<nodesNum;i++)
+        for(ll j=0;j<nodesNum;j++)
+            if(edges[i][j]==1) 
+                inDegree[j]++;
+    queue<ll> pq;
+    ll count = 0;
+    for(ll i=0;i<nodesNum;i++)
+        if(inDegree[i]==0)
+            pq.push(i);
+    while(pq.size())
+    {
+        ll cur = pq.front();
+        pq.pop();
+        count++;
+        for(ll i=0;i<nodesNum;i++)
+          {
+            if(edges[cur][i]==1)
+            {
+                inDegree[i]--;
+                if(inDegree[i]==0)
+                    pq.push(i);
+            }
+        }
+    }
+    return count==nodesNum;
+}
+
 //--------------------------Topological Sort DFS------------------------------------
 
 void topologicalSortDFSHelper(ll source, ll nodesNum, ll** edges, stack<ll>& st, vector<ll>& vis)
