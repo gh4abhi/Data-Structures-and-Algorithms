@@ -358,7 +358,7 @@ void getPathDFSHelper(ll** edges, ll nodesNum, ll startVertex, ll endVertex, boo
             }
         }
     }
-    vect.pop_bacK();
+    vect.pop_back();
 }
 
 void getPathDFS(ll** edges, ll nodesNum, ll startVertex, ll endVertex)
@@ -750,35 +750,38 @@ bool isGraphBipartiteDFS(ll** edges, ll nodesNum)
 
 //--------------------------Detect Cycle In A Directed Graph Using DFS------------------------------------
 
-bool findCycleDirectedDFSHelper(ll source, ll** edges, ll nodesNum, ll& vis[], ll& dfsVis[])
+bool findCycleDirectedDFSHelper(ll source, ll nodesNum, vector<ll>& vis, vector<ll>& dfsVis, ll** edges)
 {
-    vis[source]  = 1;
+    vis[source] = 1;
     dfsVis[source] = 1;
     for(ll i=0;i<nodesNum;i++)
-        if(edges[source][i]==1)
+    {
+        if(edges[source][i]==0)
+            continue;
+        if(!vis[i])
         {
-            if(!vis[i])
-                if(findCycleDirectedDFSHelper(i,edges,nodesNum,vis,dfsVis))
-                    return true;
-            else
-                if(dfsVis[i])
-                    return true;
+           if(findCycleDirectedDFSHelper(i,nodesNum,vis,dfsVis,edges))
+                return true;
         }
-        dfsVis[source] = 0;
+        else
+        {
+            if(dfsVis[i])
+               return true;
+        }
+    }
+    dfsVis[source] = 0;
     return false;
 }
 
 bool findCycleDirectedDFS(ll** edges, ll nodesNum)
 {
-    ll vis[nodesNum];
-    ll dfsVis[nodesNum];
-    memset(vis,0,sizeof(vis));
-    memset(dfsVis,0,sizeof(dfsVis));
+    vector<ll> vis(nodesNum,0);
+    vector<ll> dfsVis(nodesNum,0);
     for(ll i=0;i<nodesNum;i++)
-        if(!vis[i])
-            if(findCycleDirectedDFSHelper(i,edges,nodesNum,vis,dfsVis))
+         if(!vis[i])
+            if(findCycleDirectedDFSHelper(i,nodesNum,vis,dfsVis,edges))
                 return true;
-    return false;        
+    return false;      
 }
 
 //--------------------------Kruskals Algorithm using Union Find Algorithm------------------------------------
@@ -861,11 +864,6 @@ void kruskalsAlgoUsingUnionFind(Edge* input, ll nodesNum, ll edgesNum)
 int main()
 {
     BOOST;
-// I/O Text Files
-#ifndef ONLINE_JUDGE
-    inOt();
-#endif
-
     ll nodesNum,edgesNum;
     cin>>nodesNum>>edgesNum;
 
@@ -878,17 +876,26 @@ int main()
             edges[i][j] = 0;
         }
     }
-    for(ll i=0;i<edgesNum;i++)
+    // For Undirected Graph
+    /*for(ll i=0;i<edgesNum;i++)
     {
         ll pre,post;
         cin>>pre>>post;
         edges[pre][post] = 1;
         edges[post][pre] = 1;
+    }*/
+    // For Directed Graph
+    for(ll i=0;i<edgesNum;i++)
+    {
+        ll pre,post;
+        cin>>pre>>post;
+        edges[post][pre] = 1;
     }
+
 /*    BFS(edges,nodesNum);
     DFS(edges,nodesNum);*/
 
-cout<<isGraphBipartiteDFS(edges, nodesNum);
+cout<<findCycleDirectedDFS(edges, nodesNum);
 
 /*
 Edge* input = new Edge[edgesNum];
