@@ -784,38 +784,6 @@ bool findCycleDirectedDFS(ll** edges, ll nodesNum)
     return false;      
 }
 
-//--------------------------Detect Cycle In A Directed Graph Using BFS------------------------------------
-
-bool findCycleDirectedBFS(ll** edges, ll nodesNum)
-{
-    vector<ll> inDegree(nodesNum,0);
-    for(ll i=0;i<nodesNum;i++)
-        for(ll j=0;j<nodesNum;j++)
-            if(edges[i][j]==1) 
-                inDegree[j]++;
-    queue<ll> pq;
-    ll count = 0;
-    for(ll i=0;i<nodesNum;i++)
-        if(inDegree[i]==0)
-            pq.push(i);
-    while(pq.size())
-    {
-        ll cur = pq.front();
-        pq.pop();
-        count++;
-        for(ll i=0;i<nodesNum;i++)
-          {
-            if(edges[cur][i]==1)
-            {
-                inDegree[i]--;
-                if(inDegree[i]==0)
-                    pq.push(i);
-            }
-        }
-    }
-    return count==nodesNum;
-}
-
 //--------------------------Topological Sort DFS------------------------------------
 
 void topologicalSortDFSHelper(ll source, ll nodesNum, ll** edges, stack<ll>& st, vector<ll>& vis)
@@ -838,58 +806,6 @@ vector<ll> topologicalSortDFS(ll** edges, ll nodesNum)
     while(st.size())
         topoSort.pb(st.top()), st.pop();
     return topoSort;
-}
-
-//--------------------------Topological Sort BFS(Kahn's Algorithm)------------------------------------
-
-vector<ll> topologicalSortBFS(ll** edges, ll nodesNum)
-{
-    vector<ll> topoSort;
-    vector<ll> inDegree(nodesNum,0);
-    for(ll i=0;i<nodesNum;i++)
-        for(ll j=0;j<nodesNum;j++)
-            if(edges[i][j]==1) 
-                inDegree[j]++;
-    queue<ll> pq;
-    for(ll i=0;i<nodesNum;i++)
-        if(inDegree[i]==0)
-            pq.push(i);
-    while(pq.size())
-    {
-        ll cur = pq.front();
-        pq.pop();
-        topoSort.pb(cur);
-        for(ll i=0;i<nodesNum;i++)
-          {
-            if(edges[cur][i]==1)
-            {
-                inDegree[i]--;
-                if(inDegree[i]==0)
-                    pq.push(i);
-            }
-        }
-    }
-    return topoSort;
-}
-
-//--------------------------Shortest Path In Undirected Graph With Unit Weight(BFS)------------------------------------
-
-ll shortestPath(ll nodesNum, ll** edges, ll source, ll destination)
-{
-    vector<ll> dist(nodesNum,1e9);
-    queue<ll> pq;
-    pq.push(source);
-    dist[source] = 0;
-    while(pq.size())
-    {
-        ll cur = pq.front();
-        pq.pop();
-        for(ll i=0;i<nodesNum;i++)
-            if(edges[cur][i]==1)
-                if(dist[cur]+1<dist[i])
-                    dist[i] = dist[cur] + 1, pq.push(i);
-    }
-    return dist[destination];
 }
 
 //--------------------------Kruskals Algorithm using Union Find Algorithm------------------------------------
@@ -985,25 +901,26 @@ int main()
         }
     }
     // For Undirected Graph
-    for(ll i=0;i<edgesNum;i++)
+    /*for(ll i=0;i<edgesNum;i++)
     {
         ll pre,post;
         cin>>pre>>post;
         edges[pre][post] = 1;
         edges[post][pre] = 1;
-    }
+    }*/
     // For Directed Graph
-    /*for(ll i=0;i<edgesNum;i++)
+    for(ll i=0;i<edgesNum;i++)
     {
         ll pre,post;
         cin>>pre>>post;
         edges[post][pre] = 1;
-    }*/
+    }
 
 /*    BFS(edges,nodesNum);
     DFS(edges,nodesNum);*/
 
-cout<<shortestPath(nodesNum,edges,0,3);
+for(auto i:topologicalSortDFS(edges,nodesNum))
+    cout<<i<<" ";
 
 /*
 Edge* input = new Edge[edgesNum];
