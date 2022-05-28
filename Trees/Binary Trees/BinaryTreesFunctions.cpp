@@ -1290,6 +1290,26 @@ void iterativeInorder(BinaryTreeNode<ll>* root)
         cout<<i<<" ";
 }
 
+//--------------------------Iterative Postorder Traversal------------------------------------
+
+void iterativePostorderTwoStacks(BinaryTreeNode<ll>* root)
+{
+    stack<BinaryTreeNode<ll>*> st1,st2;
+    st1.push(root);
+    while(st1.size())
+    {
+        BinaryTreeNode<ll>* cur = st1.top();
+        st1.pop();
+        st2.push(cur);
+        if(cur->left)
+            st1.push(cur->left);
+        if(cur->right)
+            st2.push(cur->right);
+    }
+    while(st2.size())
+        cout<<st2.top()->data<<" ",st2.pop();
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -1302,7 +1322,7 @@ int main()
 //    BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
     // printBinaryTreeLevelWise(root);
-    iterativeInorder(root);
+    iterativePostorderTwoStacks(root);
     delete root;
     return 0;
 }
