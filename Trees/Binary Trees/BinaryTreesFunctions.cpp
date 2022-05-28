@@ -1245,19 +1245,37 @@ ll lcaOfBinaryTree(BinaryTreeNode<ll>* root, ll node1, ll node2)
     }
 }
 
+//--------------------------Iterative Preorder Traversal------------------------------------
+
+void iterativePreorder(BinaryTreeNode<ll>* root)
+{
+    stack<BinaryTreeNode<ll>*> st;
+    st.push(root);
+    while(st.size())
+    {
+        BinaryTreeNode<ll>* cur = st.top();
+        cout<<cur->data<<" ";
+        st.pop();
+        if(cur->right)
+            st.push(cur->right);
+        if(cur->left)
+            st.push(cur->left);
+    }
+}
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
     BOOST;
 // I/O Text Files
-#ifndef ONLINE_JUDGE
+/*#ifndef ONLINE_JUDGE
     inOt();
-#endif
+#endif*/
 
 //    BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
-    morrisInorderTraversal(root);
+    // printBinaryTreeLevelWise(root);
+    iterativePreorder(root);
     delete root;
     return 0;
 }
