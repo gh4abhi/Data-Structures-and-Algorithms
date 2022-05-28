@@ -1263,6 +1263,33 @@ void iterativePreorder(BinaryTreeNode<ll>* root)
     }
 }
 
+//--------------------------Iterative Inorder Traversal------------------------------------
+
+void iterativeInorder(BinaryTreeNode<ll>* root)
+{
+    stack<BinaryTreeNode<ll>*> st;
+    BinaryTreeNode<ll>* node = root;
+    st.push(node);
+    vector<ll> inorder;
+    while(st.size())
+    {
+        if(node!=nullptr)
+        {
+            st.push(node);
+            node = node->left;
+        }
+        else
+        {
+            node = st.top();
+            st.pop();
+            inorder.pb(node->data);
+            node = node->right;
+        }
+    }
+    for(auto i:inorder)
+        cout<<i<<" ";
+}
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
@@ -1275,7 +1302,7 @@ int main()
 //    BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
     BinaryTreeNode<ll>* root = takeInputBinaryTreeLevelWise();
     // printBinaryTreeLevelWise(root);
-    iterativePreorder(root);
+    iterativeInorder(root);
     delete root;
     return 0;
 }
