@@ -208,7 +208,7 @@ class Stack
         
         bool isFull()
         {
-            return ind==vect.size()-1;
+            return ind==n-1;
         }
 
         bool isEmpty()
