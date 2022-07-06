@@ -193,87 +193,59 @@ bool compare(const pair<ll, ll>&i, const pair<ll, ll>&j)
 
 class Queue
 {
-    private:
-        vector<ll> vect;
-        ll n;
-        ll front;
-        ll rear;
-        ll count;
+private:
+    
+    ll arr[5000];
+    ll rear;
+    ll fron;
+    ll count;
+public:
+    
+    Queue() {
+        rear = -1;
+        fron = -1;
+        count = 0;
+    }
 
-    public:
-        
-        Queue(ll size)
-        {
-            n = size;
-            front = -1;
-            rear = -1;
-            vector<ll> temp(n);
-            vect = temp;
-            count = 0;
-        }
+    bool isEmpty() {
+        return fron==-1 or fron>rear;
+    }
 
-        bool isFull()
-        {
-            return count==n;
-        }
+    void enqueue(int data) {
+        if(fron==-1)
+            fron = 0;
+        rear = rear + 1;
+        arr[rear] = data;
+        count++;
+    }
 
-        bool isEmpty()
-        {
-            return count==0;
-        }
+    int dequeue() {
+        if(isEmpty())
+            return -1;
+        ll val = arr[fron];
+        arr[fron] = -1;
+        fron = fron + 1;
+        count--;
+        return val;
+    }
 
-        void push(ll val)
-        {
-            if(isFull())
-                {
-                    cout<<"Queue is full!";
-                    return;
-                }
-            if(front==-1 and rear==-1)
-                front = 0;
-            rear = (rear+1)%n;
-            vect[rear] = val;
-            count++;
-        }
+    int front() {
+        if(isEmpty())
+            return -1;
+        return arr[fron];
+    }
 
-        void pop()
-        {
-            if(isEmpty())
-            {
-                cout<<"Queue is empty!";
-                return;
-            }
-            vect[front] = -1;
-            front = (front+1)%n;
-            count--;
-        }
+    int size() {
+        return count;
+    }
 
-        ll frontElement()
-        {
-            if(isEmpty())
-            {
-                cout<<"Stack is empty!";
-                return -1;
-            }
-            return vect[front];
-        }
+    void printQueue()
+    {
+        for(ll i=fron;i<=rear;i++)
+            cout<<arr[i]<<" ";
+        cout<<endl;
+    }
 
-        ll size()
-        {
-            return count;
-        }
-
-        void printQueue()
-        {
-            ll x = count;
-            for(ll i=front;i<=rear,x>0;)
-            {
-                cout<<vect[i]<<" ";
-                i = (i+1)%n;
-                x--;
-            }
-            cout<<endl;
-        }
 };
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
@@ -286,16 +258,16 @@ int main()
 #endif*/
     cout<<fixed;
     
-    Queue newQueue = Queue(4);
+    Queue newQueue = Queue();
 
-    newQueue.push(10);
-    newQueue.push(6);
-    newQueue.push(4);
-    newQueue.push(2);
+    newQueue.enqueue(10);
+    newQueue.enqueue(6);
+    newQueue.enqueue(4);
+    newQueue.enqueue(2);
     cout<<newQueue.size()<<endl;
     newQueue.printQueue();
     while(newQueue.size())
-        cout<<newQueue.frontElement()<<endl, newQueue.pop();    
+        cout<<newQueue.front()<<endl, newQueue.dequeue();    
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
