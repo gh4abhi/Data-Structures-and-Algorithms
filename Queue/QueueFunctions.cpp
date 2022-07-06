@@ -195,7 +195,7 @@ class Queue
 {
 private:
     
-    ll arr[5000];
+    ll arr[100000];
     ll rear;
     ll fron;
     ll count;
