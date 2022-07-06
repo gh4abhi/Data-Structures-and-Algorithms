@@ -194,16 +194,14 @@ bool compare(const pair<ll, ll>&i, const pair<ll, ll>&j)
 class Stack
 {
     private:
-        ll arr[1000000];
+        ll vect[100000];
         ll ind;
         ll n;
     public:    
         Stack(ll size)
         {
             n = size;
-            vector<ll> temp(n);
             ind = -1;
-            vect = temp;
         }
         
         bool isFull()
