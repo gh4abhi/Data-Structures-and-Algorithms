@@ -189,59 +189,90 @@ bool compare(const pair<ll, ll>&i, const pair<ll, ll>&j)
 
 //------------------------------------------------------------------------------ Data Structres ---------------------------------------------------------------------------------
 
-//--------------------------Stack------------------------------------
+//--------------------------Queue using vector------------------------------------
 
-class Stack
+class Queue
 {
     private:
         vector<ll> vect;
-        ll ind;
         ll n;
-    public:    
-        Stack(ll size)
+        ll front;
+        ll rear;
+        ll count;
+
+    public:
+        
+        Queue(ll size)
         {
             n = size;
+            front = -1;
+            rear = -1;
             vector<ll> temp(n);
-            ind = -1;
             vect = temp;
+            count = 0;
         }
-        
+
         bool isFull()
         {
-            return ind==vect.size()-1;
+            return count==n;
         }
 
         bool isEmpty()
         {
-            return ind==-1;
+            return count==0;
         }
 
         void push(ll val)
         {
-            if(!isFull())
-                ind = ind+1, vect[ind] = val;
-            else
-                cout<<"Stack is full!";
+            if(isFull())
+                {
+                    cout<<"Queue is full!";
+                    return;
+                }
+            if(front==-1 and rear==-1)
+                front = 0;
+            rear = (rear+1)%n;
+            vect[rear] = val;
+            count++;
         }
 
         void pop()
         {
-            if(!isEmpty())
-                ind = ind-1;
-            else
-                cout<<"Stack is empty!";
+            if(isEmpty())
+            {
+                cout<<"Queue is empty!";
+                return;
+            }
+            vect[front] = -1;
+            front = (front+1)%n;
+            count--;
         }
 
-        ll top()
+        ll frontElement()
         {
-            if(!isEmpty())
-                return vect[ind];
-            return -1;
+            if(isEmpty())
+            {
+                cout<<"Stack is empty!";
+                return -1;
+            }
+            return vect[front];
         }
 
         ll size()
         {
-            return ind+1;
+            return count;
+        }
+
+        void printQueue()
+        {
+            ll x = count;
+            for(ll i=front;i<=rear,x>0;)
+            {
+                cout<<vect[i]<<" ";
+                i = (i+1)%n;
+                x--;
+            }
+            cout<<endl;
         }
 };
 
@@ -255,15 +286,16 @@ int main()
 #endif*/
     cout<<fixed;
     
-    Stack newStack = Stack(4);
+    Queue newQueue = Queue(4);
 
-    newStack.push(10);
-    newStack.push(6);
-    newStack.push(4);
-    newStack.push(2);
-    cout<<newStack.size()<<endl;
-    while(newStack.size())
-        cout<<newStack.top()<<endl, newStack.pop();    
+    newQueue.push(10);
+    newQueue.push(6);
+    newQueue.push(4);
+    newQueue.push(2);
+    cout<<newQueue.size()<<endl;
+    newQueue.printQueue();
+    while(newQueue.size())
+        cout<<newQueue.frontElement()<<endl, newQueue.pop();    
     return 0;
 }
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
