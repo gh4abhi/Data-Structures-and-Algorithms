@@ -290,6 +290,50 @@ class StackWithTwoQueues
         }
 };
 
+//--------------------------Stack using two queues------------------------------------
+
+class StackWithTwoQueues
+{
+    private:
+        queue<ll> q;
+        ll sz;
+    public:
+        StackWithTwoQueues()
+        {
+            sz = 0;
+        }
+
+        void push(ll x)
+        {
+            q.push(x);
+            for(ll i=0;i<q.size()-1;i++)
+            {
+                q.push(q.front());
+                q.pop();
+            }
+        }
+
+        ll pop()
+        {
+            ll cur = -1;
+            if(q.size())
+                cur = q.front(),q.pop(),sz--;
+            return cur;
+        }        
+
+        ll top()
+        {
+            if(q.size())
+                return q.front();
+            return -1;
+        }
+
+        bool empty()
+        {
+            return q.size()==0;
+        }
+};
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
