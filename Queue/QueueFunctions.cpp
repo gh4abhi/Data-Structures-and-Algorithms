@@ -248,6 +248,68 @@ public:
 
 };
 
+//--------------------------Queue using Stack------------------------------------
+
+class QueueUsingStack
+{
+    private:
+        stack<ll> input;
+        stack<ll> output;
+        ll sz;
+    public:
+        QueueUsingStack()
+        {
+            sz = 0;
+        }
+        void push(x)
+        {
+            input.push(x);
+            sz++;
+        }
+        ll pop()
+        {
+            if(output.size())
+            {
+                ll cur = output.top();
+                output.pop();
+                sz--;
+                return cur;
+            }
+            else if(input.size())
+            {
+                while(input.size())
+                    output.push(input.top()),input.pop();
+                ll cur = output.top();
+                output.pop();
+                sz--;
+                return cur;
+            }
+            else
+                return -1;
+        }
+        ll top()
+        {
+             if(output.size())
+            {
+                ll cur = output.top();
+                return cur;
+            }
+            else if(input.size())
+            {
+                while(input.size())
+                    output.push(input.top()),input.pop();
+                ll cur = output.top();
+                return cur;
+            }
+            else
+                return -1;   
+        }
+        bool isEmpty()
+        {
+            return sz ==0;
+        }
+};
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
