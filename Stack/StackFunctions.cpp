@@ -243,6 +243,53 @@ class Stack
         }
 };
 
+//--------------------------Stack using two queues------------------------------------
+
+class StackWithTwoQueues
+{
+    private:
+        queue<ll> q1;
+        queue<ll> q2;
+        ll sz;
+    public:
+        StackWithTwoQueues()
+        {
+            sz = 0;
+        }
+
+        void push(ll x)
+        {
+            q2.push(x);
+            while(q1.size())
+            {
+                q2.push(q1.front());
+                q1.pop();
+                sz++;
+            }
+            swap(q1,q2);
+        }
+
+        ll pop()
+        {
+            ll cur = -1;
+            if(q1.size())
+                cur = q1.front(),q1.pop(),sz--;
+            return cur;
+        }        
+
+        ll top()
+        {
+            if(q1.size())
+                return q1.front();
+            return -1;
+        }
+
+        bool empty()
+        {
+            return q1.size()==0;
+        }
+};
+
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
 int main()
 {
