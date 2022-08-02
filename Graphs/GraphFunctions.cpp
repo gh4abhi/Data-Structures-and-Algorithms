@@ -808,6 +808,37 @@ vector<ll> topologicalSortDFS(ll** edges, ll nodesNum)
     return topoSort;
 }
 
+//--------------------------Topological Sort DFS------------------------------------
+
+vector<ll> topologicalSortBFS(ll** edges, ll nodesNum)
+{
+    vector<ll> inDegree(nodesNum,0);
+    for(ll i=0;i<nodesNum;i++)
+        for(ll j=0;j<nodesNum;j++)
+            if(edges[i][j]==1)
+                inDegree[j]++;
+    queue<ll> q;
+    for(ll i=0;i<nodesNum;i++)
+        if(inDegree[i]==0)
+            q.push(i);
+    vector<ll> ans;
+    while(q.size())
+    {
+        auto cur = q.front();
+        q.pop();
+        ans.pb(cur);
+        for(ll i=0;i<nodesNum;i++)
+        {
+            if(edges[cur][i]==1)
+            {
+                inDegree[i]--;
+                if(inDegree[i]==0)
+                    q.push(i);
+            }
+        }
+    }
+    return ans;
+}
 //--------------------------Kruskals Algorithm using Union Find Algorithm------------------------------------
 
 // Problem Statement - Given an undirected, connected and weighted graph G(V, E) with V number of vertices
