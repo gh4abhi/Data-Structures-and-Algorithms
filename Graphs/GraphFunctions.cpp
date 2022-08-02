@@ -784,6 +784,38 @@ bool findCycleDirectedDFS(ll** edges, ll nodesNum)
     return false;      
 }
 
+//--------------------------Detect Cycle In A Directed Graph Using BFS (Kahn's Algorithm)------------------------------------
+
+bool findCycleDirectedBFS(ll** edges, ll nodesNum)
+{
+    vector<ll> inDegree(nodesNum,0);
+    for(ll i=0;i<nodesNum;i++)
+        for(ll j=0;j<nodesNum;j++)
+            if(edges[i][j]==1)
+                inDegree[j]++;
+    queue<ll> q;
+    for(ll i=0;i<nodesNum;i++)
+        if(inDegree[i]==0)
+            q.push(i);
+    ll count = 0;
+    while(q.size())
+    {
+        auto cur = q.front();
+        q.pop();
+        count++;
+        for(ll i=0;i<nodesNum;i++)
+        {
+            if(edges[cur][i]==1)
+            {
+                inDegree[i]--;
+                if(inDegree[i]==0)
+                    q.push(i);
+            }
+        }
+    }
+    return count==nodesNum;
+}
+
 //--------------------------Topological Sort DFS------------------------------------
 
 void topologicalSortDFSHelper(ll source, ll nodesNum, ll** edges, stack<ll>& st, vector<ll>& vis)
@@ -808,7 +840,7 @@ vector<ll> topologicalSortDFS(ll** edges, ll nodesNum)
     return topoSort;
 }
 
-//--------------------------Topological Sort BFS------------------------------------
+//--------------------------Topological Sort BFS (Kahn's Algorithm)------------------------------------
 
 vector<ll> topologicalSortBFS(ll** edges, ll nodesNum)
 {
