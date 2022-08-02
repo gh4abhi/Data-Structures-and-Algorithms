@@ -808,7 +808,7 @@ vector<ll> topologicalSortDFS(ll** edges, ll nodesNum)
     return topoSort;
 }
 
-//--------------------------Topological Sort DFS------------------------------------
+//--------------------------Topological Sort BFS------------------------------------
 
 vector<ll> topologicalSortBFS(ll** edges, ll nodesNum)
 {
