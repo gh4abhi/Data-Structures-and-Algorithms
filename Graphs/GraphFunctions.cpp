@@ -784,38 +784,6 @@ bool findCycleDirectedDFS(ll** edges, ll nodesNum)
     return false;      
 }
 
-//--------------------------Detect Cycle In A Directed Graph Using BFS (Kahn's Algorithm)------------------------------------
-
-bool findCycleDirectedBFS(ll** edges, ll nodesNum)
-{
-    vector<ll> inDegree(nodesNum,0);
-    for(ll i=0;i<nodesNum;i++)
-        for(ll j=0;j<nodesNum;j++)
-            if(edges[i][j]==1)
-                inDegree[j]++;
-    queue<ll> q;
-    for(ll i=0;i<nodesNum;i++)
-        if(inDegree[i]==0)
-            q.push(i);
-    ll count = 0;
-    while(q.size())
-    {
-        auto cur = q.front();
-        q.pop();
-        count++;
-        for(ll i=0;i<nodesNum;i++)
-        {
-            if(edges[cur][i]==1)
-            {
-                inDegree[i]--;
-                if(inDegree[i]==0)
-                    q.push(i);
-            }
-        }
-    }
-    return count==nodesNum;
-}
-
 //--------------------------Topological Sort DFS------------------------------------
 
 void topologicalSortDFSHelper(ll source, ll nodesNum, ll** edges, stack<ll>& st, vector<ll>& vis)
@@ -840,7 +808,7 @@ vector<ll> topologicalSortDFS(ll** edges, ll nodesNum)
     return topoSort;
 }
 
-//--------------------------Topological Sort BFS (Kahn's Algorithm)------------------------------------
+//--------------------------Topological Sort DFS------------------------------------
 
 vector<ll> topologicalSortBFS(ll** edges, ll nodesNum)
 {
@@ -871,6 +839,31 @@ vector<ll> topologicalSortBFS(ll** edges, ll nodesNum)
     }
     return ans;
 }
+
+//--------------------------Shortest Path in Undirected Graph with Unit Weights------------------------------------
+
+vector<ll> shortestPathUsingBFS(vector<vecotr<ll>> &adj, ll n, ll source)
+{
+    vector<ll> dis(n,1e18);
+    queue<ll> q;
+    q.push(source);
+    dis[source] = 0;
+    while(q.size())
+    {
+        auto cur = q.front();
+        q.pop();
+        for(auto i:adj[cur])
+        {
+            if(dis[cur]+1<dis[i])
+            {
+                dis[i] = dis[cur] + 1;
+                q.push(i);
+            }
+        }
+    }
+    return dis;
+}
+
 //--------------------------Kruskals Algorithm using Union Find Algorithm------------------------------------
 
 // Problem Statement - Given an undirected, connected and weighted graph G(V, E) with V number of vertices
