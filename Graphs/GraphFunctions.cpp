@@ -840,29 +840,57 @@ vector<ll> topologicalSortBFS(ll** edges, ll nodesNum)
     return ans;
 }
 
-//--------------------------Shortest Path in Undirected Graph with Unit Weights------------------------------------
+//--------------------------Kosaraju's Algorithm for Strongly Connected Components------------------------------------
 
-vector<ll> shortestPathUsingBFS(vector<vecotr<ll>> &adj, ll n, ll source)
+void topoSort(vector<vector<ll>> &adj, ll n, ll start, vector<ll>& vis, stack<ll> &st)
 {
-    vector<ll> dis(n,1e18);
-    queue<ll> q;
-    q.push(source);
-    dis[source] = 0;
-    while(q.size())
-    {
-        auto cur = q.front();
-        q.pop();
-        for(auto i:adj[cur])
-        {
-            if(dis[cur]+1<dis[i])
-            {
-                dis[i] = dis[cur] + 1;
-                q.push(i);
-            }
-        }
-    }
-    return dis;
+    vis[start] = 1;
+    for(auto i:adj[start])
+        if(vis[i]==0)
+            topoSort(adj,n,i,vis,st);
+    st.push(start);
 }
+
+void revDFS(vector<vector<ll>> &adj, ll n, ll start, vector<ll>& vis, vector<ll>& vect)
+{
+    vis[start] = 1;
+    vect.pb(start);
+    for(auto i:adj[start])
+        if(vis[i]==0)
+            revDFS(adj,n,i,vis,vect);
+}
+
+vector<vector<ll>> kosaraju(vector<vector<ll>> &adj, ll n)
+{
+    vector<vector<ll>> ans;
+    stack<ll> st;
+    vector<ll> vis(n,0);
+    for(ll i=0;i<n;i++)
+        if(vis[i]==0)
+            topoSort(adj,n,i,vis,st);
+    vector<vector<ll>> transpose(n);
+    for(ll i=0;i<n;i++)
+    {
+        vis[i] = 0;
+        for(auto j:adj[i])
+            transpose[j].push_back(i);
+    }
+
+    while(st.size())
+    {
+        ll node = st.top();
+        st.pop();
+        vector<ll> vect;
+        if(vis[node]==0)
+            revDFS(transpose,n,node,vis,vect);
+        if(vect.size())
+            ans.pb(vect);
+    }
+    return ans;
+}
+
+//--------------------------Kruskals Algorithm using Union Find Algorithm------------------------------------
+
 
 //--------------------------Kruskals Algorithm using Union Find Algorithm------------------------------------
 
@@ -944,7 +972,19 @@ void kruskalsAlgoUsingUnionFind(Edge* input, ll nodesNum, ll edgesNum)
 int main()
 {
     BOOST;
-    ll nodesNum,edgesNum;
+    ll n;
+    cin>>n;
+    ll e;
+    cin>>e;
+    vector<vector<ll>> adj(n);
+    for(ll i=0;i<e;i++)
+    {
+        ll a, b;
+        cin>>a>>b;
+        adj[a].pb(b);
+    }
+    kosaraju(adj,n);
+/*    ll nodesNum,edgesNum;
     cin>>nodesNum>>edgesNum;
 
     ll ** edges = new ll*[nodesNum];
@@ -955,7 +995,7 @@ int main()
         {
             edges[i][j] = 0;
         }
-    }
+    }*/
     // For Undirected Graph
     /*for(ll i=0;i<edgesNum;i++)
     {
@@ -965,18 +1005,18 @@ int main()
         edges[post][pre] = 1;
     }*/
     // For Directed Graph
-    for(ll i=0;i<edgesNum;i++)
+/*    for(ll i=0;i<edgesNum;i++)
     {
         ll pre,post;
         cin>>pre>>post;
         edges[post][pre] = 1;
-    }
+    }*/
 
 /*    BFS(edges,nodesNum);
     DFS(edges,nodesNum);*/
 
-for(auto i:topologicalSortDFS(edges,nodesNum))
-    cout<<i<<" ";
+/*for(auto i:topologicalSortDFS(edges,nodesNum))
+    cout<<i<<" ";*/
 
 /*
 Edge* input = new Edge[edgesNum];
