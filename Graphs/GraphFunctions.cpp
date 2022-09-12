@@ -863,7 +863,7 @@ vector<ll> shortestDistance(ll source, vector<vector<ll>> &adj, ll n)
                 q.push(i);
             }
             else
-                dis[i] = min(dis[i],dis[cur]  +1);
+                dis[i] = min(dis[i],dis[cur]+1);
         }
     }
     return dis;
