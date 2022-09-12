@@ -808,7 +808,7 @@ vector<ll> topologicalSortDFS(ll** edges, ll nodesNum)
     return topoSort;
 }
 
-//--------------------------Topological Sort DFS------------------------------------
+//--------------------------Topological Sort BFS------------------------------------
 
 vector<ll> topologicalSortBFS(ll** edges, ll nodesNum)
 {
@@ -888,9 +888,6 @@ vector<vector<ll>> kosaraju(vector<vector<ll>> &adj, ll n)
     }
     return ans;
 }
-
-//--------------------------Kruskals Algorithm using Union Find Algorithm------------------------------------
-
 
 //--------------------------Kruskals Algorithm using Union Find Algorithm------------------------------------
 
