@@ -840,6 +840,35 @@ vector<ll> topologicalSortBFS(ll** edges, ll nodesNum)
     return ans;
 }
 
+//--------------------------Shortest Path in Undirected Graph with Unit Weights(BFS)------------------------------------
+
+vector<ll> shortestDistance(ll source, vector<vector<ll>> &adj, ll n)
+{
+    queue<ll> q;
+    vector<ll> dis(n,1e18);
+    vector<ll> vis(n,0);
+    dis[source] = 0;
+    q.push(source);
+    vis[source] = 1;
+    while(q.size())
+    {
+        auto cur = q.front();
+        q.pop();
+        for(auto i:adj[cur])
+        {
+            if(vis[i]==0)
+            {
+                vis[i] = 1;
+                dis[i] = dis[cur] + 1;
+                q.push(i);
+            }
+            else
+                dis[i] = min(dis[i],dis[cur]  +1);
+        }
+    }
+    return dis;
+}
+
 //--------------------------Kosaraju's Algorithm for Strongly Connected Components------------------------------------
 
 void topoSort(vector<vector<ll>> &adj, ll n, ll start, vector<ll>& vis, stack<ll> &st)
