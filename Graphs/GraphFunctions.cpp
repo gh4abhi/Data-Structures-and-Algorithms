@@ -904,6 +904,27 @@ vector<ll> shortestPathDWAG(ll source, vector<vector<pair<ll,ll>>> &adj, ll n)
     return dis;
 }
 
+//--------------------------Dijkstra's Algorithm------------------------------------
+
+vector <int> dijkstra(int n, vector<vector<int>> adj[], int source)
+{
+    priority_queue<pair<ll,ll>,vector<pair<ll,ll>>,greater<pair<ll,ll>>> pq;
+    pq.push({0,source});
+    vector<ll> dis(n,INT_MAX);
+    dis[source] = 0;
+    while(pq.size())
+    {
+        auto cur = pq.top();
+        pq.pop();
+        for(auto j:adj[cur.second])
+        {
+            if(dis[cur.second] + j[1]< dis[j[0]])
+            dis[j[0]] = dis[cur.second] + j[1], pq.push({dis[cur.second] + j[1], j[0]});
+        }
+    }
+    return dis;
+}
+
 //--------------------------Kosaraju's Algorithm for Strongly Connected Components------------------------------------
 
 void topoSort(vector<vector<ll>> &adj, ll n, ll start, vector<ll>& vis, stack<ll> &st)
