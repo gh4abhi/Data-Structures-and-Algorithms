@@ -897,7 +897,7 @@ vector<ll> shortestPathDWAG(ll source, vector<vector<pair<ll,ll>>> &adj, ll n)
         {
             for(auto i:adj[cur])
             {
-                dis[i.first] = min(dis[i.first],dis[cur] + i.secon);
+                dis[i.first] = min(dis[i.first],dis[cur] + i.second);
             }
         }
     }
