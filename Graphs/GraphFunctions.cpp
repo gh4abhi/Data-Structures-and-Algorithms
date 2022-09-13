@@ -869,6 +869,41 @@ vector<ll> shortestDistance(ll source, vector<vector<ll>> &adj, ll n)
     return dis;
 }
 
+//--------------------------Shortest Path in Directed Weighted Acyclic Graph------------------------------------
+
+void topoSortWeighted(ll source, vector<vector<pair<ll,ll>>> &adj, vector<ll> &vis, ll n, stack<ll> &st)
+{
+    vis[source] = 1;
+    for(auto i:adj[source])
+        if(vis[i.first]==0)
+            topoSortWeighted(i,adj,vis,n,st);
+    st.push(source);
+}
+
+vector<ll> shortestPathDWAG(ll source, vector<vector<pair<ll,ll>>> &adj, ll n)
+{
+    stack<ll> st;
+    vector<ll> vis(n,0);
+    for(ll i=0;i<n;i++)
+        if(vis[i]==0)
+            topoSortWeighted(i,adj,vis,n,st);
+    vector<ll> dis(n,1e18);
+    dis[source] = 0;
+    while(st.size())
+    {
+        auto cur = st.top();
+        st.pop();
+        if(dis[cur]!=1e18)
+        {
+            for(auto i:adj[cur])
+            {
+                dis[i.first] = min(dis[i.first],dis[cur] + i.secon);
+            }
+        }
+    }
+    return dis;
+}
+
 //--------------------------Kosaraju's Algorithm for Strongly Connected Components------------------------------------
 
 void topoSort(vector<vector<ll>> &adj, ll n, ll start, vector<ll>& vis, stack<ll> &st)
