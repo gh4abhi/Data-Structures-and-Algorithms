@@ -656,6 +656,7 @@ bool findCycle(ll numCourses, vector<vector<ll>>& edges) {
     }
     return true;
 }
+/* For number of components using union find just count how many nodes are parent of themselves.
 
 //--------------------------------Is Graph Bipartite? (BFS)----------------------------------------------------
 
@@ -901,7 +902,7 @@ vector<ll> shortestPathDWAG(ll source, vector<vector<pair<ll,ll>>> &adj, ll n)
             }
         }
     }
-    return dis;
+    return dis; 
 }
 
 //--------------------------Dijkstra's Algorithm------------------------------------
