@@ -656,7 +656,7 @@ bool findCycle(ll numCourses, vector<vector<ll>>& edges) {
     }
     return true;
 }
-/* For number of components using union find just count how many nodes are parent of themselves.
+/* For number of components using union find just count how many nodes are parent of themselves.*/
 
 //--------------------------------Is Graph Bipartite? (BFS)----------------------------------------------------
 
@@ -1047,8 +1047,35 @@ void kruskalsAlgoUsingUnionFind(Edge* input, ll nodesNum, ll edgesNum)
     }
 }
 
-//--------------------------Kruskals Algorithm using Union By Rank and Path Compression------------------------------------
+//--------------------------Prim's Algorithm------------------------------------
 
+int spanningTree(int n, vector<vector<int>> adj[])
+{
+    vector<ll> key(n,INT_MAX);
+    vector<ll> mstSet(n,0);
+    vector<ll> par(n,-1);
+    key[0] = 0;
+    par[0] = -1;
+    priority_queue<pair<ll,ll>,vector<pair<ll,ll>>,greater<pair<ll,ll>>> pq;
+    pq.push({0,0});
+    while(pq.size())
+    {
+        ll u = pq.top().second;
+        pq.pop();
+        mstSet[u] = 1;
+        for(auto i:adj[u])
+        {
+            ll v = i[0];
+            ll w = i[1];
+            if(mstSet[v]==0 and w<key[v])
+            par[v] = u, key[v] = w, pq.push({key[v],v});
+        }
+    }
+    ll sum = 0;
+    for(auto i:key)
+        sum += i;
+    return sum;
+}
 
 
 //--------------------------------------------------------------Main Function----------------------------------------------------------------------------------------------
