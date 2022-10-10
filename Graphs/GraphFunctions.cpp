@@ -1081,12 +1081,12 @@ int spanningTree(int n, vector<vector<int>> adj[])
 
 int bellmonFord(int n, int m, int src, int dest, vector<vector<int>> &edges) {
     vector<ll> dis(n,1e9);
-    dis[src-1] = 0;
+    dis[src] = 0;
     for(ll i=0;i<n-1;i++)
         for(auto i:edges)
-            if(dis[i[0]-1]!= 1e9 and dis[i[0]-1] + i[2] < dis[i[1]-1])
-                dis[i[1]-1] = dis[i[0]-1] + i[2];
-    return dis[dest-1];
+            if(dis[i[0]]!= 1e9 and dis[i[0]] + i[2] < dis[i[1]])
+                dis[i[1]] = dis[i[0]] + i[2];
+    return dis[dest];
 }
 
 
