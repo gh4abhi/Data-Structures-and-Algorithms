@@ -574,11 +574,11 @@ bool findCycleBFSHelper(ll**edges, ll nodesNum, ll source, bool* visited)
 {
     queue<pair<ll,ll>> pendingNodes;
     pendingNodes.push({source,-1});
+    visited[source] = true;
     while(pendingNodes.size()!=0)
     {
         pair<ll,ll> current = pendingNodes.front();
         pendingNodes.pop();
-        visited[current.first] = true;
         for(ll i=0;i<nodesNum;i++)
         {
             if(i==current.first)
@@ -586,7 +586,7 @@ bool findCycleBFSHelper(ll**edges, ll nodesNum, ll source, bool* visited)
             if(edges[current.first][i]==1)
             {
                 if(visited[i]==false)
-                    pendingNodes.push({i,current.first});
+                    pendingNodes.push({i,current.first}), visited[i] = true;
                 else
                 {
                     if(i!=current.second)
